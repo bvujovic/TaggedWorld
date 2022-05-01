@@ -16,10 +16,7 @@ namespace TaggedWorld
 
         public string Address { get; set; } = string.Empty;
 
-        //public Target(Tag typeTag)
-        //{
-        //    Tags = new List<Tag>() { typeTag };
-        //}
+        //TODO datumi: kreiranja, koriscenja (poslednje ili sva koriscenja?)
 
         public Target(string address, List<Tag> tags)
         {
@@ -27,12 +24,49 @@ namespace TaggedWorld
             Tags = tags;
         }
 
+        public Target(string address, params string[] tags)
+        {
+            Address = address;
+            Tags = new List<Tag>();
+            foreach (var tag in tags)
+                Tags.Add(new Tag(tag));
+        }
+
         public Tag? GetTypeTag()
         {
             foreach (var tag in Tags)
-                if(Tag.IsTypeTag(tag.Name))
+                if (Tag.IsTypeTag(tag.Name))
                     return tag;
             return null;
         }
+
+        /// <summary>Broj poena tj. poklapanja sa prosledjenim tagovima.</summary>
+        public float GetTagPoints(IEnumerable<Tag> tags)
+        {
+            var count = 0;
+            foreach (var tag in Tags)
+                if(tags.Contains(tag))
+                    count++;
+            return count;
+        }
+
+        public float TagPoints { get; private set; }
+
+        public void CalcTagPoints(IEnumerable<Tag> tags)
+            => TagPoints = GetTagPoints(tags);
+
+        public override string ToString()
+            => Address;
+
+        public override bool Equals(object? obj)
+        {
+            var that = obj as Target;
+            if (that == null) return false;
+            if (ReferenceEquals(this, that)) return true;
+            return this.Address.Equals(that.Address);
+        }
+
+        public override int GetHashCode()
+            => Address.GetHashCode();
     }
 }

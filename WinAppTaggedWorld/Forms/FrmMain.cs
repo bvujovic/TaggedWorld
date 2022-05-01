@@ -16,22 +16,51 @@ namespace WinAppTaggedWorld.Forms
             InitializeComponent();
         }
 
+        private TaggedWorld.Selectors.TargetSelector targetSelector;
+
         private void FrmMain_Load(object sender, EventArgs e)
         {
             Text = Utils.AppName;
             cmbNewTargetType.Items.Clear();
             foreach (var tag in TaggedWorld.Tag.TypeTags)
                 cmbNewTargetType.Items.Add(tag);
+
+            var frmLogin = new FrmLogin();
+            if (frmLogin.ShowDialog() != DialogResult.OK)
+            {
+                Close();
+                return;
+            }
+            // ovaj kôd se izvrsava ako se korisnik uloguje
+            targetSelector = new TaggedWorld.Selectors.TargetSelector(new Data());
+            targetSelector.TagsChanged += TargetSelector_TagsChanged;
+            tagList.ListChanged += TagList_ListChanged;
+        }
+
+        private void TagList_ListChanged(object? sender, EventArgs e)
+        {
+            targetSelector.SetTags(tagList.AllTags);
+        }
+
+        private void TargetSelector_TagsChanged(object? sender, IEnumerable<Target> targets)
+        {
+            targetList.Display(targets);
         }
 
         private void TxtTag_KeyDown(object sender, KeyEventArgs e)
         {
+            // Enter -> dodavanje unetog teksta u tagove
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;
-                e.Handled = true;
+                e.Handled = e.SuppressKeyPress = true;
                 if (txtTag.Text != string.Empty)
                     AddTagFromTxt();
+            }
+            // Excape -> brisanje liste tagova
+            if (e.KeyCode == Keys.Escape)
+            {
+                e.Handled = e.SuppressKeyPress = true;
+                tagList.Clear();
             }
         }
 
@@ -45,6 +74,12 @@ namespace WinAppTaggedWorld.Forms
 
         private void BtnSearchAddTag_Click(object sender, EventArgs e)
             => AddTagFromTxt();
+
+        private void BtnTagListClear_Click(object sender, EventArgs e)
+        {
+            tagList.Clear();
+            txtTag.Focus();
+        }
 
         /// <summary>Na osnovu taga dodaje se TagLabel kontrola u listu tagova za pretragu.</summary>
         /// <returns>true: uspesno dodata kontrola</returns>
@@ -66,17 +101,22 @@ namespace WinAppTaggedWorld.Forms
                     foreach (var typeTag in TaggedWorld.Tag.TypeTags)
                         if (typeTag != tag.Name)
                             tagList.RemoveTag(new Tag(typeTag));
-                    //tagList.AddTag(tag);
-                    //return true;
                 }
                 else
                     return false;
             }
             // prihvatanje tj. dodavanje taga u listu za pretragu
             tagList.AddTag(tag);
-            if (TaggedWorld.Tag.IsTypeTag(tag.Name))
-                BrowseTarget();
             return true;
+        }
+
+        private void BtnTargetBrowse_Click(object sender, EventArgs e)
+        {
+            var typeTag = tagList.GetTypeTag();
+            if (typeTag != null)
+                BrowseTarget();
+            else
+                Utils.Mbox($"Type tag ({string.Join('/', TaggedWorld.Tag.TypeTags)}) is not set yet.");
         }
 
         /// <summary>Pokretanje dijaloga za odabir fajla/foldera ili paste clipboard-a za link.</summary>
@@ -88,10 +128,9 @@ namespace WinAppTaggedWorld.Forms
                 {
                     var clipboard = Clipboard.GetText();
                     if (Utils.IsItLink(clipboard))
-                    {
-                        //B Utils.GoToLink(clipboard);
                         txtTargetAddress.Text = clipboard;
-                    }
+                    else
+                        Utils.GoToLink("");
                 }
                 else if (tagList.Exists(TaggedWorld.Tag.TypeFile))
                 {
@@ -112,8 +151,6 @@ namespace WinAppTaggedWorld.Forms
             }
         }
 
-        //private Target? newTarget = null;
-
         private void CmbNewTargetType_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selItem = cmbNewTargetType.SelectedItem;
@@ -121,7 +158,6 @@ namespace WinAppTaggedWorld.Forms
             {
                 var tag = new Tag(selItem.ToString());
                 AddToTags(tag);
-                //newTarget = new Target(tag);
             }
         }
 
@@ -133,7 +169,6 @@ namespace WinAppTaggedWorld.Forms
                 var target = new Target(txtTargetAddress.Text, tags);
                 var targetCtrl = new Controls.TargetCtrl(target);
                 targetList.AddTargetCtrl(targetCtrl);
-                // targetList.Controls.Add(targetCtrl);
 
                 tagList.Clear();
                 txtTargetAddress.Clear();

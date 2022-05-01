@@ -18,7 +18,7 @@
             {
                 if (string.IsNullOrEmpty(value))
                     throw new ArgumentNullException(nameof(value));
-                name = value.Trim();
+                name = value.Trim().Replace(' ', '-');
             }
         }
         private string name = string.Empty;

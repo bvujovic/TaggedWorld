@@ -30,8 +30,9 @@
         {
             components = new System.ComponentModel.Container();
             this.AutoSize = true;
-            this.BorderStyle = BorderStyle.FixedSingle;
-            this.Margin = new Padding(2);
+            this.BorderStyle = BorderStyle.None;
+            this.BackColor = System.Drawing.Color.LightGray;
+            this.Margin = new Padding(2, 1, 0, 1);
             this.Padding = new Padding(2);
         }
 

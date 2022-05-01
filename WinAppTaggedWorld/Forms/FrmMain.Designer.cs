@@ -32,15 +32,15 @@
             System.Windows.Forms.Label label2;
             this.txtTag = new System.Windows.Forms.TextBox();
             this.tagList = new WinAppTaggedWorld.Controls.TagLabelList();
-            this.targetList = new Controls.TargetCtrlList();
+            this.targetList = new WinAppTaggedWorld.Controls.TargetCtrlList();
             this.btnSearchAddTag = new System.Windows.Forms.Button();
-            this.btnNewTarget = new System.Windows.Forms.Button();
             this.cmbNewTargetType = new System.Windows.Forms.ComboBox();
-            this.btnTargetBrowse = new System.Windows.Forms.Button();
             this.txtTargetAddress = new System.Windows.Forms.TextBox();
             this.fileBrowse = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowse = new System.Windows.Forms.FolderBrowserDialog();
             this.btnAddTarget = new System.Windows.Forms.Button();
+            this.btnTargetBrowse = new System.Windows.Forms.Button();
+            this.btnTagListClear = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -77,17 +77,18 @@
             this.tagList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tagList.Location = new System.Drawing.Point(12, 98);
             this.tagList.Name = "tagList";
-            this.tagList.Size = new System.Drawing.Size(322, 45);
+            this.tagList.Size = new System.Drawing.Size(279, 25);
             this.tagList.TabIndex = 2;
             // 
-            // pnlSearchResults
+            // targetList
             // 
             this.targetList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.targetList.AutoScroll = true;
             this.targetList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.targetList.Location = new System.Drawing.Point(12, 211);
-            this.targetList.Name = "pnlSearchResults";
+            this.targetList.Name = "targetList";
             this.targetList.Size = new System.Drawing.Size(776, 287);
             this.targetList.TabIndex = 3;
             // 
@@ -95,20 +96,11 @@
             // 
             this.btnSearchAddTag.Location = new System.Drawing.Point(291, 66);
             this.btnSearchAddTag.Name = "btnSearchAddTag";
-            this.btnSearchAddTag.Size = new System.Drawing.Size(43, 27);
+            this.btnSearchAddTag.Size = new System.Drawing.Size(47, 27);
             this.btnSearchAddTag.TabIndex = 4;
             this.btnSearchAddTag.Text = "OK";
             this.btnSearchAddTag.UseVisualStyleBackColor = true;
             this.btnSearchAddTag.Click += new System.EventHandler(this.BtnSearchAddTag_Click);
-            // 
-            // btnNewTarget
-            // 
-            this.btnNewTarget.Location = new System.Drawing.Point(411, 65);
-            this.btnNewTarget.Name = "btnNewTarget";
-            this.btnNewTarget.Size = new System.Drawing.Size(85, 27);
-            this.btnNewTarget.TabIndex = 5;
-            this.btnNewTarget.Text = "New Target";
-            this.btnNewTarget.UseVisualStyleBackColor = true;
             // 
             // cmbNewTargetType
             // 
@@ -120,20 +112,11 @@
             this.cmbNewTargetType.TabIndex = 6;
             this.cmbNewTargetType.SelectedIndexChanged += new System.EventHandler(this.CmbNewTargetType_SelectedIndexChanged);
             // 
-            // btnTargetBrowse
-            // 
-            this.btnTargetBrowse.Location = new System.Drawing.Point(411, 97);
-            this.btnTargetBrowse.Name = "btnTargetBrowse";
-            this.btnTargetBrowse.Size = new System.Drawing.Size(85, 27);
-            this.btnTargetBrowse.TabIndex = 7;
-            this.btnTargetBrowse.Text = "Browse...";
-            this.btnTargetBrowse.UseVisualStyleBackColor = true;
-            // 
             // txtTargetAddress
             // 
             this.txtTargetAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTargetAddress.Location = new System.Drawing.Point(496, 98);
+            this.txtTargetAddress.Location = new System.Drawing.Point(368, 98);
             this.txtTargetAddress.Name = "txtTargetAddress";
             this.txtTargetAddress.Size = new System.Drawing.Size(292, 25);
             this.txtTargetAddress.TabIndex = 8;
@@ -152,16 +135,36 @@
             this.btnAddTarget.UseVisualStyleBackColor = true;
             this.btnAddTarget.Click += new System.EventHandler(this.BtnAddTarget_Click);
             // 
+            // btnTargetBrowse
+            // 
+            this.btnTargetBrowse.Location = new System.Drawing.Point(660, 97);
+            this.btnTargetBrowse.Name = "btnTargetBrowse";
+            this.btnTargetBrowse.Size = new System.Drawing.Size(35, 27);
+            this.btnTargetBrowse.TabIndex = 10;
+            this.btnTargetBrowse.Text = "...";
+            this.btnTargetBrowse.UseVisualStyleBackColor = true;
+            this.btnTargetBrowse.Click += new System.EventHandler(this.BtnTargetBrowse_Click);
+            // 
+            // btnTagListClear
+            // 
+            this.btnTagListClear.Location = new System.Drawing.Point(291, 97);
+            this.btnTagListClear.Name = "btnTagListClear";
+            this.btnTagListClear.Size = new System.Drawing.Size(47, 27);
+            this.btnTagListClear.TabIndex = 11;
+            this.btnTagListClear.Text = "Clear";
+            this.btnTagListClear.UseVisualStyleBackColor = true;
+            this.btnTagListClear.Click += new System.EventHandler(this.BtnTagListClear_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 510);
+            this.Controls.Add(this.btnTagListClear);
+            this.Controls.Add(this.btnTargetBrowse);
             this.Controls.Add(this.btnAddTarget);
             this.Controls.Add(this.txtTargetAddress);
-            this.Controls.Add(this.btnTargetBrowse);
             this.Controls.Add(this.cmbNewTargetType);
-            this.Controls.Add(this.btnNewTarget);
             this.Controls.Add(this.btnSearchAddTag);
             this.Controls.Add(this.targetList);
             this.Controls.Add(this.tagList);
@@ -183,12 +186,12 @@
         private Controls.TagLabelList tagList;
         private Controls.TargetCtrlList targetList;
         private Button btnSearchAddTag;
-        private Button btnNewTarget;
         private ComboBox cmbNewTargetType;
-        private Button btnTargetBrowse;
         private TextBox txtTargetAddress;
         private OpenFileDialog fileBrowse;
         private FolderBrowserDialog folderBrowse;
         private Button btnAddTarget;
+        private Button btnTargetBrowse;
+        private Button btnTagListClear;
     }
 }

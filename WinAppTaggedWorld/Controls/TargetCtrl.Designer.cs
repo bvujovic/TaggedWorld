@@ -42,6 +42,7 @@
             this.lblTargetAddress.Size = new System.Drawing.Size(103, 17);
             this.lblTargetAddress.TabIndex = 0;
             this.lblTargetAddress.Text = "target address...";
+            this.lblTargetAddress.DoubleClick += new System.EventHandler(this.PnlMain_DoubleClick);
             // 
             // lblTags
             // 
@@ -51,6 +52,7 @@
             this.lblTags.Size = new System.Drawing.Size(80, 17);
             this.lblTags.TabIndex = 0;
             this.lblTags.Text = "tag1, tag2 ...";
+            this.lblTags.DoubleClick += new System.EventHandler(this.PnlMain_DoubleClick);
             // 
             // pnlMain
             // 

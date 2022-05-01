@@ -37,6 +37,7 @@ namespace WinAppTaggedWorld.Classes
         public const string DatumFormat = "yyyy-MM-dd";
         public const string DatumVremeFormat = "yyyy-MM-dd HH:mm";
 
+        /// <summary>Pokretanje/prikazivanje target-a.</summary>
         public static void OpenTarget(Target target)
         {
             var typeTag = target.GetTypeTag();
@@ -48,13 +49,15 @@ namespace WinAppTaggedWorld.Classes
                 StartProcess(target.Address);
         }
 
-        private static void StartProcess(string fileName)
+        private static void StartProcess(string fileName, string? argument = null)
         {
             try
             {
                 var process = new System.Diagnostics.Process();
                 process.StartInfo.FileName = fileName;
                 process.StartInfo.UseShellExecute = true;
+                if (argument != null)
+                    process.StartInfo.Arguments = argument;
                 process.Start();
             }
             catch (Exception ex) { Mbox(ex); }
@@ -63,15 +66,12 @@ namespace WinAppTaggedWorld.Classes
         /// <summary>Pokretanje prosledjenog linka u browser-u.</summary>
         public static void GoToLink(string url)
         {
-            //* var process = Data.AppData.Browser == "Chrome" ? "chrome.exe" : "msedge.exe";
-            //B var process = @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe";
-            // StartProcess("chrome.exe");
-            // try { System.Diagnostics.Process.Start(process, url); }
-            StartProcess(url);
+            //* "chrome.exe" vs "msedge.exe";
+            StartProcess("chrome.exe", url);
         }
 
         /// <summary>Da li je prosledjeni string - veb link.</summary>
         public static bool IsItLink(string str)
-            => str.StartsWith("http");
+            => str.StartsWith("http") || str.StartsWith("www.");
     }
 }

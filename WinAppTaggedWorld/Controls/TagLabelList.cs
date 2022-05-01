@@ -18,12 +18,15 @@ namespace WinAppTaggedWorld.Controls
         {
             var tagLabel = new TagLabel(tag);
             Controls.Add(tagLabel);
+            ListChanged?.Invoke(this, EventArgs.Empty);
             tagLabel.Click += TagLabel_Click;
         }
 
         private void TagLabel_Click(object? sender, EventArgs e)
         {
-            RemoveTag((sender as TagLabel).Tag);
+            var mea = e as MouseEventArgs;
+            if (mea != null && mea.Button == MouseButtons.Left)
+                RemoveTag((sender as TagLabel).Tag);
         }
 
         public TagLabel? GetTagLabel(string tag)
@@ -62,6 +65,7 @@ namespace WinAppTaggedWorld.Controls
             if (tagLabel != null)
             {
                 Controls.Remove(tagLabel);
+                ListChanged?.Invoke(this, EventArgs.Empty);
                 return true;
             }
             else
@@ -70,6 +74,11 @@ namespace WinAppTaggedWorld.Controls
 
         /// <summary>Brisanje svih tagova iz liste.</summary>
         public void Clear()
-            => Controls.Clear();
+        {
+            Controls.Clear();
+            ListChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler ListChanged;
     }
 }
