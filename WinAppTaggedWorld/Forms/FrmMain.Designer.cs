@@ -30,54 +30,75 @@
         {
             System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label2;
+            System.Windows.Forms.Label label3;
             this.txtTag = new System.Windows.Forms.TextBox();
             this.tagList = new WinAppTaggedWorld.Controls.TagLabelList();
             this.targetList = new WinAppTaggedWorld.Controls.TargetCtrlList();
             this.btnSearchAddTag = new System.Windows.Forms.Button();
-            this.cmbNewTargetType = new System.Windows.Forms.ComboBox();
             this.txtTargetAddress = new System.Windows.Forms.TextBox();
             this.fileBrowse = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowse = new System.Windows.Forms.FolderBrowserDialog();
             this.btnAddTarget = new System.Windows.Forms.Button();
             this.btnTargetBrowse = new System.Windows.Forms.Button();
             this.btnTagListClear = new System.Windows.Forms.Button();
+            this.scTop = new System.Windows.Forms.SplitContainer();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.scTop)).BeginInit();
+            this.scTop.Panel1.SuspendLayout();
+            this.scTop.Panel2.SuspendLayout();
+            this.scTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(12, 47);
+            label1.Location = new System.Drawing.Point(3, 10);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(71, 17);
+            label1.Size = new System.Drawing.Size(35, 17);
             label1.TabIndex = 1;
-            label1.Text = "Tag search";
+            label1.Text = "Tags";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(12, 191);
+            label2.Location = new System.Drawing.Point(12, 159);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(49, 17);
             label2.TabIndex = 1;
             label2.Text = "Results";
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(3, 10);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(51, 17);
+            label3.TabIndex = 12;
+            label3.Text = "Targets";
+            // 
             // txtTag
             // 
-            this.txtTag.Location = new System.Drawing.Point(12, 67);
+            this.txtTag.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTag.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.txtTag.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.txtTag.Location = new System.Drawing.Point(3, 67);
             this.txtTag.Name = "txtTag";
-            this.txtTag.Size = new System.Drawing.Size(279, 25);
+            this.txtTag.Size = new System.Drawing.Size(316, 25);
             this.txtTag.TabIndex = 0;
             this.txtTag.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtTag_KeyDown);
             // 
             // tagList
             // 
+            this.tagList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tagList.AutoScroll = true;
             this.tagList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tagList.Location = new System.Drawing.Point(12, 98);
+            this.tagList.Location = new System.Drawing.Point(3, 35);
             this.tagList.Name = "tagList";
-            this.tagList.Size = new System.Drawing.Size(279, 25);
+            this.tagList.Size = new System.Drawing.Size(316, 25);
             this.tagList.TabIndex = 2;
             // 
             // targetList
@@ -87,14 +108,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.targetList.AutoScroll = true;
             this.targetList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.targetList.Location = new System.Drawing.Point(12, 211);
+            this.targetList.Location = new System.Drawing.Point(12, 179);
             this.targetList.Name = "targetList";
-            this.targetList.Size = new System.Drawing.Size(776, 287);
+            this.targetList.Size = new System.Drawing.Size(776, 248);
             this.targetList.TabIndex = 3;
             // 
             // btnSearchAddTag
             // 
-            this.btnSearchAddTag.Location = new System.Drawing.Point(291, 66);
+            this.btnSearchAddTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSearchAddTag.Location = new System.Drawing.Point(319, 66);
             this.btnSearchAddTag.Name = "btnSearchAddTag";
             this.btnSearchAddTag.Size = new System.Drawing.Size(47, 27);
             this.btnSearchAddTag.TabIndex = 4;
@@ -102,23 +124,13 @@
             this.btnSearchAddTag.UseVisualStyleBackColor = true;
             this.btnSearchAddTag.Click += new System.EventHandler(this.BtnSearchAddTag_Click);
             // 
-            // cmbNewTargetType
-            // 
-            this.cmbNewTargetType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbNewTargetType.FormattingEnabled = true;
-            this.cmbNewTargetType.Location = new System.Drawing.Point(496, 66);
-            this.cmbNewTargetType.Name = "cmbNewTargetType";
-            this.cmbNewTargetType.Size = new System.Drawing.Size(83, 25);
-            this.cmbNewTargetType.TabIndex = 6;
-            this.cmbNewTargetType.SelectedIndexChanged += new System.EventHandler(this.CmbNewTargetType_SelectedIndexChanged);
-            // 
             // txtTargetAddress
             // 
             this.txtTargetAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTargetAddress.Location = new System.Drawing.Point(368, 98);
+            this.txtTargetAddress.Location = new System.Drawing.Point(3, 36);
             this.txtTargetAddress.Name = "txtTargetAddress";
-            this.txtTargetAddress.Size = new System.Drawing.Size(292, 25);
+            this.txtTargetAddress.Size = new System.Drawing.Size(338, 25);
             this.txtTargetAddress.TabIndex = 8;
             // 
             // folderBrowse
@@ -127,7 +139,7 @@
             // 
             // btnAddTarget
             // 
-            this.btnAddTarget.Location = new System.Drawing.Point(496, 155);
+            this.btnAddTarget.Location = new System.Drawing.Point(3, 67);
             this.btnAddTarget.Name = "btnAddTarget";
             this.btnAddTarget.Size = new System.Drawing.Size(85, 27);
             this.btnAddTarget.TabIndex = 9;
@@ -137,7 +149,8 @@
             // 
             // btnTargetBrowse
             // 
-            this.btnTargetBrowse.Location = new System.Drawing.Point(660, 97);
+            this.btnTargetBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTargetBrowse.Location = new System.Drawing.Point(341, 35);
             this.btnTargetBrowse.Name = "btnTargetBrowse";
             this.btnTargetBrowse.Size = new System.Drawing.Size(35, 27);
             this.btnTargetBrowse.TabIndex = 10;
@@ -147,7 +160,8 @@
             // 
             // btnTagListClear
             // 
-            this.btnTagListClear.Location = new System.Drawing.Point(291, 97);
+            this.btnTagListClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTagListClear.Location = new System.Drawing.Point(319, 34);
             this.btnTagListClear.Name = "btnTagListClear";
             this.btnTagListClear.Size = new System.Drawing.Size(47, 27);
             this.btnTagListClear.TabIndex = 11;
@@ -155,26 +169,49 @@
             this.btnTagListClear.UseVisualStyleBackColor = true;
             this.btnTagListClear.Click += new System.EventHandler(this.BtnTagListClear_Click);
             // 
+            // scTop
+            // 
+            this.scTop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.scTop.Location = new System.Drawing.Point(12, 12);
+            this.scTop.Name = "scTop";
+            // 
+            // scTop.Panel1
+            // 
+            this.scTop.Panel1.Controls.Add(label1);
+            this.scTop.Panel1.Controls.Add(this.txtTag);
+            this.scTop.Panel1.Controls.Add(this.btnTagListClear);
+            this.scTop.Panel1.Controls.Add(this.tagList);
+            this.scTop.Panel1.Controls.Add(this.btnSearchAddTag);
+            // 
+            // scTop.Panel2
+            // 
+            this.scTop.Panel2.Controls.Add(label3);
+            this.scTop.Panel2.Controls.Add(this.txtTargetAddress);
+            this.scTop.Panel2.Controls.Add(this.btnTargetBrowse);
+            this.scTop.Panel2.Controls.Add(this.btnAddTarget);
+            this.scTop.Size = new System.Drawing.Size(776, 103);
+            this.scTop.SplitterDistance = 388;
+            this.scTop.TabIndex = 13;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 510);
-            this.Controls.Add(this.btnTagListClear);
-            this.Controls.Add(this.btnTargetBrowse);
-            this.Controls.Add(this.btnAddTarget);
-            this.Controls.Add(this.txtTargetAddress);
-            this.Controls.Add(this.cmbNewTargetType);
-            this.Controls.Add(this.btnSearchAddTag);
+            this.ClientSize = new System.Drawing.Size(800, 439);
+            this.Controls.Add(this.scTop);
             this.Controls.Add(this.targetList);
-            this.Controls.Add(this.tagList);
             this.Controls.Add(label2);
-            this.Controls.Add(label1);
-            this.Controls.Add(this.txtTag);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.FrmMain_Load);
+            this.scTop.Panel1.ResumeLayout(false);
+            this.scTop.Panel1.PerformLayout();
+            this.scTop.Panel2.ResumeLayout(false);
+            this.scTop.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scTop)).EndInit();
+            this.scTop.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -186,12 +223,12 @@
         private Controls.TagLabelList tagList;
         private Controls.TargetCtrlList targetList;
         private Button btnSearchAddTag;
-        private ComboBox cmbNewTargetType;
         private TextBox txtTargetAddress;
         private OpenFileDialog fileBrowse;
         private FolderBrowserDialog folderBrowse;
         private Button btnAddTarget;
         private Button btnTargetBrowse;
         private Button btnTagListClear;
+        private SplitContainer scTop;
     }
 }

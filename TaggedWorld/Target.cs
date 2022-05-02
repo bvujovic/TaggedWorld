@@ -12,7 +12,27 @@ namespace TaggedWorld
         //TODO tip: veb link, fajl, folder - enum ili kao [obavezni] tag?
         // verovatno bi trebalo ostaviti spec/tip tag kao zasebnu vrednost van Tags
 
-        public List<Tag> Tags { get; set; }
+        //HACK https://stackoverflow.com/questions/60701187/avoid-cs8618-warning-when-initializing-mutable-non-nullable-property-with-argume
+        private List<Tag> tags = default!;
+        public List<Tag> Tags
+        {
+            get => tags;
+            set
+            {
+                // premestanje tip taga na prvo mesto
+                if (value != null && value.Count > 1)
+                {
+                    var tt = GetTypeTag();
+                    if (tt != null)
+                    {
+                        tags.Remove(tt);
+                        tags.Insert(0, tt);
+                    }
+                }
+                if (value != null)
+                    tags = value;
+            }
+        }
 
         public string Address { get; set; } = string.Empty;
 
@@ -24,12 +44,30 @@ namespace TaggedWorld
             Tags = tags;
         }
 
-        public Target(string address, params string[] tags)
+        public Target(string address, params string[] tagNames)
         {
             Address = address;
             Tags = new List<Tag>();
-            foreach (var tag in tags)
-                Tags.Add(new Tag(tag));
+            foreach (var tagName in tagNames)
+                //B Tags.Add(new Tag(tag));
+                AddTag(tagName);
+        }
+
+        public void AddTag(Tag tag)
+            => AddTag(tag.Name);
+
+        public void AddTag(string tagName)
+        {
+            if (string.IsNullOrEmpty(tagName))
+                throw new ArgumentNullException(nameof(tagName), "Tag cannot be empty.");
+            if (Tag.IsTypeTag(tagName) && GetTypeTag() != null)
+                throw new ArgumentException("Target already has type tag.", nameof(tagName));
+
+            var tag = new Tag(tagName);
+            if (Tag.IsTypeTag(tagName))
+                Tags.Insert(0, tag);
+            else
+                Tags.Add(tag);
         }
 
         public Tag? GetTypeTag()
@@ -45,7 +83,7 @@ namespace TaggedWorld
         {
             var count = 0;
             foreach (var tag in Tags)
-                if(tags.Contains(tag))
+                if (tags.Contains(tag))
                     count++;
             return count;
         }
@@ -60,8 +98,7 @@ namespace TaggedWorld
 
         public override bool Equals(object? obj)
         {
-            var that = obj as Target;
-            if (that == null) return false;
+            if (obj is not Target that) return false;
             if (ReferenceEquals(this, that)) return true;
             return this.Address.Equals(that.Address);
         }

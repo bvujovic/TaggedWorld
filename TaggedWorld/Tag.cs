@@ -10,6 +10,15 @@
             Name = name;
         }
 
+        public static IEnumerable<Tag> ParseText(string str)
+        {
+            var tags = new List<Tag>();
+            foreach (var strTag in str.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                if (strTag.Trim().Length > 0)
+                    tags.Add(new Tag(strTag));
+            return tags;
+        }
+
         /// <summary>Naziv taga - string.</summary>
         public string Name
         {
@@ -24,7 +33,7 @@
         private string name = string.Empty;
 
         public const string TypeLink = "link";
-        public const string TypeFile = "file";
+        public const string TypeFile = "fajl";
         public const string TypeFolder = "folder";
 
         //TODO dodati i "doc" ili sl. za interna dokumenta/uputstva/podsetnike
@@ -42,8 +51,8 @@
 
         public override bool Equals(object? obj)
         {
-            var that = obj as Tag;
-            if (that == null) return false;
+            if (obj is not Tag that) return false;
+            if(ReferenceEquals(this, that)) return true;
             return this.Name == that.Name;
         }
 

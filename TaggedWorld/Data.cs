@@ -7,6 +7,7 @@ namespace TaggedWorld
     public class Data
     {
         public List<Target> AllTargets { get; private set; }
+
         public Data()
         {
             AllTargets = new List<Target>
@@ -34,6 +35,8 @@ namespace TaggedWorld
                 , "folder", "posao", "skola", "faks", "onedrive", "sososvetisava"),
                 new Target(@"d:\Glavni\TempDownloads\_muzika\"
                 , "folder", "muzika", "mp3", "zabava"),
+                new Target(@"c:\Users\bvnet\Documents\PlatformIO\Projects\ESP_IR_TV\"
+                , "folder", "visual-studio-code", "vsc", "programiranje", "arduino", "projekat", "esp-ir-tv", "daljinski", "svetlo"),
                 new Target(@"c:\Users\bvnet\Source\repos\JISP\"
                 , "folder", "visual-studio", "vs", "programiranje", "c#", "projekat", "jisp"),
                 new Target(@"c:\Users\bvnet\Source\repos\_RAF\_F\TaggedWorld\"
@@ -46,6 +49,19 @@ namespace TaggedWorld
                 new Target(@"c:\Users\bvnet\Documents\Pare.xlsm"
                 , "fajl", "tabele", "pare", "racun", "banka", "garancije", "staz"),
             };
+
+            FindAllTags();
         }
+
+        private void FindAllTags()
+        {
+            var tags = new HashSet<Tag>();
+            foreach (var target in AllTargets)
+                foreach (var tag in target.Tags)
+                    tags.Add(tag);
+            AllTags = tags;
+        }
+
+        public IEnumerable<Tag> AllTags { get; private set; } = default!;
     }
 }

@@ -24,8 +24,7 @@ namespace WinAppTaggedWorld.Controls
 
         private void TagLabel_Click(object? sender, EventArgs e)
         {
-            var mea = e as MouseEventArgs;
-            if (mea != null && mea.Button == MouseButtons.Left)
+            if (e is MouseEventArgs mea && mea.Button == MouseButtons.Left)
                 RemoveTag((sender as TagLabel).Tag);
         }
 
@@ -79,6 +78,6 @@ namespace WinAppTaggedWorld.Controls
             ListChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler ListChanged;
+        public event EventHandler ListChanged = default!;
     }
 }

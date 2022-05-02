@@ -43,12 +43,36 @@ namespace WinAppTaggedWorld.Classes
             var typeTag = target.GetTypeTag();
             if (typeTag == null)
                 return;
+            // otvaranje/pokretanje veb linkova
             if (typeTag.Name == Tag.TypeLink)
+            {
                 GoToLink(target.Address);
+                return;
+            }
+            // otvaranje posebnih foldera (projekti u VS, VSC...)
+            if (typeTag.Name == Tag.TypeFolder)
+            {
+                // Visual Studio projekat
+                var files = Directory.GetFiles(target.Address, "*.sln");
+                if (files.Length == 1)
+                {
+                    StartProcess(files.First());
+                    return;
+                }
+                // Visual Studio Code projekat
+                files = Directory.GetFiles(target.Address, "platformio.ini");
+                if (files.Length == 1)
+                {
+                    StartProcess("code", target.Address);
+                    return;
+                }
+            }
+            // podrazumevano pokretanje fajlova i foldera
             if (typeTag.Name == Tag.TypeFile || typeTag.Name == Tag.TypeFolder)
                 StartProcess(target.Address);
         }
 
+        /// <summary>Pokretanje procesa/fajla/foldera.</summary>
         private static void StartProcess(string fileName, string? argument = null)
         {
             try

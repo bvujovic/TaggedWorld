@@ -58,13 +58,22 @@
             label1.TabIndex = 5;
             label1.Text = "Username";
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(35, 119);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(70, 40);
+            label3.TabIndex = 8;
+            label3.Text = "Confirm\r\nPassword";
+            // 
             // btnRegister
             // 
             this.btnRegister.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRegister.Location = new System.Drawing.Point(120, 193);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(99, 27);
-            this.btnRegister.TabIndex = 7;
+            this.btnRegister.TabIndex = 3;
             this.btnRegister.Text = "Register";
             this.btnRegister.UseVisualStyleBackColor = true;
             this.btnRegister.Click += new System.EventHandler(this.BtnRegister_Click);
@@ -74,7 +83,7 @@
             this.txtPassword.Location = new System.Drawing.Point(130, 79);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(173, 27);
-            this.txtPassword.TabIndex = 6;
+            this.txtPassword.TabIndex = 1;
             this.txtPassword.UseSystemPasswordChar = true;
             // 
             // txtUsername
@@ -82,24 +91,15 @@
             this.txtUsername.Location = new System.Drawing.Point(130, 33);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(173, 27);
-            this.txtUsername.TabIndex = 3;
+            this.txtUsername.TabIndex = 0;
             // 
             // txtPasswordConfirm
             // 
             this.txtPasswordConfirm.Location = new System.Drawing.Point(130, 126);
             this.txtPasswordConfirm.Name = "txtPasswordConfirm";
             this.txtPasswordConfirm.Size = new System.Drawing.Size(173, 27);
-            this.txtPasswordConfirm.TabIndex = 9;
+            this.txtPasswordConfirm.TabIndex = 2;
             this.txtPasswordConfirm.UseSystemPasswordChar = true;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(35, 119);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(70, 40);
-            label3.TabIndex = 8;
-            label3.Text = "Confirm\r\nPassword";
             // 
             // FrmRegistration
             // 

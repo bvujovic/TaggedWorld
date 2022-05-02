@@ -29,10 +29,19 @@ namespace TaggedWorld.Selectors
             }
             foreach (var target in data.AllTargets)
                 target.CalcTagPoints(tags);
-            TagsChanged?.Invoke(this, data.AllTargets.OrderBy(it => it.TagPoints));
+
+            //// ako ima targeta sa vise od 0 poena - prikazi samo takve targete
+            //var foundTargets = data.AllTargets.Any(it => it.TagPoints > 0);
+            //var res = !foundTargets ? data.AllTargets.OrderBy(it => it.TagPoints) :
+            //    data.AllTargets.Where(it => it.TagPoints > 0).OrderBy(it => it.TagPoints);
+
+            var maxPoints = data.AllTargets.Max(it => it.TagPoints);
+            var res = data.AllTargets.Where(it => it.TagPoints == maxPoints).OrderBy(it => it.TagPoints);
+
+            TagsChanged?.Invoke(this, res);
         }
 
         /// <summary>Lista target-a je uredjena po nekim kriterijumima i moze se prikazati.</summary>
-        public event EventHandler<IEnumerable<Target>> TagsChanged;
+        public event EventHandler<IEnumerable<Target>> TagsChanged = default!;
     }
 }
