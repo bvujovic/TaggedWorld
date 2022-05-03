@@ -20,6 +20,10 @@ namespace TaggedWorld
                 , "link", "raf", "faks", "predmeti", "plan-studija"),
                 new Target("https://www.nbs.rs/sr_RS/finansijsko_trziste/medjubankarsko-devizno-trziste/kursna-lista/zvanicni-srednji-kurs-dinara/index.html"
                 , "link", "pare", "kurs", "nbs"),
+                new Target("https://online.mtsbanka.rs/webapp/Identity/Login"
+                , "link", "pare", "mts", "banka", "racun"),
+                new Target("https://online.bancaintesa.rs/Retail/Home/Login"
+                , "link", "pare", "intesa", "banka", "racun"),
                 new Target("http://www.hidmet.gov.rs/latin/prognoza/stanica.php?mp_id=13274&nor=da"
                 , "link", "vreme", "prognoza", "rhmz", "5-dana"),
                 new Target("https://www.b92.net/"
@@ -41,6 +45,10 @@ namespace TaggedWorld
                 , "folder", "visual-studio", "vs", "programiranje", "c#", "projekat", "jisp"),
                 new Target(@"c:\Users\bvnet\Source\repos\_RAF\_F\TaggedWorld\"
                 , "folder", "visual-studio", "vs", "programiranje", "c#", "projekat", "raf", "faks", "tagged-world", "tags"),
+                new Target(@"c:\Users\bvnet\OneDrive\x\RAF\"
+                , "folder", "raf"),
+                new Target(@"c:\Users\bvnet\Source\repos\_RAF\"
+                , "folder", "raf", "projekat", "vs", "visual-studio"),
 
                 new Target(@"c:\Users\bvnet\OneDrive\Documents\Planiranje\Plan za 2022.docx"
                 , "fajl", "dokument", "plan", "2022"),

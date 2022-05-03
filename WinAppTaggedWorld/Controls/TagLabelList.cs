@@ -79,5 +79,12 @@ namespace WinAppTaggedWorld.Controls
         }
 
         public event EventHandler ListChanged = default!;
+
+        public void CopyToClipboard()
+        {
+            if (!AllTags.Any())
+                throw new Exception("Nothing to copy to the clipboard - tag list is empty.");
+            Clipboard.SetText(string.Join(", ", AllTags));
+        }
     }
 }

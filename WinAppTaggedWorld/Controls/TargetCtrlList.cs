@@ -33,9 +33,6 @@ namespace WinAppTaggedWorld.Controls
                     t.Selected += TargetCtrl_Selected;
                     Controls.Add(t);
                 }
-                //?
-                //if (Controls.Count > 0)
-                //    ScrollControlIntoView(Controls[Controls.Count - 1]);
 
                 // ponovno obelezavanje prethodno selektovanog targeta
                 SelectedTarget = selectedTarget;
@@ -58,7 +55,7 @@ namespace WinAppTaggedWorld.Controls
                         ScrollControlIntoView(ctrl);
                     }
                 if (selectedTarget == null && Controls.Count > 0)
-                    ScrollControlIntoView(Controls[0]);
+                    ScrollControlIntoView(Controls[Controls.Count - 1]);
             }
         }
 
@@ -76,5 +73,8 @@ namespace WinAppTaggedWorld.Controls
 
         public event EventHandler RemoveTarget = default!;
         public event EventHandler EditTarget = default!;
+
+        public override string ToString()
+            => Controls.Count + " targets shown.";
     }
 }

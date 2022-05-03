@@ -29,16 +29,21 @@ namespace WinAppTaggedWorld.Forms
                 return;
             }
             // ovaj kôd se izvrsava ako se korisnik uloguje
-            txtTag.AutoCompleteCustomSource.AddRange(TaggedWorld.Tag.TypeTags);
-            data = new Data();
-            txtTag.AutoCompleteCustomSource.AddRange(data.AllTags.Select(it => it.Name).ToArray());
-            targetSelector = new TaggedWorld.Selectors.TargetSelector(data);
-            targetSelector.TagsChanged += TargetSelector_TagsChanged;
-            tagList.ListChanged += TagList_ListChanged;
-            targetList.RemoveTarget += TargetList_RemoveTarget;
-            targetList.EditTarget += TargetList_EditTarget;
-            RefreshTargets();
-            txtTag.Focus();
+            try
+            {
+                txtTag.AutoCompleteCustomSource.AddRange(TaggedWorld.Tag.TypeTags);
+                data = new Data();
+                txtTag.AutoCompleteCustomSource.AddRange(data.AllTags.Select(it => it.Name).ToArray());
+                targetSelector = new TaggedWorld.Selectors.TargetSelector(data);
+                targetSelector.TagsChanged += TargetSelector_TagsChanged;
+                tagList.ListChanged += TagList_ListChanged;
+                targetList.RemoveTarget += TargetList_RemoveTarget;
+                targetList.EditTarget += TargetList_EditTarget;
+                txtTag.Focus();
+                tagList.HorizontalScroll.Enabled = false;
+                RefreshTargets();
+            }
+            catch (Exception ex) { Utils.Mbox(ex); }
         }
 
         private Target? target = null;
@@ -121,6 +126,15 @@ namespace WinAppTaggedWorld.Forms
             txtTag.Focus();
         }
 
+        private void BtnTagListCopy_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                tagList.CopyToClipboard();
+            }
+            catch (Exception ex) { Utils.Mbox(ex); }
+        }
+
         /// <summary>Na osnovu taga dodaje se TagLabel kontrola u listu tagova za pretragu.</summary>
         /// <returns>true: uspesno dodata kontrola</returns>
         private bool AddToTags(Tag tag)
@@ -200,9 +214,7 @@ namespace WinAppTaggedWorld.Forms
                 {
                     var tags = tagList.AllTags.ToList();
                     var target = new Target(txtTargetAddress.Text, tags);
-                    var targetCtrl = new Controls.TargetCtrl(target);
-                    targetList.AddTargetCtrl(targetCtrl);
-                    tagList.Clear();
+                    data.AllTargets.Add(target);
                 }
                 // editovanje targeta
                 else
@@ -215,6 +227,7 @@ namespace WinAppTaggedWorld.Forms
                     target = null;
                     btnAddTarget.Text = "Add Target";
                 }
+                targetSelector.SetTags(tagList.AllTags);
                 txtTargetAddress.Clear();
             }
             catch (Exception ex) { Utils.Mbox(ex); }

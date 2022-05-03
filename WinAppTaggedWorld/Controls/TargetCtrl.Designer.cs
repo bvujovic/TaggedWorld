@@ -43,9 +43,10 @@
             // 
             this.lblAddress.AutoSize = true;
             this.lblAddress.ContextMenuStrip = this.ctxStrip;
+            this.lblAddress.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblAddress.Location = new System.Drawing.Point(4, 4);
             this.lblAddress.Name = "lblAddress";
-            this.lblAddress.Size = new System.Drawing.Size(103, 17);
+            this.lblAddress.Size = new System.Drawing.Size(108, 17);
             this.lblAddress.TabIndex = 0;
             this.lblAddress.Text = "target address...";
             this.lblAddress.Click += new System.EventHandler(this.LblAddress_Click);
@@ -57,20 +58,20 @@
             this.tsmiEdit,
             this.tsmiRemove});
             this.ctxStrip.Name = "ctxStrip";
-            this.ctxStrip.Size = new System.Drawing.Size(181, 70);
+            this.ctxStrip.Size = new System.Drawing.Size(118, 48);
             this.ctxStrip.Opening += new System.ComponentModel.CancelEventHandler(this.CtxStrip_Opening);
             // 
             // tsmiEdit
             // 
             this.tsmiEdit.Name = "tsmiEdit";
-            this.tsmiEdit.Size = new System.Drawing.Size(180, 22);
+            this.tsmiEdit.Size = new System.Drawing.Size(117, 22);
             this.tsmiEdit.Text = "Edit";
             this.tsmiEdit.Click += new System.EventHandler(this.TsmiEdit_Click);
             // 
             // tsmiRemove
             // 
             this.tsmiRemove.Name = "tsmiRemove";
-            this.tsmiRemove.Size = new System.Drawing.Size(180, 22);
+            this.tsmiRemove.Size = new System.Drawing.Size(117, 22);
             this.tsmiRemove.Text = "Remove";
             this.tsmiRemove.Click += new System.EventHandler(this.TsmiRemove_Click);
             // 
@@ -78,7 +79,7 @@
             // 
             this.lblTags.AutoSize = true;
             this.lblTags.ContextMenuStrip = this.ctxStrip;
-            this.lblTags.Location = new System.Drawing.Point(4, 23);
+            this.lblTags.Location = new System.Drawing.Point(4, 24);
             this.lblTags.Name = "lblTags";
             this.lblTags.Size = new System.Drawing.Size(80, 17);
             this.lblTags.TabIndex = 0;

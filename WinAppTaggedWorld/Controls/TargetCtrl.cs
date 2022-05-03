@@ -78,5 +78,8 @@ namespace WinAppTaggedWorld.Controls
             lblAddress.Text = Target.Address;
             lblTags.Text = string.Join(", ", Target.Tags);
         }
+
+        public override string ToString()
+            => lblAddress.Text;
     }
 }

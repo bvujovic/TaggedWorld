@@ -9,9 +9,6 @@ namespace TaggedWorld
     /// </summary>
     public class Target
     {
-        //TODO tip: veb link, fajl, folder - enum ili kao [obavezni] tag?
-        // verovatno bi trebalo ostaviti spec/tip tag kao zasebnu vrednost van Tags
-
         //HACK https://stackoverflow.com/questions/60701187/avoid-cs8618-warning-when-initializing-mutable-non-nullable-property-with-argume
         private List<Tag> tags = default!;
         public List<Tag> Tags
@@ -19,18 +16,8 @@ namespace TaggedWorld
             get => tags;
             set
             {
-                // premestanje tip taga na prvo mesto
-                if (value != null && value.Count > 1)
-                {
-                    var tt = GetTypeTag();
-                    if (tt != null)
-                    {
-                        tags.Remove(tt);
-                        tags.Insert(0, tt);
-                    }
-                }
-                if (value != null)
-                    tags = value;
+                TagsCheck(value);
+                tags = value;
             }
         }
 
@@ -47,10 +34,28 @@ namespace TaggedWorld
         public Target(string address, params string[] tagNames)
         {
             Address = address;
-            Tags = new List<Tag>();
+            tags = new List<Tag>();
             foreach (var tagName in tagNames)
-                //B Tags.Add(new Tag(tag));
                 AddTag(tagName);
+            TagsCheck(Tags);
+        }
+
+        /// <summary>Provera ispravnosti prosledjenih tagova. Lista ne sme biti prazna; mora postojati 1 tip tag.</summary>
+        public static void TagsCheck(List<Tag>? tags)
+        {
+
+            if (tags == null || tags.Count == 0)
+                throw new ArgumentException("Tags cannot be empty.");
+
+            // premestanje tip taga na prvo mesto
+            var tt = GetTypeTag(tags);
+            if (tt != null)
+            {
+                tags.Remove(tt);
+                tags.Insert(0, tt);
+            }
+            else
+                throw new ArgumentException($"Tags must contain one type tag: {string.Join(", ", Tag.TypeTags)}.");
         }
 
         public void AddTag(Tag tag)
@@ -70,15 +75,20 @@ namespace TaggedWorld
                 Tags.Add(tag);
         }
 
-        public Tag? GetTypeTag()
+        /// <summary>Vraca tip tag ili null ako ga nema u listi.</summary>
+        public static Tag? GetTypeTag(List<Tag> tags)
         {
-            foreach (var tag in Tags)
+            foreach (var tag in tags)
                 if (Tag.IsTypeTag(tag.Name))
                     return tag;
             return null;
         }
 
-        /// <summary>Broj poena tj. poklapanja sa prosledjenim tagovima.</summary>
+        /// <summary>Vraca tip tag ili null ako ga nema u listi Tags.</summary>
+        public Tag? GetTypeTag()
+            => GetTypeTag(Tags);
+
+        /// <summary>Vraca broj poena tj. poklapanja sa prosledjenim tagovima.</summary>
         public float GetTagPoints(IEnumerable<Tag> tags)
         {
             var count = 0;
@@ -88,8 +98,11 @@ namespace TaggedWorld
             return count;
         }
 
+        /// <summary>Izracunati broj poena tj. poklapanja sa datim tagovima.</summary>
+        /// <see cref="CalcTagPoints"/>
         public float TagPoints { get; private set; }
 
+        /// <summary>Izracunava broj poena tj. poklapanja sa datim tagovima i pamti u TagPoints.</summary>
         public void CalcTagPoints(IEnumerable<Tag> tags)
             => TagPoints = GetTagPoints(tags);
 

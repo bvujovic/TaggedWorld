@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Windows.Forms;
 using TaggedWorld;
 
 namespace WinAppTaggedWorld.Controls
@@ -16,7 +11,7 @@ namespace WinAppTaggedWorld.Controls
             Tag = tag;
         }
 
-        private Tag tag;
+        private Tag tag = default!;
         /// <summary>Tag/labela/oznaka koju ova kontrola prikazuje.</summary>
         public new Tag Tag
         {
@@ -24,7 +19,7 @@ namespace WinAppTaggedWorld.Controls
             set
             {
                 tag = value;
-                this.Text = tag.Name;
+                Text = tag.Name;
             }
         }
     }
