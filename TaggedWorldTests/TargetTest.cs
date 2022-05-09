@@ -9,8 +9,9 @@ namespace TaggedWorldTests
     public class TargetTest
     {
         [Theory]
-        [InlineData(1, "x", "x")]
+        [InlineData(1, Tag.TypeFile, Tag.TypeFile)]
         [InlineData(2, Tag.TypeFile, Tag.TypeFile, "b")]
+        [InlineData(2, Tag.TypeFile, "b", Tag.TypeFile)]
         [InlineData(3, Tag.TypeFolder, Tag.TypeFolder, "a", "b")]
         [InlineData(3, Tag.TypeLink, "a", Tag.TypeLink, "b")]
         /// <summary>Tip tag bi trebalo da je uvek na prvom mestu.</summary>

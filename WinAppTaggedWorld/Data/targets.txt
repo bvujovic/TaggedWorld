@@ -1,0 +1,30 @@
+﻿https://sososvsava.edu.rs/
+link, posao, skola, umka
+https://portal.azure.com/#home
+link, programiranje, azure, c#, vs, visual-studio, cloud
+https://azure.microsoft.com/en-in/free/free-account-faq/
+link, programiranje, azure, c#, vs, visual-studio, cloud, besplatno, faq
+https://github.com/bvujovic/
+link, programiranje, arduino, posao, faks
+https://www.nbs.rs/sr_RS/finansijsko_trziste/medjubankarsko-devizno-trziste/kursna-lista/zvanicni-srednji-kurs-dinara/index.html
+link, pare, kurs, nbs
+http://www.hidmet.gov.rs/latin/prognoza/stanica.php?mp_id=13274&nor=da
+link, vreme, prognoza, rhmz, 5-dana
+https://www.b92.net/
+link, vesti, portal
+http://192.168.0.20/
+link, daljinski, arduino, esp8266, projekat, svetlo
+https://www.aliexpress.com/
+link, kupovina, ali, aliexpress, arduino, elektronika, kinezi, majice
+d:\Glavni\TempDownloads\_muzika\
+folder, muzika, mp3, zabava
+c:\Users\bvnet\Documents\PlatformIO\Projects\ESP_IR_TV\
+folder, visual-studio-code, vsc, programiranje, arduino, projekat, esp-ir-tv, daljinski, svetlo
+c:\Users\bvnet\Source\repos\JISP\
+folder, visual-studio, vs, programiranje, c#, projekat, jisp
+c:\Users\bvnet\Source\repos\_RAF\_F\TaggedWorld\
+folder, visual-studio, vs, programiranje, c#, projekat, raf, faks, tagged-world, tags
+c:\Users\bvnet\OneDrive\Documents\Planiranje\Plan za 2022.docx
+fajl, dokument, plan, 2022
+C:\Program Files\Microsoft Office\root\Office16\ONENOTE.EXE
+fajl, one-note, todo, office, spisak

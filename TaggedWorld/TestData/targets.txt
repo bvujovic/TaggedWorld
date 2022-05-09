@@ -1,0 +1,5 @@
+﻿https://sososvsava.edu.rs/
+link, posao, skola, umka
+
+https://portal.azure.com/#home
+link, programiranje, azure, c#, vs, visual-studio, cloud

@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.Label label1;
-            System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
+            this.lblTargetResults = new System.Windows.Forms.Label();
             this.txtTag = new System.Windows.Forms.TextBox();
             this.tagList = new WinAppTaggedWorld.Controls.TagLabelList();
             this.targetList = new WinAppTaggedWorld.Controls.TargetCtrlList();
@@ -44,7 +44,6 @@
             this.scTop = new System.Windows.Forms.SplitContainer();
             this.btnTagListCopy = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
-            label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.scTop)).BeginInit();
             this.scTop.Panel1.SuspendLayout();
@@ -61,14 +60,14 @@
             label1.TabIndex = 1;
             label1.Text = "Tags";
             // 
-            // label2
+            // lblTargetResults
             // 
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(12, 159);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(49, 17);
-            label2.TabIndex = 1;
-            label2.Text = "Results";
+            this.lblTargetResults.AutoSize = true;
+            this.lblTargetResults.Location = new System.Drawing.Point(12, 159);
+            this.lblTargetResults.Name = "lblTargetResults";
+            this.lblTargetResults.Size = new System.Drawing.Size(49, 17);
+            this.lblTargetResults.TabIndex = 1;
+            this.lblTargetResults.Text = "Results";
             // 
             // label3
             // 
@@ -215,10 +214,11 @@
             this.ClientSize = new System.Drawing.Size(800, 439);
             this.Controls.Add(this.scTop);
             this.Controls.Add(this.targetList);
-            this.Controls.Add(label2);
+            this.Controls.Add(this.lblTargetResults);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.scTop.Panel1.ResumeLayout(false);
             this.scTop.Panel1.PerformLayout();
@@ -245,5 +245,6 @@
         private Button btnTagListClear;
         private SplitContainer scTop;
         private Button btnTagListCopy;
+        private Label lblTargetResults;
     }
 }

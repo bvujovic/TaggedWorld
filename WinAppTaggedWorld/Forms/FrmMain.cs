@@ -16,6 +16,7 @@ namespace WinAppTaggedWorld.Forms
             InitializeComponent();
         }
 
+        private const string targetsTestFilePath = "Data/targets.txt";
         private Data data = default!;
         private TaggedWorld.Selectors.TargetSelector targetSelector = default!;
 
@@ -33,6 +34,7 @@ namespace WinAppTaggedWorld.Forms
             {
                 txtTag.AutoCompleteCustomSource.AddRange(TaggedWorld.Tag.TypeTags);
                 data = new Data();
+                data.LoadTestTargets(targetsTestFilePath);
                 txtTag.AutoCompleteCustomSource.AddRange(data.AllTags.Select(it => it.Name).ToArray());
                 targetSelector = new TaggedWorld.Selectors.TargetSelector(data);
                 targetSelector.TagsChanged += TargetSelector_TagsChanged;
@@ -74,7 +76,7 @@ namespace WinAppTaggedWorld.Forms
             {
                 if (sender is Controls.TargetCtrl ctrl)
                 {
-                    data.AllTargets.Remove(ctrl.Target);
+                    data.RemoveTarget(ctrl.Target);
                     targetList.RemoveTargetCtrl(ctrl);
                 }
             }
@@ -89,7 +91,10 @@ namespace WinAppTaggedWorld.Forms
             => RefreshTargets();
 
         private void TargetSelector_TagsChanged(object? sender, IEnumerable<Target> targets)
-            => targetList.Display(targets);
+        {
+            targetList.Display(targets);
+            lblTargetResults.Text = $"Results ({targets.Count()})";
+        }
 
         private void TxtTag_KeyDown(object sender, KeyEventArgs e)
         {
@@ -214,7 +219,7 @@ namespace WinAppTaggedWorld.Forms
                 {
                     var tags = tagList.AllTags.ToList();
                     var target = new Target(txtTargetAddress.Text, tags);
-                    data.AllTargets.Add(target);
+                    data.AddTarget(target);
                 }
                 // editovanje targeta
                 else
@@ -229,6 +234,15 @@ namespace WinAppTaggedWorld.Forms
                 }
                 targetSelector.SetTags(tagList.AllTags);
                 txtTargetAddress.Clear();
+            }
+            catch (Exception ex) { Utils.Mbox(ex); }
+        }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                data?.SaveTestTargets(targetsTestFilePath);
             }
             catch (Exception ex) { Utils.Mbox(ex); }
         }

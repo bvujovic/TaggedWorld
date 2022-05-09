@@ -9,10 +9,17 @@ namespace WinAppTaggedWorld.Controls
         {
             InitializeComponent();
             Dock = DockStyle.Top;
+            var typeTag = target.GetTypeTag();
+            if (typeTag != null)
+            {
+                if (typeTag.Name == TaggedWorld.Tag.TypeFolder)
+                    picIco.Image = Properties.Resources.ico_folder;
+                if (typeTag.Name == TaggedWorld.Tag.TypeFile)
+                    picIco.Image = Properties.Resources.ico_file;
+                if (typeTag.Name == TaggedWorld.Tag.TypeLink)
+                    picIco.Image = Properties.Resources.ico_link;
+            }
             Target = target;
-            //B
-            //lblAddress.Text = target.Address;
-            //lblTags.Text = string.Join(", ", target.Tags);
             RefreshDisplay();
             pnlMain.Click += Control_Click;
             lblAddress.Click += Control_Click;
