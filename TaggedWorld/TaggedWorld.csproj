@@ -6,14 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="TestData\targets.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="TestData\targets.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
 </Project>

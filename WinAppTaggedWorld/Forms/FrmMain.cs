@@ -38,11 +38,11 @@ namespace WinAppTaggedWorld.Forms
                 txtTag.AutoCompleteCustomSource.AddRange(data.AllTags.Select(it => it.Name).ToArray());
                 targetSelector = new TaggedWorld.Selectors.TargetSelector(data);
                 targetSelector.TagsChanged += TargetSelector_TagsChanged;
-                tagList.ListChanged += TagList_ListChanged;
+                tagListMain.ListChanged += TagList_ListChanged;
                 targetList.RemoveTarget += TargetList_RemoveTarget;
                 targetList.EditTarget += TargetList_EditTarget;
                 txtTag.Focus();
-                tagList.HorizontalScroll.Enabled = false;
+                tagListMain.HorizontalScroll.Enabled = false;
                 RefreshTargets();
             }
             catch (Exception ex) { Utils.Mbox(ex); }
@@ -59,9 +59,9 @@ namespace WinAppTaggedWorld.Forms
                     target = ctrl.Target;
                     txtTargetAddress.Text = target.Address;
                     targetList.SuspendLayout();
-                    tagList.Clear();
+                    tagListMain.Clear();
                     foreach (var tag in target.Tags)
-                        tagList.AddTag(tag);
+                        tagListMain.AddTag(tag);
                     targetList.ResumeLayout();
                     targetList.SelectedTarget = target;
                     btnAddTarget.Text = "Save Target";
@@ -85,7 +85,7 @@ namespace WinAppTaggedWorld.Forms
 
         /// <summary>Ucitavanje TargetCtrl kontrola na osnovu selektovanih tagova.</summary>
         private void RefreshTargets()
-            => targetSelector.SetTags(tagList.AllTags);
+            => targetSelector.SetTags(tagListMain.AllTags);
 
         private void TagList_ListChanged(object? sender, EventArgs e)
             => RefreshTargets();
@@ -109,7 +109,7 @@ namespace WinAppTaggedWorld.Forms
             if (e.KeyCode == Keys.Escape)
             {
                 e.Handled = e.SuppressKeyPress = true;
-                tagList.Clear();
+                tagListMain.Clear();
             }
         }
 
@@ -127,7 +127,7 @@ namespace WinAppTaggedWorld.Forms
 
         private void BtnTagListClear_Click(object sender, EventArgs e)
         {
-            tagList.Clear();
+            tagListMain.Clear();
             txtTag.Focus();
         }
 
@@ -135,7 +135,7 @@ namespace WinAppTaggedWorld.Forms
         {
             try
             {
-                tagList.CopyToClipboard();
+                tagListMain.CopyToClipboard();
             }
             catch (Exception ex) { Utils.Mbox(ex); }
         }
@@ -145,13 +145,13 @@ namespace WinAppTaggedWorld.Forms
         private bool AddToTags(Tag tag)
         {
             // ponovljeni tag se odbija
-            if (tagList.Exists(tag))
+            if (tagListMain.Exists(tag))
             {
                 Utils.Mbox($"Tag '{tag}' is already listed.");
                 return false;
             }
             // tag je spec/tip, a lista vec sadrzi spec/tip
-            var currentTypeTag = tagList.GetTypeTag();
+            var currentTypeTag = tagListMain.GetTypeTag();
             if (TaggedWorld.Tag.IsTypeTag(tag.Name) && currentTypeTag != null)
             {
                 if (Utils.MboxYesNo($"Do you want to change type to '{tag}'?")
@@ -159,19 +159,19 @@ namespace WinAppTaggedWorld.Forms
                 {
                     foreach (var typeTag in TaggedWorld.Tag.TypeTags)
                         if (typeTag != tag.Name)
-                            tagList.RemoveTag(new Tag(typeTag));
+                            tagListMain.RemoveTag(new Tag(typeTag));
                 }
                 else
                     return false;
             }
             // prihvatanje tj. dodavanje taga u listu za pretragu
-            tagList.AddTag(tag);
+            tagListMain.AddTag(tag);
             return true;
         }
 
         private void BtnTargetBrowse_Click(object sender, EventArgs e)
         {
-            var typeTag = tagList.GetTypeTag();
+            var typeTag = tagListMain.GetTypeTag();
             if (typeTag != null)
                 BrowseTarget();
             else
@@ -183,7 +183,7 @@ namespace WinAppTaggedWorld.Forms
         {
             try
             {
-                if (tagList.Exists(TaggedWorld.Tag.TypeLink))
+                if (tagListMain.Exists(TaggedWorld.Tag.TypeLink))
                 {
                     var clipboard = Clipboard.GetText();
                     if (Utils.IsItLink(clipboard))
@@ -191,12 +191,12 @@ namespace WinAppTaggedWorld.Forms
                     else
                         Utils.GoToLink("");
                 }
-                else if (tagList.Exists(TaggedWorld.Tag.TypeFile))
+                else if (tagListMain.Exists(TaggedWorld.Tag.TypeFile))
                 {
                     if (fileBrowse.ShowDialog() == DialogResult.OK)
                         txtTargetAddress.Text = fileBrowse.FileName;
                 }
-                else if (tagList.Exists(TaggedWorld.Tag.TypeFolder))
+                else if (tagListMain.Exists(TaggedWorld.Tag.TypeFolder))
                 {
                     if (folderBrowse.ShowDialog() == DialogResult.OK)
                         txtTargetAddress.Text = folderBrowse.SelectedPath;
@@ -217,14 +217,14 @@ namespace WinAppTaggedWorld.Forms
                 // dodavanje novog targeta
                 if (this.target == null)
                 {
-                    var tags = tagList.AllTags.ToList();
+                    var tags = tagListMain.AllTags.ToList();
                     var target = new Target(txtTargetAddress.Text, tags);
                     data.AddTarget(target);
                 }
                 // editovanje targeta
                 else
                 {
-                    target.Tags = tagList.AllTags.ToList();
+                    target.Tags = tagListMain.AllTags.ToList();
                     target.Address = txtTargetAddress.Text;
                     var ctrl = targetList.GetSelectedCtrl();
                     if (ctrl != null)
@@ -232,7 +232,7 @@ namespace WinAppTaggedWorld.Forms
                     target = null;
                     btnAddTarget.Text = "Add Target";
                 }
-                targetSelector.SetTags(tagList.AllTags);
+                targetSelector.SetTags(tagListMain.AllTags);
                 txtTargetAddress.Clear();
             }
             catch (Exception ex) { Utils.Mbox(ex); }
