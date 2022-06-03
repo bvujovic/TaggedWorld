@@ -45,7 +45,9 @@
             this.scTop = new System.Windows.Forms.SplitContainer();
             this.tagListSuggest = new WinAppTaggedWorld.Controls.TagLabelList();
             this.btnTagListCopy = new System.Windows.Forms.Button();
+            this.btnDocTest = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.lblTargetExists = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -146,6 +148,7 @@
             this.txtTargetAddress.Name = "txtTargetAddress";
             this.txtTargetAddress.Size = new System.Drawing.Size(377, 25);
             this.txtTargetAddress.TabIndex = 8;
+            this.txtTargetAddress.TextChanged += new System.EventHandler(this.TxtTargetAddress_TextChanged);
             // 
             // folderBrowse
             // 
@@ -203,6 +206,8 @@
             // 
             // scTop.Panel2
             // 
+            this.scTop.Panel2.Controls.Add(this.lblTargetExists);
+            this.scTop.Panel2.Controls.Add(this.btnDocTest);
             this.scTop.Panel2.Controls.Add(this.button1);
             this.scTop.Panel2.Controls.Add(label3);
             this.scTop.Panel2.Controls.Add(this.txtTargetAddress);
@@ -234,6 +239,17 @@
             this.btnTagListCopy.UseVisualStyleBackColor = true;
             this.btnTagListCopy.Click += new System.EventHandler(this.BtnTagListCopy_Click);
             // 
+            // btnDocTest
+            // 
+            this.btnDocTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDocTest.Location = new System.Drawing.Point(335, 160);
+            this.btnDocTest.Name = "btnDocTest";
+            this.btnDocTest.Size = new System.Drawing.Size(85, 27);
+            this.btnDocTest.TabIndex = 14;
+            this.btnDocTest.Text = "Doc Test";
+            this.btnDocTest.UseVisualStyleBackColor = true;
+            this.btnDocTest.Click += new System.EventHandler(this.BtnDocTest_Click);
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(3, 135);
@@ -242,6 +258,17 @@
             this.button1.TabIndex = 13;
             this.button1.Text = "Most Used Targets";
             this.button1.UseVisualStyleBackColor = true;
+            // 
+            // lblTargetExists
+            // 
+            this.lblTargetExists.AutoSize = true;
+            this.lblTargetExists.ForeColor = System.Drawing.Color.Red;
+            this.lblTargetExists.Location = new System.Drawing.Point(115, 64);
+            this.lblTargetExists.Name = "lblTargetExists";
+            this.lblTargetExists.Size = new System.Drawing.Size(128, 17);
+            this.lblTargetExists.TabIndex = 15;
+            this.lblTargetExists.Text = "Target already exists";
+            this.lblTargetExists.Visible = false;
             // 
             // FrmMain
             // 
@@ -284,5 +311,7 @@
         private Label lblTargetResults;
         private Controls.TagLabelList tagListSuggest;
         private Button button1;
+        private Button btnDocTest;
+        private Label lblTargetExists;
     }
 }

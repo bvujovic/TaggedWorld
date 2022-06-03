@@ -16,6 +16,7 @@ namespace WinAppTaggedWorld.Forms
         private void FrmLogin_Load(object sender, EventArgs e)
         {
             Text = Classes.Utils.AppName + " - Login";
+            btnLogin.PerformClick();
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)

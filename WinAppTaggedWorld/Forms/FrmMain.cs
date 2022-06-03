@@ -43,9 +43,22 @@ namespace WinAppTaggedWorld.Forms
                 targetList.EditTarget += TargetList_EditTarget;
                 txtTag.Focus();
                 tagListMain.HorizontalScroll.Enabled = false;
+                tagListSuggest.HorizontalScroll.Enabled = false;
+                tagListMain.TagLabelClicked += (o, ea) => { tagListMain.RemoveTag(o as Controls.TagLabel); };
+                tagListSuggest.TagLabelClicked += TagListSuggest_TagLabelClicked;
                 RefreshTargets();
+                SuggestTags();
             }
             catch (Exception ex) { Utils.Mbox(ex); }
+        }
+
+        private void TagListSuggest_TagLabelClicked(object? sender, EventArgs e)
+        {
+            if (sender is Controls.TagLabel tagLabel)
+            {
+                AddToTags(tagLabel.Tag);
+                tagListSuggest.RemoveTag(tagLabel);
+            }
         }
 
         private Target? target = null;
@@ -88,7 +101,10 @@ namespace WinAppTaggedWorld.Forms
             => targetSelector.SetTags(tagListMain.AllTags);
 
         private void TagList_ListChanged(object? sender, EventArgs e)
-            => RefreshTargets();
+        {
+            RefreshTargets();
+            SuggestTags();
+        }
 
         private void TargetSelector_TagsChanged(object? sender, IEnumerable<Target> targets)
         {
@@ -166,12 +182,42 @@ namespace WinAppTaggedWorld.Forms
             }
             // prihvatanje tj. dodavanje taga u listu za pretragu
             tagListMain.AddTag(tag);
+            txtTag.Focus();
+            SuggestTags();
             return true;
+        }
+
+        private void SuggestTags()
+        {
+            //TODO dobro bi bilo da postoji mehanizam za suspendovanje sugestija (kada se dodaje vise tagova odjednom)
+            var ts = new TagSuggester(data);
+            var suggestions = ts.Suggest(tagListMain.AllTags.Select(it => it.Name));
+            tagListSuggest.Clear();
+            foreach (var level in suggestions.Where(it => it.Key > 0))
+            {
+                foreach (var sug in level.Value)
+                    tagListSuggest.AddTag(sug);
+                if (tagListSuggest.Count >= 5)
+                    break;
+            }
         }
 
         private void BtnTargetBrowse_Click(object sender, EventArgs e)
         {
             var typeTag = tagListMain.GetTypeTag();
+            var clipboard = Clipboard.GetText();
+            if (typeTag == null)
+            {
+                if (Utils.IsItLink(clipboard))
+                    AddToTags(typeTag = new Tag(TaggedWorld.Tag.TypeLink));
+                if (File.Exists(clipboard))
+                    AddToTags(typeTag = new Tag(TaggedWorld.Tag.TypeFile));
+                if (Directory.Exists(clipboard))
+                    AddToTags(typeTag = new Tag(TaggedWorld.Tag.TypeFolder));
+                if (typeTag != null)
+                    txtTargetAddress.Text = clipboard;
+            }
+
             if (typeTag != null)
                 BrowseTarget();
             else
@@ -183,9 +229,9 @@ namespace WinAppTaggedWorld.Forms
         {
             try
             {
+                var clipboard = Clipboard.GetText();
                 if (tagListMain.Exists(TaggedWorld.Tag.TypeLink))
                 {
-                    var clipboard = Clipboard.GetText();
                     if (Utils.IsItLink(clipboard))
                         txtTargetAddress.Text = clipboard;
                     else
@@ -193,7 +239,9 @@ namespace WinAppTaggedWorld.Forms
                 }
                 else if (tagListMain.Exists(TaggedWorld.Tag.TypeFile))
                 {
-                    if (fileBrowse.ShowDialog() == DialogResult.OK)
+                    if (File.Exists(clipboard))
+                        txtTargetAddress.Text = clipboard;
+                    else if (fileBrowse.ShowDialog() == DialogResult.OK)
                         txtTargetAddress.Text = fileBrowse.FileName;
                 }
                 else if (tagListMain.Exists(TaggedWorld.Tag.TypeFolder))
@@ -209,6 +257,9 @@ namespace WinAppTaggedWorld.Forms
                 return false;
             }
         }
+
+        private void TxtTargetAddress_TextChanged(object sender, EventArgs e)
+            => lblTargetExists.Visible = targetList.Exists(txtTargetAddress.Text);
 
         private void BtnAddTarget_Click(object sender, EventArgs e)
         {
@@ -245,6 +296,11 @@ namespace WinAppTaggedWorld.Forms
                 data?.SaveTestTargets(targetsTestFilePath);
             }
             catch (Exception ex) { Utils.Mbox(ex); }
+        }
+
+        private void BtnDocTest_Click(object sender, EventArgs e)
+        {
+            new FrmDoc().ShowDialog();
         }
     }
 }

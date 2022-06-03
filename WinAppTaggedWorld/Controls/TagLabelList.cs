@@ -14,6 +14,9 @@ namespace WinAppTaggedWorld.Controls
             InitializeComponent();
         }
 
+        public void AddTag(string tagName)
+            => AddTag(new Tag(tagName));
+
         public void AddTag(Tag tag)
         {
             var tagLabel = new TagLabel(tag);
@@ -22,10 +25,13 @@ namespace WinAppTaggedWorld.Controls
             tagLabel.Click += TagLabel_Click;
         }
 
+        public event EventHandler TagLabelClicked;
+
         private void TagLabel_Click(object? sender, EventArgs e)
         {
             if (e is MouseEventArgs mea && mea.Button == MouseButtons.Left)
-                RemoveTag((sender as TagLabel).Tag);
+                TagLabelClicked?.Invoke(sender, e);
+                //B RemoveTag((sender as TagLabel).Tag);
         }
 
         public TagLabel? GetTagLabel(string tag)
@@ -49,6 +55,10 @@ namespace WinAppTaggedWorld.Controls
         public IEnumerable<Tag> AllTags
             => Controls.OfType<TagLabel>().Select(it => it.Tag);
 
+        /// <summary>Broj tagova u listi.</summary>
+        public int Count
+            => AllTags.Count();
+
         /// <summary>Da li je je dati tag vec prikazan u listi tagova za pretragu.</summary>
         public bool Exists(Tag tag)
             => AllTags.Contains(tag);
@@ -58,9 +68,8 @@ namespace WinAppTaggedWorld.Controls
             => Exists(new Tag(tagName));
 
         /// <summary>Brisanje taga iz liste.</summary>
-        public bool RemoveTag(Tag tag)
+        public bool RemoveTag(TagLabel? tagLabel)
         {
-            var tagLabel = GetTagLabel(tag.Name);
             if (tagLabel != null)
             {
                 Controls.Remove(tagLabel);
@@ -69,6 +78,13 @@ namespace WinAppTaggedWorld.Controls
             }
             else
                 return false;
+        }
+
+        /// <summary>Brisanje taga iz liste.</summary>
+        public bool RemoveTag(Tag tag)
+        {
+            var tagLabel = GetTagLabel(tag.Name);
+            return RemoveTag(tagLabel);
         }
 
         /// <summary>Brisanje svih tagova iz liste.</summary>

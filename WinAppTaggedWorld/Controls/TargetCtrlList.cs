@@ -14,6 +14,10 @@ namespace WinAppTaggedWorld.Controls
             InitializeComponent();
         }
 
+        /// <summary>Da li u listi targeta vec postoji jedan sa datom adresom.</summary>
+        public bool Exists(string address)
+            => TargetControls.FirstOrDefault(it => it.Target.Address == address) != null;
+
         public void AddTargetCtrl(TargetCtrl targetCtrl)
             => Controls.Add(targetCtrl);
 
@@ -48,7 +52,7 @@ namespace WinAppTaggedWorld.Controls
             set
             {
                 selectedTarget = value;
-                foreach (var ctrl in Controls.Cast<TargetCtrl>())
+                foreach (var ctrl in TargetControls)
                     if (ctrl.Target.Equals(selectedTarget))
                     {
                         ctrl.IsSelected = true;
@@ -60,13 +64,14 @@ namespace WinAppTaggedWorld.Controls
         }
 
         public TargetCtrl? GetSelectedCtrl()
-        {
-            return Controls.OfType<TargetCtrl>().FirstOrDefault(it => it.IsSelected);
-        }
+            => TargetControls.FirstOrDefault(it => it.IsSelected);
+
+        private IEnumerable<TargetCtrl> TargetControls
+            => Controls.OfType<TargetCtrl>();
 
         private void TargetCtrl_Selected(object? sender, EventArgs e)
         {
-            foreach (var ctrl in Controls.Cast<TargetCtrl>())
+            foreach (var ctrl in TargetControls)
                 if (!ctrl.Equals(sender))
                     ctrl.IsSelected = false;
         }
