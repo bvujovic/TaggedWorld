@@ -33,7 +33,7 @@ builder.Services.AddSwaggerGen(c =>
         Contact = new OpenApiContact { Name = "BV", Email = "bv.net@outlook.com", Url = new Uri("https://github.com/bvujovic/") }
     });
 
-    var filePath = Path.Combine(AppContext.BaseDirectory, "WebApiSqlDbTest.xml");
+    var filePath = Path.Combine(AppContext.BaseDirectory, "WebApiTaggedWorld.xml");
     c.IncludeXmlComments(filePath);
 
     c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme

@@ -20,13 +20,21 @@ namespace WinAppTaggedWorld.Forms
         private void FrmLogin_Load(object sender, EventArgs e)
         {
             Text = Classes.Utils.AppName + " - Login";
+
+#if DEBUG
+            txtUsername.Text = "bojan";
+            txtPassword.Text = "string";
+#endif
+
             //T btnLogin.PerformClick();
         }
 
-        private void BtnLogin_Click(object sender, EventArgs e)
+        private async void BtnLogin_Click(object sender, EventArgs e)
         {
             //var json = await GetJson(ReqEnum.WeatherTest);
             //Classes.Utils.Mbox(json);
+
+            await Data.DataGetter.LoginAsync(txtUsername.Text, txtPassword.Text);
 
             DialogResult = DialogResult.OK;
         }

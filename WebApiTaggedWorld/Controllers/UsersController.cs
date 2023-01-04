@@ -39,7 +39,7 @@ namespace WebApiTaggedWorld.Controllers
         }
 
         /// <summary>Registracija: kreiranje novog korisnika.</summary>
-        [HttpPost]
+        [HttpPost("register")]
         public IActionResult CreateUser(UserRegistrationReq userReq)
         {
             try
@@ -112,7 +112,7 @@ namespace WebApiTaggedWorld.Controllers
 
         //todo [ValidateAntiForgeryToken]
         /// <summary>Uzimanje novog JWT-a ako je stari istekao, ali refresh token nije.</summary>
-        [HttpPost("get-jwt")]
+        [HttpPost("getJWT")]
         public async Task<ActionResult<string>> GetNewJWT([FromBody] string username)
         {
             var user = await ctx.Users.FirstOrDefaultAsync(it => it.Username == username);
@@ -183,7 +183,7 @@ namespace WebApiTaggedWorld.Controllers
         }
 
         /// <summary>Izmena podataka o korisniku.</summary>
-        [HttpPut]
+        [HttpPut("update")]
         public IActionResult UpdateUser(User user)
         {
             try
