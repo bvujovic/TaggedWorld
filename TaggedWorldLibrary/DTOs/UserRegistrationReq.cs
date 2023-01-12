@@ -1,4 +1,4 @@
-﻿namespace WebApiTaggedWorld.Data.DTOs
+﻿namespace TaggedWorldLibrary.DTOs
 {
     public class UserRegistrationReq : UserLoginReq
     {

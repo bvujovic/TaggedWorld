@@ -4,7 +4,7 @@
 
 Users:
 3	bojan	string
-4	mali	zec
+4	mali	zec		Bane V		enab
 5	prof	nemanja
 
 Targets:

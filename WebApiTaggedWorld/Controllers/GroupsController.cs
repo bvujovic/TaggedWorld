@@ -5,6 +5,7 @@ using System.Security.Claims;
 using TaggedWorldLibrary;
 using WebApiTaggedWorld.Classes;
 using WebApiTaggedWorld.Data;
+using TaggedWorldLibrary.DTOs;
 
 namespace WebApiTaggedWorld.Controllers
 {
@@ -101,7 +102,7 @@ namespace WebApiTaggedWorld.Controllers
 
         /// <summary>Izmena podataka za grupu korisnika.</summary>
         [HttpPut, Authorize]
-        public async Task<IActionResult> Update([FromBody] Data.DTOs.GroupDto groupData)
+        public async Task<IActionResult> Update([FromBody] GroupDto groupData)
         {
             try
             {

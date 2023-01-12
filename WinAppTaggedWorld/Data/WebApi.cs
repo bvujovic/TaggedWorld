@@ -40,11 +40,9 @@ namespace WinAppTaggedWorld.Data
         /// <see cref="https://stackoverflow.com/questions/14627399/setting-authorization-header-of-httpclient"/>
         public static async Task<string> GetJson(string url)
         {
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
-                return await client.GetStringAsync(url);
-            }
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+            return await client.GetStringAsync(url);
         }
 
         /// <summary>Dohvata (GET) JSON podatke od WebAPI-a.</summary>
@@ -57,18 +55,17 @@ namespace WinAppTaggedWorld.Data
         /// <summary>Dohvata (POST) JSON podatke od WebAPI-a.</summary>
         public static async Task<string> PostForJson(ReqEnum reqEnum, string body, string param = null)
         {
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
-                var url = UrlForReq(reqEnum, param);
-                var content = new StringContent(body, System.Text.Encoding.UTF8, "application/json");
-                var res = await client.PostAsync(url, content);
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+            var url = UrlForReq(reqEnum, param);
+            var content = new StringContent(body, System.Text.Encoding.UTF8, "application/json");
+            var res = await client.PostAsync(url, content);
 
-                if (res.IsSuccessStatusCode)
-                    return await res.Content.ReadAsStringAsync();
-                else
-                    throw new Exception($"POST response error: {res.ReasonPhrase}");
-            }
+            if (res.IsSuccessStatusCode)
+                return await res.Content.ReadAsStringAsync();
+            else
+                //B throw new Exception($"POST response error: {res.ReasonPhrase}");
+                throw new Exception(await res.Content.ReadAsStringAsync());
         }
 
         /// <summary>Dohvata (POST) trazeni objekat od WebAPI-a.</summary>

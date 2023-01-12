@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaggedWorldLibrary;
 using WebApiTaggedWorld.Classes;
-using WebApiTaggedWorld.Data.DTOs;
+using TaggedWorldLibrary.DTOs;
 using WebApiTaggedWorld.Data;
 using Microsoft.EntityFrameworkCore;
 

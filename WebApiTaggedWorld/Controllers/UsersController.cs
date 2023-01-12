@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebApiTaggedWorld.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
-using WebApiTaggedWorld.Data.DTOs;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using WebApiTaggedWorld.Classes;
+using TaggedWorldLibrary.DTOs;
 
 namespace WebApiTaggedWorld.Controllers
 {

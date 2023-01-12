@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TaggedWorldLibrary;
 using WebApiTaggedWorld.Classes;
-using WebApiTaggedWorld.Data.DTOs;
 using WebApiTaggedWorld.Data;
 using Microsoft.EntityFrameworkCore;
+using TaggedWorldLibrary.DTOs;
 
 namespace WebApiTaggedWorld.Controllers
 {
