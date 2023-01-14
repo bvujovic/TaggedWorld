@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TaggedWorldLibrary
+namespace TaggedWorldLibrary.Model
 {
     /// <summary>
     /// Korisnik aplikacije.

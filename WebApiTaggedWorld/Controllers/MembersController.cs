@@ -48,7 +48,7 @@ namespace WebApiTaggedWorld.Controllers
         {
             try
             {
-                var member = new Member
+                var member = new TaggedWorldLibrary.Model.Member
                 {
                     GroupId = groupId,
                     UserId = userId,

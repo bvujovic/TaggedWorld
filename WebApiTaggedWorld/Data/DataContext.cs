@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Metrics;
 using System;
-using TaggedWorldLibrary;
+using TaggedWorldLibrary.Model;
 
 namespace WebApiTaggedWorld.Data
 {

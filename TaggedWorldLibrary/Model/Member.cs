@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TaggedWorldLibrary
+namespace TaggedWorldLibrary.Model
 {
     /// <summary>
     /// Clanstvo korisnika u grupi.

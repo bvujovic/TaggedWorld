@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TaggedWorldLibrary
+namespace TaggedWorldLibrary.Model
 {
     public static class TargetTypes
     {

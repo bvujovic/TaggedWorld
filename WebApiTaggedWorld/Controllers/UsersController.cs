@@ -1,4 +1,4 @@
-﻿using TaggedWorldLibrary;
+﻿using TaggedWorldLibrary.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApiTaggedWorld.Data;

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using TaggedWorldLibrary;
+using TaggedWorldLibrary.Model;
 using TaggedWorldLibrary.DTOs;
 using WebApiTaggedWorld.Classes;
 using WebApiTaggedWorld.Data;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TaggedWorldLibrary.Utils;
+using TaggedWorldLibrary.Model;
 
 namespace WinAppTaggedWorld.Classes
 {
@@ -38,9 +40,40 @@ namespace WinAppTaggedWorld.Classes
         public const string DatumFormat = "yyyy-MM-dd";
         public const string DatumVremeFormat = "yyyy-MM-dd HH:mm";
 
-
-
-
+        /// <summary>Pokretanje/prikazivanje target-a.</summary>
+        public static void OpenTarget(Target target)
+        {
+            var typeTag = target.GetTypeTag();
+            if (typeTag == null)
+                return;
+            // otvaranje/pokretanje veb linkova
+            if (typeTag == Tags.TypeLink)
+            {
+                GoToLink(target.Content);
+                return;
+            }
+            // otvaranje posebnih foldera (projekti u VS, VSC...)
+            if (typeTag == Tags.TypeFolder)
+            {
+                // Visual Studio projekat
+                var files = Directory.GetFiles(target.Content, "*.sln");
+                if (files.Length == 1)
+                {
+                    StartProcess(files.First());
+                    return;
+                }
+                // Visual Studio Code projekat
+                files = Directory.GetFiles(target.Content, "platformio.ini");
+                if (files.Length == 1)
+                {
+                    StartProcess("code", target.Content);
+                    return;
+                }
+            }
+            // podrazumevano pokretanje fajlova i foldera
+            if (typeTag == Tags.TypeFile || typeTag == Tags.TypeFolder)
+                StartProcess(target.Content);
+        }
 
         /// <summary>Pokretanje procesa/fajla/foldera.</summary>
         private static void StartProcess(string fileName, string? argument = null)

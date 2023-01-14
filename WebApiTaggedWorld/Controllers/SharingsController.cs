@@ -69,7 +69,7 @@ namespace WebApiTaggedWorld.Controllers
                     return BadRequest($"User cannot share in group id:{sharing.GroupId}.");
 
                 // kreiranje deljenja
-                sh = new Sharing
+                sh = new TaggedWorldLibrary.Model.Sharing
                 {
                     GroupId = sharing.GroupId,
                     TargetId = sharing.TargetId,
