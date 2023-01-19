@@ -24,33 +24,33 @@ namespace WebApiTaggedWorld.Controllers
 
         /// <summary>Dohvatanje grupa kojima pripada ulogovani korisnik.</summary>
         [HttpGet, Authorize]
-        public async Task<ActionResult<List<Group>>> GetMyGroups()
+        public async Task<ActionResult<List<GroupDto>>> GetMyGroups()
         {
             if (HttpContext.User?.Identity is not ClaimsIdentity ident)
                 return Unauthorized("ClaimsIdentity not found.");
             var groups = await db.Group.Where(it => it.Members.Select(it => it.UserId).Contains(ident.GetId()))
                 .ToListAsync();
-
-            return Ok(groups);
+            var res = groups.Select(it => new GroupDto { GroupId = it.GroupId, Name = it.Name, StrTags = it.StrTags, Description = it.Description });
+            return Ok(res);
         }
 
         /// <summary>Kreiranje nove grupe korisnika.</summary>
         [HttpPost, Authorize]
-        public async Task<IActionResult> Create(string name, string description, string tags)
+        public async Task<IActionResult> Create(GroupDto groupData)
         {
             try
             {
                 // provera: da li vec postoji grupa sa datim imenom
-                var g = await db.Group.FirstOrDefaultAsync(it => it.Name == name);
+                var g = await db.Group.FirstOrDefaultAsync(it => it.Name == groupData.Name);
                 if (g != null)
-                    return BadRequest($"Group '{name}' already exists.");
+                    return BadRequest($"Group '{groupData.Name}' already exists.");
 
                 // kreiranje grupe
                 var group = new Group
                 {
-                    Name = name,
-                    Description = description,
-                    StrTags = tags,
+                    Name = groupData.Name,
+                    Description = groupData.Description,
+                    StrTags = groupData.StrTags,
                     Created = DateTime.Now
                 };
                 db.Group.Add(group);

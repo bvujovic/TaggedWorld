@@ -33,7 +33,7 @@ namespace WinAppTaggedWorld.Forms
                     throw new Exception("Confirmed password is different than the password.");
 
                 btnRegister.Enabled = false;
-                await Data.DataGetter.RegisterAsync(new TaggedWorldLibrary.DTOs.UserRegistrationReq
+                await Data.DataGetter.UserRegisterAsync(new TaggedWorldLibrary.DTOs.UserRegistrationReq
                 {
                     Username = txtUsername.Text,
                     Password = txtPassword.Text,

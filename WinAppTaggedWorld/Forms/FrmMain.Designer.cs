@@ -38,13 +38,15 @@
             this.txtTargetAddress = new System.Windows.Forms.TextBox();
             this.btnTargetBrowse = new System.Windows.Forms.Button();
             this.txtTag = new System.Windows.Forms.TextBox();
-            this.btnAddTarget = new System.Windows.Forms.Button();
+            this.btnSaveTarget = new System.Windows.Forms.Button();
             this.btnTagListClear = new System.Windows.Forms.Button();
             this.tagListMain = new WinAppTaggedWorld.Controls.TagLabelList();
             this.btnSearchAddTag = new System.Windows.Forms.Button();
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.lblTargetResults = new System.Windows.Forms.Label();
             this.targetList = new WinAppTaggedWorld.Controls.TargetCtrlList();
+            this.lblTargetResults = new System.Windows.Forms.Label();
+            this.fileBrowse = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowse = new System.Windows.Forms.FolderBrowserDialog();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
@@ -90,7 +92,7 @@
             this.pnlTop.Controls.Add(label1);
             this.pnlTop.Controls.Add(this.btnTargetBrowse);
             this.pnlTop.Controls.Add(this.txtTag);
-            this.pnlTop.Controls.Add(this.btnAddTarget);
+            this.pnlTop.Controls.Add(this.btnSaveTarget);
             this.pnlTop.Controls.Add(this.btnTagListClear);
             this.pnlTop.Controls.Add(this.tagListMain);
             this.pnlTop.Controls.Add(this.btnSearchAddTag);
@@ -131,6 +133,7 @@
             this.btnTagListCopy.TabIndex = 25;
             this.btnTagListCopy.Text = "Copy";
             this.btnTagListCopy.UseVisualStyleBackColor = true;
+            this.btnTagListCopy.Click += new System.EventHandler(this.BtnTagListCopy_Click);
             // 
             // txtTargetAddress
             // 
@@ -140,6 +143,7 @@
             this.txtTargetAddress.Name = "txtTargetAddress";
             this.txtTargetAddress.Size = new System.Drawing.Size(771, 25);
             this.txtTargetAddress.TabIndex = 21;
+            this.txtTargetAddress.TextChanged += new System.EventHandler(this.TxtTargetAddress_TextChanged);
             // 
             // btnTargetBrowse
             // 
@@ -150,6 +154,7 @@
             this.btnTargetBrowse.TabIndex = 23;
             this.btnTargetBrowse.Text = "...";
             this.btnTargetBrowse.UseVisualStyleBackColor = true;
+            this.btnTargetBrowse.Click += new System.EventHandler(this.BtnTargetBrowse_Click);
             // 
             // txtTag
             // 
@@ -161,15 +166,17 @@
             this.txtTag.Name = "txtTag";
             this.txtTag.Size = new System.Drawing.Size(772, 25);
             this.txtTag.TabIndex = 16;
+            this.txtTag.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtTag_KeyDown);
             // 
-            // btnAddTarget
+            // btnSaveTarget
             // 
-            this.btnAddTarget.Location = new System.Drawing.Point(12, 234);
-            this.btnAddTarget.Name = "btnAddTarget";
-            this.btnAddTarget.Size = new System.Drawing.Size(85, 27);
-            this.btnAddTarget.TabIndex = 22;
-            this.btnAddTarget.Text = "Add Target";
-            this.btnAddTarget.UseVisualStyleBackColor = true;
+            this.btnSaveTarget.Location = new System.Drawing.Point(12, 234);
+            this.btnSaveTarget.Name = "btnSaveTarget";
+            this.btnSaveTarget.Size = new System.Drawing.Size(85, 27);
+            this.btnSaveTarget.TabIndex = 22;
+            this.btnSaveTarget.Text = "Save Target";
+            this.btnSaveTarget.UseVisualStyleBackColor = true;
+            this.btnSaveTarget.Click += new System.EventHandler(this.BtnSaveTarget_Click);
             // 
             // btnTagListClear
             // 
@@ -180,6 +187,7 @@
             this.btnTagListClear.TabIndex = 24;
             this.btnTagListClear.Text = "Clear";
             this.btnTagListClear.UseVisualStyleBackColor = true;
+            this.btnTagListClear.Click += new System.EventHandler(this.BtnTagListClear_Click);
             // 
             // tagListMain
             // 
@@ -201,6 +209,7 @@
             this.btnSearchAddTag.TabIndex = 20;
             this.btnSearchAddTag.Text = "OK";
             this.btnSearchAddTag.UseVisualStyleBackColor = true;
+            this.btnSearchAddTag.Click += new System.EventHandler(this.BtnSearchAddTag_Click);
             // 
             // pnlMain
             // 
@@ -211,15 +220,6 @@
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(860, 327);
             this.pnlMain.TabIndex = 1;
-            // 
-            // lblTargetResults
-            // 
-            this.lblTargetResults.AutoSize = true;
-            this.lblTargetResults.Location = new System.Drawing.Point(13, 3);
-            this.lblTargetResults.Name = "lblTargetResults";
-            this.lblTargetResults.Size = new System.Drawing.Size(49, 17);
-            this.lblTargetResults.TabIndex = 2;
-            this.lblTargetResults.Text = "Results";
             // 
             // targetList
             // 
@@ -234,6 +234,19 @@
             this.targetList.Size = new System.Drawing.Size(836, 292);
             this.targetList.TabIndex = 3;
             // 
+            // lblTargetResults
+            // 
+            this.lblTargetResults.AutoSize = true;
+            this.lblTargetResults.Location = new System.Drawing.Point(13, 3);
+            this.lblTargetResults.Name = "lblTargetResults";
+            this.lblTargetResults.Size = new System.Drawing.Size(49, 17);
+            this.lblTargetResults.TabIndex = 2;
+            this.lblTargetResults.Text = "Results";
+            // 
+            // folderBrowse
+            // 
+            this.folderBrowse.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -245,6 +258,7 @@
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tagged World";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
@@ -263,12 +277,14 @@
         private TextBox txtTargetAddress;
         private Button btnTargetBrowse;
         private TextBox txtTag;
-        private Button btnAddTarget;
+        private Button btnSaveTarget;
         private Button btnTagListClear;
         private Controls.TagLabelList tagListMain;
         private Button btnSearchAddTag;
         private Panel pnlMain;
         private Label lblTargetResults;
         private Controls.TargetCtrlList targetList;
+        private OpenFileDialog fileBrowse;
+        private FolderBrowserDialog folderBrowse;
     }
 }

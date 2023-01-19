@@ -40,7 +40,7 @@ namespace WinAppTaggedWorld.Forms
                     throw new Exception("Username and password are required.");
 
                 btnLogin.Enabled = false;
-                await Data.DataGetter.LoginAsync(new TaggedWorldLibrary.DTOs.UserLoginReq
+                await Data.DataGetter.UserLoginAsync(new TaggedWorldLibrary.DTOs.UserLoginReq
                 {
                     Username = txtUsername.Text,
                     Password = txtPassword.Text

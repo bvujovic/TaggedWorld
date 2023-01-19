@@ -85,19 +85,20 @@ namespace TaggedWorldLibrary.Model
         {
             if (obj is not Target that) return false;
             if (ReferenceEquals(this, that)) return true;
-            return this.Title.Equals(that.Title);
+            //return this.Content.Equals(that.Content);
+            return this.TargetId == that.TargetId;
         }
 
         public override int GetHashCode()
-        => Title.GetHashCode();
+            => TargetId;
 
         public Target()
         {
         }
 
-        public Target(string title, List<string> tags)
+        public Target(string content, List<string> tags)
         {
-            Title = title;
+            Content = content;
             Tags = tags;
         }
 
@@ -107,52 +108,53 @@ namespace TaggedWorldLibrary.Model
             Tags = new List<string>();
             foreach (var tag in tags)
                 AddTag(tag);
-            TagsCheck(Tags);
+            //TagsCheck(Tags);
         }
 
-        /// <summary>Provera ispravnosti prosledjenih tagova. Lista ne sme biti prazna; mora postojati 1 tip tag.</summary>
-        public static void TagsCheck(List<string>? tags)
-        {
+        ///// <summary>Provera ispravnosti prosledjenih tagova. Lista ne sme biti prazna; mora postojati 1 tip tag.</summary>
+        //public static void TagsCheck(List<string>? tags)
+        //{
 
-            if (tags == null || tags.Count == 0)
-                throw new ArgumentException("Tags cannot be empty.");
+        //    if (tags == null || tags.Count == 0)
+        //        throw new ArgumentException("Tags cannot be empty.");
 
-            // premestanje tip taga na prvo mesto
-            var tt = GetTypeTag(tags);
-            if (tt != null)
-            {
-                tags.Remove(tt);
-                tags.Insert(0, tt);
-            }
-            else
-                throw new ArgumentException($"Tags must contain one type tag: {string.Join(", ", Utils.Tags.TypeTags)}.");
-        }
+        //    // premestanje tip taga na prvo mesto
+        //    var tt = GetTypeTag(tags);
+        //    if (tt != null)
+        //    {
+        //        tags.Remove(tt);
+        //        tags.Insert(0, tt);
+        //    }
+        //    else
+        //        throw new ArgumentException($"Tags must contain one type tag: {string.Join(", ", Utils.Tags.TypeTags)}.");
+        //}
 
         public void AddTag(string tag)
         {
             if (string.IsNullOrEmpty(tag))
                 throw new ArgumentNullException(nameof(tag), "Tag cannot be empty.");
-            if (Utils.Tags.IsTypeTag(tag) && GetTypeTag() != null)
+            if (Utils.Tags.IsTypeTag(tag) && Type != null)
                 throw new ArgumentException("Target already has type tag.", nameof(tag));
 
             if (Utils.Tags.IsTypeTag(tag))
-                Tags.Insert(0, tag);
+                //B Tags.Insert(0, tag);
+                Type = tag;
             else
                 Tags.Add(tag);
         }
 
-        /// <summary>Vraca tip tag ili null ako ga nema u listi.</summary>
-        public static string? GetTypeTag(List<string> tags)
-        {
-            foreach (var tag in tags)
-                if (Utils.Tags.IsTypeTag(tag))
-                    return tag;
-            return null;
-        }
+        ///// <summary>Vraca tip tag ili null ako ga nema u listi.</summary>
+        //public static string? GetTypeTag(List<string> tags)
+        //{
+        //    foreach (var tag in tags)
+        //        if (Utils.Tags.IsTypeTag(tag))
+        //            return tag;
+        //    return null;
+        //}
 
-        /// <summary>Vraca tip tag ili null ako ga nema u listi Tags.</summary>
-        public string? GetTypeTag()
-            => GetTypeTag(Tags);
+        ///// <summary>Vraca tip tag ili null ako ga nema u listi Tags.</summary>
+        //public string? GetTypeTag()
+        //    => GetTypeTag(Tags);
 
         /// <summary>Vraca broj poena tj. poklapanja sa prosledjenim tagovima.</summary>
         public float GetTagPoints(IEnumerable<string> tags)
@@ -166,6 +168,7 @@ namespace TaggedWorldLibrary.Model
 
         /// <summary>Izracunati broj poena tj. poklapanja sa datim tagovima.</summary>
         /// <see cref="CalcTagPoints"/>
+        [NotMapped]
         public float TagPoints { get; private set; }
 
         /// <summary>Izracunava broj poena tj. poklapanja sa datim tagovima i pamti u TagPoints.</summary>

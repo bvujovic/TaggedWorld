@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using TaggedWorldLibrary.Model;
+using TaggedWorldLibrary.Utils;
 
 namespace WinAppTaggedWorld.Controls
 {
@@ -11,14 +12,14 @@ namespace WinAppTaggedWorld.Controls
         {
             InitializeComponent();
             Dock = DockStyle.Top;
-            var typeTag = target.GetTypeTag();
+            var typeTag = target.Type;
             if (typeTag != null)
             {
-                if (typeTag == TaggedWorldLibrary.Utils.Tags.TypeFolder)
+                if (typeTag == Tags.TypeFolder)
                     picIco.Image = Properties.Resources.ico_folder;
-                if (typeTag == TaggedWorldLibrary.Utils.Tags.TypeFile)
+                if (typeTag == Tags.TypeFile)
                     picIco.Image = Properties.Resources.ico_file;
-                if (typeTag == TaggedWorldLibrary.Utils.Tags.TypeLink)
+                if (typeTag == Tags.TypeLink)
                     picIco.Image = Properties.Resources.ico_link;
             }
             Target = target;
@@ -85,7 +86,7 @@ namespace WinAppTaggedWorld.Controls
         public void RefreshDisplay()
         {
             lblAddress.Text = Target.Content;
-            lblTags.Text = string.Join(", ", Target.Tags);
+            lblTags.Text = Tags.JoinTags(Target.Tags);
         }
 
         public override string ToString()

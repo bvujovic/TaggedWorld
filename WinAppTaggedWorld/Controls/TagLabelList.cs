@@ -15,6 +15,8 @@ namespace WinAppTaggedWorld.Controls
         {
             var tagLabel = new TagLabel(tag);
             Controls.Add(tagLabel);
+            if(TaggedWorldLibrary.Utils.Tags.IsTypeTag(tag))
+                Controls.SetChildIndex(tagLabel, 0);
             ListChanged?.Invoke(this, EventArgs.Empty);
             tagLabel.Click += TagLabel_Click;
         }
@@ -38,23 +40,23 @@ namespace WinAppTaggedWorld.Controls
         /// <summary>Vraća specijalni/tip tag, ako postoji.</summary>
         public string? GetTypeTag()
         {
-            foreach (var tag in AllTags)
+            foreach (var tag in Tags)
                 if (TaggedWorldLibrary.Utils.Tags.IsTypeTag(tag))
                     return tag;
             return null;
         }
 
         /// <summary>Tagovi iz liste za pretragu.</summary>
-        public IEnumerable<string> AllTags
+        public IEnumerable<string> Tags
             => Controls.OfType<TagLabel>().Select(it => it.Text);
 
         /// <summary>Broj tagova u listi.</summary>
         public int Count
-            => AllTags.Count();
+            => Tags.Count();
 
         /// <summary>Da li je je dati tag vec prikazan u listi tagova za pretragu.</summary>
         public bool Exists(string tag)
-            => AllTags.Contains(tag);
+            => Tags.Contains(tag);
 
         /// <summary>Brisanje taga iz liste.</summary>
         public bool RemoveTag(TagLabel? tagLabel)
@@ -87,9 +89,9 @@ namespace WinAppTaggedWorld.Controls
 
         public void CopyToClipboard()
         {
-            if (!AllTags.Any())
+            if (!Tags.Any())
                 throw new Exception("Nothing to copy to the clipboard - tag list is empty.");
-            Clipboard.SetText(string.Join(", ", AllTags));
+            Clipboard.SetText(TaggedWorldLibrary.Utils.Tags.JoinTags(Tags));
         }
     }
 }

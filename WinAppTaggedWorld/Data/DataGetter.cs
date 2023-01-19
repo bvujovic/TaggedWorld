@@ -5,26 +5,58 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaggedWorldLibrary.DTOs;
+using TaggedWorldLibrary.Model;
 
 namespace WinAppTaggedWorld.Data
 {
     public class DataGetter
     {
-        public static async Task LoginAsync(UserLoginReq req)
+        public static async Task UserLoginAsync(UserLoginReq req)
         {
             var body = JsonConvert.SerializeObject(req);
             WebApi.Token = await WebApi.PostForJson(WebApi.ReqEnum.Users_login, body);
         }
 
-        public static async Task LogoutAsync()
+        public static async Task UserLogoutAsync()
         {
             await WebApi.PostForJson(WebApi.ReqEnum.Users_logout, "");
         }
 
-        public static async Task RegisterAsync(UserRegistrationReq req)
+        public static async Task UserRegisterAsync(UserRegistrationReq req)
         {
             var body = JsonConvert.SerializeObject(req);
             await WebApi.PostForJson(WebApi.ReqEnum.Users_register, body);
+        }
+
+        public static async Task<IEnumerable<TargetDto>?> GetTargetsAsync()
+        {
+            var json = await WebApi.GetList<TargetDto>(WebApi.ReqEnum.Targets);
+            return json;
+        }
+
+        private static string TargetToDtoJson(Target t)
+            => JsonConvert.SerializeObject(new TargetDtoBase
+            {
+                Title = t.Title,
+                Type = t.Type,
+                Content = t.Content,
+                StrTags = TaggedWorldLibrary.Utils.Tags.JoinTags(t.Tags),
+            });
+
+        public static async Task CreateTarget(Target target)
+        {
+            await WebApi.PostForJson(WebApi.ReqEnum.Targets, TargetToDtoJson(target));
+        }
+
+        public static async Task DeleteTarget(int targetId)
+        {
+            await WebApi.Delete(WebApi.ReqEnum.Targets, targetId);
+        }
+
+        public static async Task UpdateTarget(Target target)
+        {
+            await WebApi.ReqForJson(WebApi.HttpVerb.Put, WebApi.ReqEnum.Targets_Update
+                , TargetToDtoJson(target), target.TargetId.ToString());
         }
 
         //public static async Task GetCenusAsync()
