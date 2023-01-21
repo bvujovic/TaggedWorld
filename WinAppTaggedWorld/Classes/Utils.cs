@@ -43,7 +43,7 @@ namespace WinAppTaggedWorld.Classes
         /// <summary>Pokretanje/prikazivanje target-a.</summary>
         public static void OpenTarget(Target target)
         {
-            var typeTag = target.Type;
+            var typeTag = target.GetTypeTag();
             if (typeTag == null)
                 return;
             // otvaranje/pokretanje veb linkova

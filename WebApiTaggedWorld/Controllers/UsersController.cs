@@ -1,10 +1,8 @@
 ﻿using TaggedWorldLibrary.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApiTaggedWorld.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
-using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,19 +18,19 @@ namespace WebApiTaggedWorld.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly DataContext ctx;
+        private readonly DataContext db;
 
         /// <summary>ctor</summary>
-        public UsersController(DataContext ctx)
+        public UsersController(DataContext db)
         {
-            this.ctx = ctx;
+            ControllerExtension.Db = this.db = db;
         }
 
         /// <summary>Vraća sve korisnike. Dostupno samo ulogovanim korisnicima.</summary>
         [HttpGet, Authorize]
         public async Task<ActionResult<List<User>>> GetAll()
         {
-            var users = await ctx.Users
+            var users = await db.Users
                 //.Include(it => it.OwnedTargets)
                 .Include(it => it.MemberOf).ThenInclude(it => it.Group).ToListAsync();
             return Ok(users);
@@ -44,7 +42,7 @@ namespace WebApiTaggedWorld.Controllers
         {
             try
             {
-                var u = ctx.Users.FirstOrDefault(it => it.Username == userReq.Username);
+                var u = db.Users.FirstOrDefault(it => it.Username == userReq.Username);
                 if (u != null)
                     return BadRequest("username already exists");
 
@@ -58,8 +56,8 @@ namespace WebApiTaggedWorld.Controllers
                     FullName = userReq.FullName,
                     IsActive = true,
                 };
-                ctx.Users.Add(newUser);
-                ctx.SaveChanges();
+                db.Users.Add(newUser);
+                db.SaveChanges();
                 return Ok();
             }
             catch (Exception ex) { return this.Bad(ex); }
@@ -71,7 +69,7 @@ namespace WebApiTaggedWorld.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(UserLoginReq userReq)
         {
-            var user = await ctx.Users.FirstOrDefaultAsync(it => it.Username == userReq.Username);
+            var user = await db.Users.FirstOrDefaultAsync(it => it.Username == userReq.Username);
             if (user == null)
                 return BadRequest("User not found.");
             if (!VerifyPasswordHash(userReq.Password, user.PasswordHash, user.PasswordSalt))
@@ -80,7 +78,7 @@ namespace WebApiTaggedWorld.Controllers
             var refToken = CreateRefreshToken();
             user.RefreshToken = refToken.Token;
             user.RefreshTokenExpires = refToken.Expires;
-            await ctx.SaveChangesAsync();
+            await db.SaveChangesAsync();
             SetRefreshToken(user, refToken);
             var jwt = CreateJWT(user);
             return Ok(jwt);
@@ -105,7 +103,6 @@ namespace WebApiTaggedWorld.Controllers
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
                 Expires = DateTime.Now.AddHours(2),
-                //B Created = DateTime.Now
             };
             return refreshToken;
         }
@@ -115,7 +112,7 @@ namespace WebApiTaggedWorld.Controllers
         [HttpPost("getJWT")]
         public async Task<ActionResult<string>> GetNewJWT([FromBody] string username)
         {
-            var user = await ctx.Users.FirstOrDefaultAsync(it => it.Username == username);
+            var user = await db.Users.FirstOrDefaultAsync(it => it.Username == username);
             if (user != null)
             {
                 var refreshToken = Request.Cookies["refreshToken"];
@@ -166,19 +163,10 @@ namespace WebApiTaggedWorld.Controllers
         [HttpPost("logout"), Authorize]
         public async Task<IActionResult> Logout()
         {
-            if (HttpContext.User?.Identity is not ClaimsIdentity ident)
-                return Unauthorized("ClaimsIdentity not found.");
-
-            //B
-            //var claimId = ident.Claims.FirstOrDefault(it => it.Type == ClaimTypes.NameIdentifier);
-            //var user = await ctx.Users.FirstOrDefaultAsync(it => claimId != null && it.Username == claimId.Value);
-            var user = await ctx.Users.FirstOrDefaultAsync(it => it.UserId == ident.GetId());
-            if (user == null)
-                return BadRequest();
-
+            var user = await this.GetUser();
             user.RefreshTokenExpires = null;
             user.RefreshToken = null;
-            await ctx.SaveChangesAsync();
+            await db.SaveChangesAsync();
             return Ok();
         }
 
@@ -188,14 +176,14 @@ namespace WebApiTaggedWorld.Controllers
         {
             try
             {
-                var u = ctx.Users.Find(user.UserId);
+                var u = db.Users.Find(user.UserId);
                 if (u == null)
                     return BadRequest($"No user with Id: {user.UserId}.");
                 u.Username = user.Username;
                 // u.Password = user.Password;
                 u.FullName = user.FullName;
                 u.Email = user.Email;
-                ctx.SaveChanges();
+                db.SaveChanges();
                 return Ok();
             }
             catch (Exception ex) { return this.Bad(ex); }

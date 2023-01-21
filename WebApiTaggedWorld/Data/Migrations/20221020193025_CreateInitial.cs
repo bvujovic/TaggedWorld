@@ -7,6 +7,7 @@ namespace WebApiTaggedWorld.Migrations
 {
     public partial class CreateInitial : Migration
     {
+        /// <summary></summary>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -175,6 +176,7 @@ namespace WebApiTaggedWorld.Migrations
                 column: "UserOwnerId");
         }
 
+        /// <summary></summary>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

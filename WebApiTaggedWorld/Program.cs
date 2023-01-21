@@ -3,7 +3,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
-using static System.Net.WebRequestMethods;
 
 const string appTitle = "EF Sqlite testing";
 const string appVersion = "v1";

@@ -12,7 +12,7 @@ namespace WinAppTaggedWorld.Controls
         {
             InitializeComponent();
             Dock = DockStyle.Top;
-            var typeTag = target.Type;
+            var typeTag = target.GetTypeTag();
             if (typeTag != null)
             {
                 if (typeTag == Tags.TypeFolder)

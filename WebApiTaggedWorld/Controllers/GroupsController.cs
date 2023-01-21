@@ -19,16 +19,14 @@ namespace WebApiTaggedWorld.Controllers
         /// <summary>ctor</summary>
         public GroupsController(DataContext db)
         {
-            this.db = db;
+            ControllerExtension.Db = this.db = db;
         }
 
         /// <summary>Dohvatanje grupa kojima pripada ulogovani korisnik.</summary>
         [HttpGet, Authorize]
         public async Task<ActionResult<List<GroupDto>>> GetMyGroups()
         {
-            if (HttpContext.User?.Identity is not ClaimsIdentity ident)
-                return Unauthorized("ClaimsIdentity not found.");
-            var groups = await db.Group.Where(it => it.Members.Select(it => it.UserId).Contains(ident.GetId()))
+            var groups = await db.Group.Where(it => it.Members.Select(it => it.UserId).Contains(this.GetUserId()))
                 .ToListAsync();
             var res = groups.Select(it => new GroupDto { GroupId = it.GroupId, Name = it.Name, StrTags = it.StrTags, Description = it.Description });
             return Ok(res);
@@ -56,13 +54,11 @@ namespace WebApiTaggedWorld.Controllers
                 db.Group.Add(group);
 
                 // dodavanje ulogovanog korisnika u clanove grupe kao administratora
-                if (HttpContext.User?.Identity is not ClaimsIdentity ident)
-                    return Unauthorized("ClaimsIdentity not found.");
                 var member = new Member
                 {
                     Group = group,
                     IsAdministrator = true,
-                    UserId = ident.GetId()
+                    UserId = this.GetUserId()
                 };
                 db.Member.Add(member);
                 await db.SaveChangesAsync();
@@ -86,9 +82,7 @@ namespace WebApiTaggedWorld.Controllers
                 var cntMembers = await db.Member.CountAsync(it => it.GroupId == g.GroupId);
                 if (cntMembers > 1)
                     return BadRequest("Group has to be empty except for the person (admin) that wants to delete it.");
-                if (HttpContext.User?.Identity is not ClaimsIdentity ident)
-                    return Unauthorized("ClaimsIdentity not found.");
-                var lastMember = await db.Member.FirstOrDefaultAsync(it => it.UserId == ident.GetId());
+                var lastMember = await db.Member.FirstOrDefaultAsync(it => it.UserId == this.GetUserId());
                 if (lastMember == null || !lastMember.IsAdministrator)
                     return BadRequest("You have to be an administrator of the group to be able to delete it.");
 
@@ -113,9 +107,7 @@ namespace WebApiTaggedWorld.Controllers
                     return BadRequest($"GroupId '{groupId}' doesn't exist.");
 
                 // provere: da li je ulogovani korisnik admin te grupe
-                if (HttpContext.User?.Identity is not ClaimsIdentity ident)
-                    return Unauthorized("ClaimsIdentity not found.");
-                var cnt = await db.Member.CountAsync(it => it.UserId == ident.GetId()
+                var cnt = await db.Member.CountAsync(it => it.UserId == this.GetUserId()
                     && it.GroupId == groupId && it.IsAdministrator);
                 if (cnt != 1)
                     return BadRequest("You have to be an administrator of the group to be able to update it.");

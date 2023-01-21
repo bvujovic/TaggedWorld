@@ -37,9 +37,7 @@ namespace WinAppTaggedWorld.Data
                 AddTarget(new Target
                 {
                     TargetId = dto.TargetId,
-                    Title = dto.Title,
                     Content = dto.Content,
-                    Type = dto.Type,
                     Tags = TaggedWorldLibrary.Utils.Tags.ParseTags(dto.StrTags).ToList(),
                 });
             // ucitavanje u kolekciju Tags
@@ -51,14 +49,26 @@ namespace WinAppTaggedWorld.Data
                     tags.Add(tag);
         }
 
-        public bool AddTarget(Target target)
+        /// <summary>Da li ima targeta sa istim sadrzajem tj. adresom.</summary>
+        /// <remarks>Za predvidjeni tip doc/document ne treba raditi pretragu po sadrzaju (content/address).</remarks>
+        public bool ContainsTargetWSameContent(Target t)
+            => targets.Any(it => it.Content == t.Content);
+
+        /// <summary>Da li ima targeta sa istim sadrzajem tj. adresom.</summary>
+        /// <remarks>Za predvidjeni tip doc/document ne treba raditi pretragu po sadrzaju (content/address).</remarks>
+        public bool ContainsTargetWSameContent(string content)
+            => targets.Any(it => it.Content == content);
+
+        public void AddTarget(Target t)
         {
-            if (targets != null && !targets.Contains(target))
-            {
-                targets.Add(target);
-                return true;
-            }
-            return false;
+            targets.Add(t);
+            //B
+            //if (targets != null && !targets.Contains(target))
+            //{
+            //    targets.Add(target);
+            //    return true;
+            //}
+            //return false;
         }
 
         public void RemoveTarget(Target target)

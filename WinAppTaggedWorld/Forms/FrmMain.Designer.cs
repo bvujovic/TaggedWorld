@@ -32,7 +32,6 @@
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label1;
             this.pnlTop = new System.Windows.Forms.Panel();
-            this.lblTargetExists = new System.Windows.Forms.Label();
             this.tagListSuggest = new WinAppTaggedWorld.Controls.TagLabelList();
             this.btnTagListCopy = new System.Windows.Forms.Button();
             this.txtTargetAddress = new System.Windows.Forms.TextBox();
@@ -83,7 +82,6 @@
             // 
             // pnlTop
             // 
-            this.pnlTop.Controls.Add(this.lblTargetExists);
             this.pnlTop.Controls.Add(label2);
             this.pnlTop.Controls.Add(this.tagListSuggest);
             this.pnlTop.Controls.Add(this.btnTagListCopy);
@@ -101,17 +99,6 @@
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Size = new System.Drawing.Size(860, 279);
             this.pnlTop.TabIndex = 0;
-            // 
-            // lblTargetExists
-            // 
-            this.lblTargetExists.AutoSize = true;
-            this.lblTargetExists.ForeColor = System.Drawing.Color.Red;
-            this.lblTargetExists.Location = new System.Drawing.Point(124, 239);
-            this.lblTargetExists.Name = "lblTargetExists";
-            this.lblTargetExists.Size = new System.Drawing.Size(128, 17);
-            this.lblTargetExists.TabIndex = 27;
-            this.lblTargetExists.Text = "Target already exists";
-            this.lblTargetExists.Visible = false;
             // 
             // tagListSuggest
             // 
@@ -271,7 +258,6 @@
         #endregion
 
         private Panel pnlTop;
-        private Label lblTargetExists;
         private Controls.TagLabelList tagListSuggest;
         private Button btnTagListCopy;
         private TextBox txtTargetAddress;

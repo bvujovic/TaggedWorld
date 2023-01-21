@@ -10,10 +10,12 @@ using WebApiTaggedWorld.Data;
 
 namespace WebApiTaggedWorld.Migrations
 {
+    /// <summary></summary>
     [DbContext(typeof(DataContext))]
     [Migration("20221020193025_CreateInitial")]
     partial class CreateInitial
     {
+        /// <summary></summary>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

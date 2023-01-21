@@ -10,7 +10,9 @@ namespace WinAppTaggedWorld.Data
     /// </summary>
     public static class WebApi
     {
-        public static string Token { get; set; }
+        public static string? Token { get; set; }
+
+        public static bool IsUserLoggedIn => Token != null;
 
         /// <summary>Dohvata listu trazenih objekata od WebAPI-a.</summary>
         public async static Task<List<T>?> GetList<T>(ReqEnum reqEnum)
@@ -23,7 +25,7 @@ namespace WinAppTaggedWorld.Data
             => Newtonsoft.Json.JsonConvert.DeserializeObject<List<T>>(json);
 
         /// <summary>Dohvata trazeni objekat od WebAPI-a.</summary>
-        public async static Task<T?> GetObject<T>(ReqEnum reqEnum, string param = null)
+        public async static Task<T?> GetObject<T>(ReqEnum reqEnum, string? param = null)
         {
             var json = await GetJson(reqEnum, param);
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
@@ -47,7 +49,7 @@ namespace WinAppTaggedWorld.Data
 
         /// <summary>Dohvata (GET) JSON podatke od WebAPI-a.</summary>
         /// <see cref="https://stackoverflow.com/questions/14627399/setting-authorization-header-of-httpclient"/>
-        public static async Task<string> GetJson(ReqEnum reqEnum, string param = null)
+        public static async Task<string> GetJson(ReqEnum reqEnum, string? param = null)
         {
             return await GetJson(UrlForReq(reqEnum, param));
         }
@@ -58,7 +60,7 @@ namespace WinAppTaggedWorld.Data
 
         /// <summary>Salje DELETE zahtev WebAPI-u.</summary>
         public static async Task Delete(ReqEnum reqEnum, int id)
-            => await ReqForJson(HttpVerb.Post, reqEnum, "", id.ToString());
+            => await ReqForJson(HttpVerb.Delete, reqEnum, "", id.ToString());
 
         /// <summary>Salje zahtev (POST/PUT/DELETE) WebAPI-u.</summary>
         public static async Task<string> ReqForJson(HttpVerb verb, ReqEnum reqEnum, string body, string? param = null)
@@ -82,19 +84,19 @@ namespace WinAppTaggedWorld.Data
                 throw new Exception(str);
         }
 
-        /// <summary>Dohvata (POST) trazeni objekat od WebAPI-a.</summary>
-        public async static Task<T?> PostForObject<T>(ReqEnum reqEnum, string param = null)
-        {
-            var json = await PostForJson(reqEnum, param);
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
-        }
+        ///// <summary>Dohvata (POST) trazeni objekat od WebAPI-a.</summary>
+        //public async static Task<T?> PostForObject<T>(ReqEnum reqEnum, string body, string? param = null)
+        //{
+        //    var json = await PostForJson(reqEnum, body, param);
+        //    return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
+        //}
 
-        /// <summary>Dohvata (POST) listu trazenih objekata od WebAPI-a.</summary>
-        public async static Task<List<T>?> PostForList<T>(ReqEnum reqEnum, string body, string param = null)
-        {
-            var json = await PostForJson(reqEnum, body, param);
-            return DeserializeList<T>(json);
-        }
+        ///// <summary>Dohvata (POST) listu trazenih objekata od WebAPI-a.</summary>
+        //public async static Task<List<T>?> PostForList<T>(ReqEnum reqEnum, string body, string? param = null)
+        //{
+        //    var json = await PostForJson(reqEnum, body, param);
+        //    return DeserializeList<T>(json);
+        //}
 
         public enum HttpVerb
         {
@@ -112,13 +114,15 @@ namespace WinAppTaggedWorld.Data
             Users_update,
 
             Targets,
-            Targets_Update,
+            Targets_Id,
+
             Groups,
         }
 
         public static string UrlForReq(ReqEnum reqEnum, string? param = null)
         {
             var urlBase = "https://localhost:7299/api/";
+            //var urlBase = "https://webapidbtest.azurewebsites.net/api/";
             return reqEnum switch
             {
                 ReqEnum.Users_login => urlBase + "Users/login",
@@ -128,7 +132,7 @@ namespace WinAppTaggedWorld.Data
                 ReqEnum.Users_update => urlBase + "Users/update",
 
                 ReqEnum.Targets => urlBase + "Targets",
-                ReqEnum.Targets_Update => urlBase + "Targets?targetId=" + param,
+                ReqEnum.Targets_Id => urlBase + "Targets?targetId=" + param,
                 ReqEnum.Groups => urlBase + "Groups",
 
                 _ => throw new Exception("Nepostojeci reqEnum: " + reqEnum),

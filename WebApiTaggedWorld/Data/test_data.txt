@@ -1,13 +1,12 @@
 ﻿Groups:
 1	Porodica	(bojan admin, mali)
-2	RAF			(prof, bojan)
+2	RAF			(prof admin, bojan)
 
 Users:
-3	bojan	string
-4	mali	zec		Bane V		enab
-5	prof	nemanja
+bojan	string
+mali	zec		Bane V		enab
+prof	nemanja
 
 Targets:
-(bojan)	1	S
 
 Sharing:

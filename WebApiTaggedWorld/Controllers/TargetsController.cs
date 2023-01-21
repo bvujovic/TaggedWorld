@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using TaggedWorldLibrary.Model;
 using TaggedWorldLibrary.DTOs;
 using WebApiTaggedWorld.Classes;
@@ -19,7 +18,7 @@ namespace WebApiTaggedWorld.Controllers
         /// <summary>ctor</summary>
         public TargetsController(DataContext db)
         {
-            this.db = db;
+            ControllerExtension.Db = this.db = db;
         }
 
         /// <summary>Dohvatanje targeta koji pripadaju ulogovanom korisniku.</summary>
@@ -28,18 +27,14 @@ namespace WebApiTaggedWorld.Controllers
         {
             try
             {
-                if (HttpContext.User?.Identity is not ClaimsIdentity ident)
-                    return Unauthorized("ClaimsIdentity not found.");
-                var ownerId = ident.GetId();
-                var targets = await db.Targets.Where(it => it.UserOwnerId == ownerId)
+                var userId = this.GetUserId();
+                var targets = await db.Targets.Where(it => it.UserOwnerId == userId)
                     .Select(it => new TargetDto
                     {
                         TargetId = it.TargetId,
-                        Title = it.Title,
-                        Type = it.Type,
                         Content = it.Content,
                         StrTags = it.StrTags,
-                        OwnerId = ownerId,
+                        OwnerId = userId,
                         CreatedDate = it.CreatedDate,
                     }).ToListAsync();
                 return Ok(targets);
@@ -53,16 +48,11 @@ namespace WebApiTaggedWorld.Controllers
         {
             try
             {
-                if (HttpContext.User?.Identity is not ClaimsIdentity ident)
-                    return Unauthorized("ClaimsIdentity not found.");
-                var ownerId = ident.GetId();
-                var owner = await db.Users.FindAsync(ownerId);
                 //? provera: da li vec postoji target sa datim naslovom i contentom (za link/fajl/folder!)
-                var newTarget = Target.CreateTarget(target.Title, target.Type, target.Content
-                        , target.StrTags, DateTime.Now, owner);
+                var newTarget = Target.CreateTarget(target.Content, target.StrTags, DateTime.Now, await this.GetUser());
                 db.Targets.Add(newTarget);
                 await db.SaveChangesAsync();
-                return Ok();
+                return Ok(newTarget.TargetId);
             }
             catch (Exception ex) { return this.Bad(ex); }
         }
@@ -95,17 +85,10 @@ namespace WebApiTaggedWorld.Controllers
         {
             try
             {
-                if (HttpContext.User?.Identity is not ClaimsIdentity ident)
-                    return Unauthorized("ClaimsIdentity not found.");
-                var ownerId = ident.GetId();
-                //? var owner = await db.Users.FindAsync(ownerId);
-
                 var t = await db.Targets.FindAsync(targetId);
                 if (t == null)
                     return NotFound($"Target id:{targetId} not found.");
 
-                t.Title = target.Title;
-                t.Type = target.Type;
                 t.Content = target.Content;
                 t.StrTags = target.StrTags;
                 t.ModifiedDate = DateTime.Now;

@@ -37,25 +37,24 @@ namespace WinAppTaggedWorld.Data
         private static string TargetToDtoJson(Target t)
             => JsonConvert.SerializeObject(new TargetDtoBase
             {
-                Title = t.Title,
-                Type = t.Type,
                 Content = t.Content,
                 StrTags = TaggedWorldLibrary.Utils.Tags.JoinTags(t.Tags),
             });
 
         public static async Task CreateTarget(Target target)
         {
-            await WebApi.PostForJson(WebApi.ReqEnum.Targets, TargetToDtoJson(target));
+            var id = await WebApi.PostForJson(WebApi.ReqEnum.Targets, TargetToDtoJson(target));
+            target.TargetId = int.Parse(id);
         }
 
         public static async Task DeleteTarget(int targetId)
         {
-            await WebApi.Delete(WebApi.ReqEnum.Targets, targetId);
+            await WebApi.Delete(WebApi.ReqEnum.Targets_Id, targetId);
         }
 
         public static async Task UpdateTarget(Target target)
         {
-            await WebApi.ReqForJson(WebApi.HttpVerb.Put, WebApi.ReqEnum.Targets_Update
+            await WebApi.ReqForJson(WebApi.HttpVerb.Put, WebApi.ReqEnum.Targets_Id
                 , TargetToDtoJson(target), target.TargetId.ToString());
         }
 

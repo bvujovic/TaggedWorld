@@ -1,6 +1,8 @@
 using Microsoft.VisualBasic;
+using System.Windows.Forms;
 using TaggedWorldLibrary.DTOs;
 using TaggedWorldLibrary.Model;
+using TaggedWorldLibrary.Utils;
 using WinAppTaggedWorld.Classes;
 using WinAppTaggedWorld.Data;
 
@@ -14,9 +16,11 @@ namespace WinAppTaggedWorld.Forms
             data = LocalData.GetInstance();
         }
 
-        private bool isUserLoggedIn = false;
+        //B private bool isUserLoggedIn = false;
         private readonly LocalData data;
+        /// <summary>Target koji se upravo edituje. null - kada se vrsi pretraga ili dodavanje novog targeta.</summary>
         private Target? target = null;
+        /// <summary>Objekat koji filtrira i sortira targete.</summary>
         private Data.Selectors.TargetSelector targetSelector = default!;
 
         private async void FrmMain_Load(object sender, EventArgs e)
@@ -31,11 +35,11 @@ namespace WinAppTaggedWorld.Forms
             // ovaj kôd se izvrsava samo ako se korisnik uloguje
             try
             {
-                isUserLoggedIn = true;
+                //B isUserLoggedIn = true;
                 await data.GetTargets();
                 data.Groups = await WebApi.GetList<GroupDto>(WebApi.ReqEnum.Groups);
 
-                txtTag.AutoCompleteCustomSource.AddRange(TaggedWorldLibrary.Utils.Tags.TypeTags);
+                txtTag.AutoCompleteCustomSource.AddRange(Tags.TypeTags);
                 txtTag.AutoCompleteCustomSource.AddRange(data.Tags.ToArray());
                 targetSelector = new Data.Selectors.TargetSelector(data);
                 targetSelector.TagsChanged += TargetSelector_TagsChanged;
@@ -132,7 +136,7 @@ namespace WinAppTaggedWorld.Forms
         /// <summary>Dodavanje taga iz textBox-a u listu tagova.</summary>
         private void AddTagFromTxt()
         {
-            var tags = TaggedWorldLibrary.Utils.Tags.ParseTags(txtTag.Text);
+            var tags = Tags.ParseTags(txtTag.Text);
             foreach (var tag in tags)
                 AddToTags(tag);
             txtTag.Clear();
@@ -168,11 +172,11 @@ namespace WinAppTaggedWorld.Forms
             }
             // tag je spec/tip, a lista vec sadrzi spec/tip
             var currentTypeTag = tagListMain.GetTypeTag();
-            if (TaggedWorldLibrary.Utils.Tags.IsTypeTag(tag) && currentTypeTag != null)
+            if (Tags.IsTypeTag(tag) && currentTypeTag != null)
             {
                 if (Utils.MboxYesNo($"Do you want to change type to '{tag}'?") == DialogResult.Yes)
                 {
-                    foreach (var typeTag in TaggedWorldLibrary.Utils.Tags.TypeTags)
+                    foreach (var typeTag in Tags.TypeTags)
                         if (typeTag != tag)
                             tagListMain.RemoveTag(typeTag);
                 }
@@ -208,19 +212,18 @@ namespace WinAppTaggedWorld.Forms
             if (typeTag == null)
             {
                 if (Utils.IsItLink(clipboard))
-                    AddToTags(typeTag = TaggedWorldLibrary.Utils.Tags.TypeLink);
+                    AddToTags(typeTag = Tags.TypeLink);
                 if (File.Exists(clipboard))
-                    AddToTags(typeTag = TaggedWorldLibrary.Utils.Tags.TypeFile);
+                    AddToTags(typeTag = Tags.TypeFile);
                 if (Directory.Exists(clipboard))
-                    AddToTags(typeTag = TaggedWorldLibrary.Utils.Tags.TypeFolder);
+                    AddToTags(typeTag = Tags.TypeFolder);
                 if (typeTag != null)
                     txtTargetAddress.Text = clipboard;
             }
-
             if (typeTag != null)
                 BrowseTarget();
             else
-                Utils.Mbox($"Type tag ({TaggedWorldLibrary.Utils.Tags.TypeTagsStr}) is not set yet.");
+                Utils.Mbox($"Type tag ({Tags.TypeTagsStr}) is not set yet.");
         }
 
         /// <summary>Pokretanje dijaloga za odabir fajla/foldera ili paste clipboard-a za link.</summary>
@@ -229,21 +232,21 @@ namespace WinAppTaggedWorld.Forms
             try
             {
                 var clipboard = Clipboard.GetText();
-                if (tagListMain.Exists(TaggedWorldLibrary.Utils.Tags.TypeLink))
+                if (tagListMain.Exists(Tags.TypeLink))
                 {
                     if (Utils.IsItLink(clipboard))
                         txtTargetAddress.Text = clipboard;
                     else
                         Utils.GoToLink("");
                 }
-                else if (tagListMain.Exists(TaggedWorldLibrary.Utils.Tags.TypeFile))
+                else if (tagListMain.Exists(Tags.TypeFile))
                 {
                     if (File.Exists(clipboard))
                         txtTargetAddress.Text = clipboard;
                     else if (fileBrowse.ShowDialog() == DialogResult.OK)
                         txtTargetAddress.Text = fileBrowse.FileName;
                 }
-                else if (tagListMain.Exists(TaggedWorldLibrary.Utils.Tags.TypeFolder))
+                else if (tagListMain.Exists(Tags.TypeFolder))
                 {
                     if (folderBrowse.ShowDialog() == DialogResult.OK)
                         txtTargetAddress.Text = folderBrowse.SelectedPath;
@@ -258,27 +261,37 @@ namespace WinAppTaggedWorld.Forms
         }
 
         private void TxtTargetAddress_TextChanged(object sender, EventArgs e)
-            => lblTargetExists.Visible = targetList.Exists(txtTargetAddress.Text);
+        {
+            var address = txtTargetAddress.Text;
+            if (Utils.IsItLink(address) && tagListMain.GetTypeTag() != Tags.TypeLink)
+                AddToTags(Tags.TypeLink);
+            else if (File.Exists(address) && tagListMain.GetTypeTag() != Tags.TypeFile)
+                AddToTags(Tags.TypeFile);
+            else if (Directory.Exists(address) && tagListMain.GetTypeTag() != Tags.TypeFolder)
+                AddToTags(Tags.TypeFolder);
+        }
 
         private async void BtnSaveTarget_Click(object sender, EventArgs e)
         {
             try
             {
+                var tags = tagListMain.Tags.ToList();
+                var typeTag = Tags.GetTypeTag(tags);
+                if (typeTag == null)
+                    throw new Exception("Tags must contain one type tag: " + Tags.TypeTagsStr);
                 // dodavanje novog targeta
                 if (target == null)
                 {
-                    var tags = tagListMain.Tags.ToList();
-                    var typeTag = TaggedWorldLibrary.Utils.Tags.GetTypeTag(tags);
-                    if (typeTag == null)
-                        throw new Exception("Tags must contain one type tag: " + TaggedWorldLibrary.Utils.Tags.TypeTagsStr);
+                    if (data.ContainsTargetWSameContent(txtTargetAddress.Text) &&
+                        Utils.MboxYesNo("Target with the same address already exists. Are you sure that you want to add another one?"
+                        , "Save Target") == DialogResult.No)
+                        return;
                     var t = new Target
                     {
-                        Title = "?",
-                        Type = typeTag,
                         Content = txtTargetAddress.Text,
                         Tags = tags
                     };
-                    var res = data.AddTarget(t);
+                    data.AddTarget(t);
                     await DataGetter.CreateTarget(t);
                 }
                 // editovanje targeta
@@ -293,6 +306,7 @@ namespace WinAppTaggedWorld.Forms
                 }
                 targetSelector.SetTags(tagListMain.Tags);
                 txtTargetAddress.Clear();
+                tagListMain.Clear();
             }
             catch (Exception ex) { Utils.Mbox(ex); }
         }
@@ -301,7 +315,7 @@ namespace WinAppTaggedWorld.Forms
         {
             try
             {
-                if (isUserLoggedIn)
+                if (WebApi.IsUserLoggedIn)
                     await DataGetter.UserLogoutAsync();
             }
             catch (Exception) { }

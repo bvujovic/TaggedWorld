@@ -5,14 +5,27 @@ using TaggedWorldLibrary.Model;
 
 namespace WebApiTaggedWorld.Data
 {
+    /// <summary>
+    /// Model podataka koji se trajno cuvaju u bazi.
+    /// </summary>
     public class DataContext : DbContext
     {
+        /// <summary>Korisnik.</summary>
         public DbSet<User> Users { get; set; } = default!;
+
+        /// <summary>Clanstvo korisnika u grupi.</summary>
         public DbSet<Member> Member { get; set; } = default!;
+
+        /// <summary>Grupa korisnika.</summary>
         public DbSet<Group> Group { get; set; } = default!;
+        
+        /// <summary>Deljenje: korisnik deli target sa grupom.</summary>
         public DbSet<Sharing> Sharing { get; set; } = default!;
+        
+        /// <summary>Target/Resource/Item - objekat (fajl/folder/link) koji se taguje.</summary>
         public DbSet<Target> Targets { get; set; } = default!;
 
+        /// <summary></summary>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //base.OnConfiguring(optionsBuilder);
@@ -24,6 +37,7 @@ namespace WebApiTaggedWorld.Data
             // Update-Database
         }
 
+        /// <summary></summary>
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
