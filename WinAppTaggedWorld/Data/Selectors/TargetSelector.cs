@@ -21,11 +21,13 @@ namespace WinAppTaggedWorld.Data.Selectors
         /// <summary>Na osnovu datih tagova, dobija se uredjena lista target-a.</summary>
         public void SetTags(IEnumerable<string> tags)
         {
+            Targets = data.Targets;
             if (tags == null)
                 return;
-            if (!tags.Any())
+            if (!tags.Any() || !Targets.Any())
             {
-                TagsChanged?.Invoke(this, data.Targets);
+                Targets = data.Targets;
+                TagsChanged?.Invoke(this, EventArgs.Empty);
                 return;
             }
             foreach (var target in data.Targets)
@@ -37,12 +39,14 @@ namespace WinAppTaggedWorld.Data.Selectors
             //    data.AllTargets.Where(it => it.TagPoints > 0).OrderBy(it => it.TagPoints);
 
             var maxPoints = data.Targets.Max(it => it.TagPoints);
-            var res = data.Targets.Where(it => it.TagPoints == maxPoints).OrderBy(it => it.TagPoints);
+            Targets = data.Targets.Where(it => it.TagPoints == maxPoints).OrderBy(it => it.TagPoints);
 
-            TagsChanged?.Invoke(this, res);
+            TagsChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        public IEnumerable<Target> Targets { get; set; } = Enumerable.Empty<Target>();
+
         /// <summary>Lista target-a je uredjena po nekim kriterijumima i moze se prikazati.</summary>
-        public event EventHandler<IEnumerable<Target>> TagsChanged = default!;
+        public event EventHandler TagsChanged = default!;
     }
 }

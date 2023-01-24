@@ -1,4 +1,3 @@
-using Microsoft.VisualBasic;
 using System.Windows.Forms;
 using TaggedWorldLibrary.DTOs;
 using TaggedWorldLibrary.Model;
@@ -16,7 +15,6 @@ namespace WinAppTaggedWorld.Forms
             data = LocalData.GetInstance();
         }
 
-        //B private bool isUserLoggedIn = false;
         private readonly LocalData data;
         /// <summary>Target koji se upravo edituje. null - kada se vrsi pretraga ili dodavanje novog targeta.</summary>
         private Target? target = null;
@@ -35,12 +33,10 @@ namespace WinAppTaggedWorld.Forms
             // ovaj kôd se izvrsava samo ako se korisnik uloguje
             try
             {
-                //B isUserLoggedIn = true;
                 await data.GetTargets();
+                data.User = await WebApi.GetObject<UserDto>(WebApi.ReqEnum.Users_userDto);
                 data.Groups = await WebApi.GetList<GroupDto>(WebApi.ReqEnum.Groups);
-
-                txtTag.AutoCompleteCustomSource.AddRange(Tags.TypeTags);
-                txtTag.AutoCompleteCustomSource.AddRange(data.Tags.ToArray());
+                SetTxtTagAutoComplete();
                 targetSelector = new Data.Selectors.TargetSelector(data);
                 targetSelector.TagsChanged += TargetSelector_TagsChanged;
                 tagListMain.ListChanged += TagList_ListChanged;
@@ -73,12 +69,14 @@ namespace WinAppTaggedWorld.Forms
                 if (sender is Controls.TargetCtrl ctrl)
                 {
                     target = ctrl.Target;
+                    targetList.SuspendDisplay();
                     txtTargetAddress.Text = target.Content;
-                    targetList.SuspendLayout();
                     tagListMain.Clear();
+                    suspendSuggestTags = true;
                     foreach (var tag in target.Tags)
                         tagListMain.AddTag(tag);
-                    targetList.ResumeLayout();
+                    suspendSuggestTags = false;
+                    targetList.ResumeDisplay(targetSelector.Targets);
                     targetList.SelectedTarget = target;
                     btnSaveTarget.Text = "Save Target";
                 }
@@ -110,10 +108,10 @@ namespace WinAppTaggedWorld.Forms
             SuggestTags();
         }
 
-        private void TargetSelector_TagsChanged(object? sender, IEnumerable<Target> targets)
+        private void TargetSelector_TagsChanged(object? sender, EventArgs e)
         {
-            targetList.Display(targets);
-            lblTargetResults.Text = $"Results ({targets.Count()})";
+            targetList.Display(targetSelector.Targets);
+            lblTargetResults.Text = $"Results ({targetSelector.Targets?.Count()})";
         }
 
         private void TxtTag_KeyDown(object sender, KeyEventArgs e)
@@ -137,8 +135,10 @@ namespace WinAppTaggedWorld.Forms
         private void AddTagFromTxt()
         {
             var tags = Tags.ParseTags(txtTag.Text);
+            targetList.SuspendDisplay();
             foreach (var tag in tags)
                 AddToTags(tag);
+            targetList.ResumeDisplay(targetSelector.Targets);
             txtTag.Clear();
         }
 
@@ -190,9 +190,14 @@ namespace WinAppTaggedWorld.Forms
             return true;
         }
 
+        private bool suspendSuggestTags = false;
+
         private void SuggestTags()
         {
             //TODO dobro bi bilo da postoji mehanizam za suspendovanje sugestija (kada se dodaje vise tagova odjednom)
+            if (suspendSuggestTags)
+                return;
+            System.Diagnostics.Debug.WriteLine("SuggestTags");
             var ts = new TagSuggester(data);
             var suggestions = ts.Suggest(tagListMain.Tags);
             tagListSuggest.Clear();
@@ -303,12 +308,19 @@ namespace WinAppTaggedWorld.Forms
                     var ctrl = targetList.GetSelectedCtrl();
                     ctrl?.RefreshDisplay();
                     target = null;
+                    data.RefreshTags();
                 }
-                targetSelector.SetTags(tagListMain.Tags);
                 txtTargetAddress.Clear();
                 tagListMain.Clear();
+                SetTxtTagAutoComplete();
             }
             catch (Exception ex) { Utils.Mbox(ex); }
+        }
+
+        private void SetTxtTagAutoComplete()
+        {
+            txtTag.AutoCompleteCustomSource.Clear();
+            txtTag.AutoCompleteCustomSource.AddRange(data.Tags.ToArray());
         }
 
         private async void FrmMain_FormClosing(object sender, FormClosingEventArgs e)

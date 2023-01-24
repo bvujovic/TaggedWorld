@@ -46,11 +46,15 @@
             this.lblTargetResults = new System.Windows.Forms.Label();
             this.fileBrowse = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowse = new System.Windows.Forms.FolderBrowserDialog();
+            this.scMain = new System.Windows.Forms.SplitContainer();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             this.pnlMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
+            this.scMain.Panel2.SuspendLayout();
+            this.scMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -97,7 +101,7 @@
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(860, 279);
+            this.pnlTop.Size = new System.Drawing.Size(887, 279);
             this.pnlTop.TabIndex = 0;
             // 
             // tagListSuggest
@@ -108,13 +112,13 @@
             this.tagListSuggest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tagListSuggest.Location = new System.Drawing.Point(12, 135);
             this.tagListSuggest.Name = "tagListSuggest";
-            this.tagListSuggest.Size = new System.Drawing.Size(772, 51);
+            this.tagListSuggest.Size = new System.Drawing.Size(799, 51);
             this.tagListSuggest.TabIndex = 19;
             // 
             // btnTagListCopy
             // 
             this.btnTagListCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTagListCopy.Location = new System.Drawing.Point(784, 28);
+            this.btnTagListCopy.Location = new System.Drawing.Point(811, 28);
             this.btnTagListCopy.Name = "btnTagListCopy";
             this.btnTagListCopy.Size = new System.Drawing.Size(47, 27);
             this.btnTagListCopy.TabIndex = 25;
@@ -128,14 +132,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTargetAddress.Location = new System.Drawing.Point(13, 209);
             this.txtTargetAddress.Name = "txtTargetAddress";
-            this.txtTargetAddress.Size = new System.Drawing.Size(771, 25);
+            this.txtTargetAddress.Size = new System.Drawing.Size(798, 25);
             this.txtTargetAddress.TabIndex = 21;
             this.txtTargetAddress.TextChanged += new System.EventHandler(this.TxtTargetAddress_TextChanged);
             // 
             // btnTargetBrowse
             // 
             this.btnTargetBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTargetBrowse.Location = new System.Drawing.Point(784, 208);
+            this.btnTargetBrowse.Location = new System.Drawing.Point(811, 208);
             this.btnTargetBrowse.Name = "btnTargetBrowse";
             this.btnTargetBrowse.Size = new System.Drawing.Size(47, 27);
             this.btnTargetBrowse.TabIndex = 23;
@@ -151,7 +155,7 @@
             this.txtTag.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.txtTag.Location = new System.Drawing.Point(12, 81);
             this.txtTag.Name = "txtTag";
-            this.txtTag.Size = new System.Drawing.Size(772, 25);
+            this.txtTag.Size = new System.Drawing.Size(799, 25);
             this.txtTag.TabIndex = 16;
             this.txtTag.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtTag_KeyDown);
             // 
@@ -168,7 +172,7 @@
             // btnTagListClear
             // 
             this.btnTagListClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTagListClear.Location = new System.Drawing.Point(784, 54);
+            this.btnTagListClear.Location = new System.Drawing.Point(811, 54);
             this.btnTagListClear.Name = "btnTagListClear";
             this.btnTagListClear.Size = new System.Drawing.Size(47, 27);
             this.btnTagListClear.TabIndex = 24;
@@ -184,13 +188,13 @@
             this.tagListMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tagListMain.Location = new System.Drawing.Point(12, 29);
             this.tagListMain.Name = "tagListMain";
-            this.tagListMain.Size = new System.Drawing.Size(772, 51);
+            this.tagListMain.Size = new System.Drawing.Size(799, 51);
             this.tagListMain.TabIndex = 18;
             // 
             // btnSearchAddTag
             // 
             this.btnSearchAddTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearchAddTag.Location = new System.Drawing.Point(784, 80);
+            this.btnSearchAddTag.Location = new System.Drawing.Point(811, 80);
             this.btnSearchAddTag.Name = "btnSearchAddTag";
             this.btnSearchAddTag.Size = new System.Drawing.Size(47, 27);
             this.btnSearchAddTag.TabIndex = 20;
@@ -205,7 +209,7 @@
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(0, 279);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(860, 327);
+            this.pnlMain.Size = new System.Drawing.Size(887, 327);
             this.pnlMain.TabIndex = 1;
             // 
             // targetList
@@ -218,7 +222,7 @@
             this.targetList.Location = new System.Drawing.Point(12, 23);
             this.targetList.Name = "targetList";
             this.targetList.SelectedTarget = null;
-            this.targetList.Size = new System.Drawing.Size(836, 292);
+            this.targetList.Size = new System.Drawing.Size(863, 292);
             this.targetList.TabIndex = 3;
             // 
             // lblTargetResults
@@ -234,13 +238,27 @@
             // 
             this.folderBrowse.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
+            // scMain
+            // 
+            this.scMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.scMain.Location = new System.Drawing.Point(0, 0);
+            this.scMain.Name = "scMain";
+            // 
+            // scMain.Panel2
+            // 
+            this.scMain.Panel2.Controls.Add(this.pnlMain);
+            this.scMain.Panel2.Controls.Add(this.pnlTop);
+            this.scMain.Size = new System.Drawing.Size(1094, 606);
+            this.scMain.SplitterDistance = 203;
+            this.scMain.TabIndex = 2;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(860, 606);
-            this.Controls.Add(this.pnlMain);
-            this.Controls.Add(this.pnlTop);
+            this.ClientSize = new System.Drawing.Size(1094, 606);
+            this.Controls.Add(this.scMain);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -251,6 +269,9 @@
             this.pnlTop.PerformLayout();
             this.pnlMain.ResumeLayout(false);
             this.pnlMain.PerformLayout();
+            this.scMain.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.scMain)).EndInit();
+            this.scMain.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -272,5 +293,6 @@
         private Controls.TargetCtrlList targetList;
         private OpenFileDialog fileBrowse;
         private FolderBrowserDialog folderBrowse;
+        private SplitContainer scMain;
     }
 }

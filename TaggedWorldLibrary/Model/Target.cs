@@ -99,9 +99,10 @@ namespace TaggedWorldLibrary.Model
             Tags = tags;
         }
 
-        public Target(params string[] tags)
+        public Target(string content, params string[] tags)
         {
             //Title = title;
+            Content = content;
             Tags = new List<string>();
             foreach (var tag in tags)
                 AddTag(tag);

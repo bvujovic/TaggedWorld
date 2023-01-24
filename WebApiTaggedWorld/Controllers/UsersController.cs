@@ -26,15 +26,16 @@ namespace WebApiTaggedWorld.Controllers
             ControllerExtension.Db = this.db = db;
         }
 
-        /// <summary>Vraća sve korisnike. Dostupno samo ulogovanim korisnicima.</summary>
-        [HttpGet, Authorize]
-        public async Task<ActionResult<List<User>>> GetAll()
-        {
-            var users = await db.Users
-                //.Include(it => it.OwnedTargets)
-                .Include(it => it.MemberOf).ThenInclude(it => it.Group).ToListAsync();
-            return Ok(users);
-        }
+        //B
+        ///// <summary>Vraća sve korisnike. Dostupno samo ulogovanim korisnicima.</summary>
+        //[HttpGet, Authorize]
+        //public async Task<ActionResult<List<User>>> GetAll()
+        //{
+        //    var users = await db.Users
+        //        //.Include(it => it.OwnedTargets)
+        //        .Include(it => it.MemberOf).ThenInclude(it => it.Group).ToListAsync();
+        //    return Ok(users);
+        //}
 
         /// <summary>Registracija: kreiranje novog korisnika.</summary>
         [HttpPost("register")]
@@ -82,6 +83,21 @@ namespace WebApiTaggedWorld.Controllers
             SetRefreshToken(user, refToken);
             var jwt = CreateJWT(user);
             return Ok(jwt);
+        }
+
+        /// <summary>Dohvatanje osnovnih podataka o ulogovanom korisniku.</summary>
+        [HttpGet("userDto"), Authorize]
+        public async Task<ActionResult<UserDto>> UserDto()
+        {
+            var user = await this.GetUser();
+            var dto = new UserDto
+            {
+                UserId = 0,
+                Username = user.Username,
+                Email = user.Email,
+                FullName = user.FullName,
+            };
+            return Ok(dto);
         }
 
         private void SetRefreshToken(User user, RefreshToken refToken)
@@ -171,19 +187,17 @@ namespace WebApiTaggedWorld.Controllers
         }
 
         /// <summary>Izmena podataka o korisniku.</summary>
-        [HttpPut("update")]
-        public IActionResult UpdateUser(User user)
+        [HttpPut("update"), Authorize]
+        public async Task<IActionResult> UpdateUser(UserDto user)
         {
             try
             {
-                var u = db.Users.Find(user.UserId);
-                if (u == null)
-                    return BadRequest($"No user with Id: {user.UserId}.");
-                u.Username = user.Username;
-                // u.Password = user.Password;
+                var u = await this.GetUser();
+                //u.Username = user.Username;
+                //u.Email = user.Email;
+                //* za sada moze da se izmeni samo FullName, dok Username i Email prave problem jer su UNIQUE
                 u.FullName = user.FullName;
-                u.Email = user.Email;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return Ok();
             }
             catch (Exception ex) { return this.Bad(ex); }

@@ -18,6 +18,9 @@ namespace WinAppTaggedWorld.Data
         /// <summary>Grupe kojima korisnik pripada.</summary>
         public IEnumerable<GroupDto>? Groups { get; set; } = null;
 
+        /// <summary>Osnovni podaci o ulogovanom korisniku.</summary>
+        public UserDto? User { get; set; } = null;
+
         private static readonly LocalData localData = new();
 
         private LocalData() { }
@@ -27,6 +30,7 @@ namespace WinAppTaggedWorld.Data
             return localData;
         }
 
+        /// <summary>Dohvatanje svih korisnikovih targeta.</summary>
         public async Task GetTargets()
         {
             var dtos = await WebApi.GetList<TargetDto>(WebApi.ReqEnum.Targets);
@@ -40,13 +44,6 @@ namespace WinAppTaggedWorld.Data
                     Content = dto.Content,
                     Tags = TaggedWorldLibrary.Utils.Tags.ParseTags(dto.StrTags).ToList(),
                 });
-            // ucitavanje u kolekciju Tags
-            tags.Clear();
-            foreach (var t in TaggedWorldLibrary.Utils.Tags.TypeTags)
-                tags.Add(t);
-            foreach (var t in targets)
-                foreach (var tag in t.Tags)
-                    tags.Add(tag);
         }
 
         /// <summary>Da li ima targeta sa istim sadrzajem tj. adresom.</summary>
@@ -62,18 +59,25 @@ namespace WinAppTaggedWorld.Data
         public void AddTarget(Target t)
         {
             targets.Add(t);
-            //B
-            //if (targets != null && !targets.Contains(target))
-            //{
-            //    targets.Add(target);
-            //    return true;
-            //}
-            //return false;
+            foreach (var tag in t.Tags)
+                tags.Add(tag);
         }
 
-        public void RemoveTarget(Target target)
+        public void RemoveTarget(Target t)
         {
-            targets.Remove(target);
+            targets.Remove(t);
+            RefreshTags();
+        }
+
+        /// <summary>Osvezavanje liste tags na osnovu tagova iz svih targeta.</summary>
+        public void RefreshTags()
+        {
+            tags.Clear();
+            foreach (var t in TaggedWorldLibrary.Utils.Tags.TypeTags)
+                tags.Add(t);
+            foreach (var t in targets)
+                foreach (var tag in t.Tags)
+                    tags.Add(tag);
         }
     }
 }

@@ -31,12 +31,12 @@ namespace WinAppTaggedWorld.Data
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
         }
 
-        /// <summary>Dohvata trazeni objekat od WebAPI-a.</summary>
-        public async static Task<T?> GetObject<T>(string url)
-        {
-            var json = await GetJson(url);
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
-        }
+        ///// <summary>Dohvata trazeni objekat od WebAPI-a.</summary>
+        //public async static Task<T?> GetObject<T>(string url)
+        //{
+        //    var json = await GetJson(url);
+        //    return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
+        //}
 
         /// <summary>Dohvata (GET) JSON podatke od WebAPI-a.</summary>
         /// <see cref="https://stackoverflow.com/questions/14627399/setting-authorization-header-of-httpclient"/>
@@ -108,6 +108,7 @@ namespace WinAppTaggedWorld.Data
         public enum ReqEnum
         {
             Users_login,
+            Users_userDto,
             Users_logout,
             Users_register,
             Users_getJWT,
@@ -126,6 +127,7 @@ namespace WinAppTaggedWorld.Data
             return reqEnum switch
             {
                 ReqEnum.Users_login => urlBase + "Users/login",
+                ReqEnum.Users_userDto => urlBase + "Users/userDto",
                 ReqEnum.Users_logout => urlBase + "Users/logout",
                 ReqEnum.Users_register => urlBase + "Users/register",
                 ReqEnum.Users_getJWT => urlBase + "Users/getJWT",

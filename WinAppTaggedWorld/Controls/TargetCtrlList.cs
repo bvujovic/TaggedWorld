@@ -22,10 +22,22 @@ namespace WinAppTaggedWorld.Controls
         public void RemoveTargetCtrl(TargetCtrl targetCtrl)
             => Controls.Remove(targetCtrl);
 
-        public void Display(IEnumerable<Target> targets)
+        private bool isDisplaySuspended = false;
+
+        public void SuspendDisplay() => isDisplaySuspended = true;
+        public void ResumeDisplay(IEnumerable<Target>? targets)
+        {
+            isDisplaySuspended = false;
+            Display(targets);
+        }
+
+        public void Display(IEnumerable<Target>? targets)
         {
             try
             {
+                if (isDisplaySuspended || targets == null)
+                    return;
+                System.Diagnostics.Debug.WriteLine("Display " + targets.Count());
                 Controls.Clear();
                 foreach (var target in targets)
                 {
@@ -35,7 +47,6 @@ namespace WinAppTaggedWorld.Controls
                     t.Selected += TargetCtrl_Selected;
                     Controls.Add(t);
                 }
-
                 // ponovno obelezavanje prethodno selektovanog targeta
                 SelectedTarget = selectedTarget;
             }

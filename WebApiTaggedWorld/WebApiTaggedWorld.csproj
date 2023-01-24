@@ -33,7 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Data\tw.db" />
+    <Resource Include="Data\tw.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

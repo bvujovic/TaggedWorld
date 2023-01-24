@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<WebApiTaggedWorld.Data.DataContext>();
 
-/// https://stackoverflow.com/questions/65261654/how-do-you-implement-system-text-json-serialization-referencehandler-preserve-in
+// https://stackoverflow.com/questions/65261654/how-do-you-implement-system-text-json-serialization-referencehandler-preserve-in
 builder.Services.AddMvc().AddJsonOptions(o =>
 {
     o.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
