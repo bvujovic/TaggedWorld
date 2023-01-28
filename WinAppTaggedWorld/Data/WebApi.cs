@@ -116,6 +116,7 @@ namespace WinAppTaggedWorld.Data
 
             Targets,
             Targets_Id,
+            TargetsShared,
 
             Groups,
         }

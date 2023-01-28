@@ -57,7 +57,7 @@ namespace TaggedWorldLibrary.Model
         public static Target InitTarget(User creator)
             => CreateTarget(
                 "https://github.com/bvujovic/TaggedWorld"
-                , "raf, tagged-world, project, c#, web-api"
+                , "folder, RAF, Tagged World, project, C#, Web API, Visual Studio"
                 , new DateTime(2022, 06, 01)
                 , creator);
 
@@ -76,13 +76,10 @@ namespace TaggedWorldLibrary.Model
             };
         }
 
-        //-------------------
-
         public override bool Equals(object? obj)
         {
             if (obj is not Target that) return false;
             if (ReferenceEquals(this, that)) return true;
-            //return this.Content.Equals(that.Content);
             return this.TargetId == that.TargetId;
         }
 
@@ -101,7 +98,6 @@ namespace TaggedWorldLibrary.Model
 
         public Target(string content, params string[] tags)
         {
-            //Title = title;
             Content = content;
             Tags = new List<string>();
             foreach (var tag in tags)
@@ -134,12 +130,11 @@ namespace TaggedWorldLibrary.Model
 
             if (Utils.Tags.IsTypeTag(tag))
                 Tags.Insert(0, tag);
-                //B Type = tag;
             else
                 Tags.Add(tag);
         }
 
-        /// <summary>Vraca tip tag ili null ako ga nema u listi.</summary>
+        /// <summary>Vraca tip tag ili null ako ga nema u prosledjenoj listi tags.</summary>
         public static string? GetTypeTag(List<string> tags)
         {
             foreach (var tag in tags)

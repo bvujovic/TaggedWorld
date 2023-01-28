@@ -35,7 +35,15 @@ namespace WinAppTaggedWorld.Forms
             {
                 await data.GetTargets();
                 data.User = await WebApi.GetObject<UserDto>(WebApi.ReqEnum.Users_userDto);
+                if (data.User != null)
+                {
+                    txtUserFullname.Text = data.User.FullName;
+                    txtUserUsername.Text = data.User.Username;
+                    txtUserEmail.Text = data.User.Email;
+                }
                 data.Groups = await WebApi.GetList<GroupDto>(WebApi.ReqEnum.Groups);
+                groupList.Display(data.Groups);
+                gbGroups.Text = groupList.ToString();
                 SetTxtTagAutoComplete();
                 targetSelector = new Data.Selectors.TargetSelector(data);
                 targetSelector.TagsChanged += TargetSelector_TagsChanged;
@@ -331,6 +339,13 @@ namespace WinAppTaggedWorld.Forms
                     await DataGetter.UserLogoutAsync();
             }
             catch (Exception) { }
+        }
+
+        private async void GroupList_SelectionChanged(object sender, EventArgs e)
+        {
+            //...
+
+            await DataGetter.GetTargetsAsync();
         }
     }
 }

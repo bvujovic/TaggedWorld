@@ -31,7 +31,9 @@ namespace WebApiTaggedWorld.Controllers
             var g = await db.Group.FindAsync(groupId);
             if (g == null)
                 return NotFound($"Group id:{groupId} not found.");
-            var targetIDs = await db.Sharing.Where(it => it.GroupId == groupId).Select(it => it.TargetId).ToListAsync();
+            var userId = this.GetUserId();
+            var targetIDs = await db.Sharing.Where(it => it.GroupId == groupId && it.UserId != userId)
+                .Select(it => it.TargetId).ToListAsync();
             var targets = await db.Targets.Where(it => targetIDs.Contains(it.TargetId))
                 .Select(it => new TargetDto
                 {
@@ -41,6 +43,12 @@ namespace WebApiTaggedWorld.Controllers
                     CreatedDate = it.CreatedDate,
                     OwnerId = it.UserOwnerId,
                 }).ToListAsync();
+
+            //B
+            //var res = await db.Targets.Include(t => t.Sharings.Where(s => s.GroupId== groupId)).ToListAsync();
+            //var r2 = await db.Sharing.Where(sh => sh.GroupId == groupId)
+            //    .Join(db.Targets, sh => sh.TargetId, t => t.TargetId, (sh, t) => t.Content).ToListAsync();
+
             return Ok(targets);
         }
 

@@ -26,17 +26,6 @@ namespace WebApiTaggedWorld.Controllers
             ControllerExtension.Db = this.db = db;
         }
 
-        //B
-        ///// <summary>Vraća sve korisnike. Dostupno samo ulogovanim korisnicima.</summary>
-        //[HttpGet, Authorize]
-        //public async Task<ActionResult<List<User>>> GetAll()
-        //{
-        //    var users = await db.Users
-        //        //.Include(it => it.OwnedTargets)
-        //        .Include(it => it.MemberOf).ThenInclude(it => it.Group).ToListAsync();
-        //    return Ok(users);
-        //}
-
         /// <summary>Registracija: kreiranje novog korisnika.</summary>
         [HttpPost("register")]
         public IActionResult CreateUser(UserRegistrationReq userReq)

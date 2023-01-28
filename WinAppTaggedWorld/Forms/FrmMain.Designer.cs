@@ -31,6 +31,9 @@
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label1;
+            System.Windows.Forms.Label lblUserFullname;
+            System.Windows.Forms.Label lblUserEmail;
+            System.Windows.Forms.Label lblUserUsername;
             this.pnlTop = new System.Windows.Forms.Panel();
             this.tagListSuggest = new WinAppTaggedWorld.Controls.TagLabelList();
             this.btnTagListCopy = new System.Windows.Forms.Button();
@@ -47,14 +50,26 @@
             this.fileBrowse = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowse = new System.Windows.Forms.FolderBrowserDialog();
             this.scMain = new System.Windows.Forms.SplitContainer();
+            this.gbGroups = new System.Windows.Forms.GroupBox();
+            this.groupList = new WinAppTaggedWorld.Controls.GroupList();
+            this.gbUserData = new System.Windows.Forms.GroupBox();
+            this.txtUserEmail = new System.Windows.Forms.TextBox();
+            this.txtUserUsername = new System.Windows.Forms.TextBox();
+            this.txtUserFullname = new System.Windows.Forms.TextBox();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
+            lblUserFullname = new System.Windows.Forms.Label();
+            lblUserEmail = new System.Windows.Forms.Label();
+            lblUserUsername = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             this.pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
+            this.scMain.Panel1.SuspendLayout();
             this.scMain.Panel2.SuspendLayout();
             this.scMain.SuspendLayout();
+            this.gbGroups.SuspendLayout();
+            this.gbUserData.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -69,20 +84,52 @@
             // label3
             // 
             label3.AutoSize = true;
+            label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             label3.Location = new System.Drawing.Point(12, 189);
             label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(51, 17);
+            label3.Size = new System.Drawing.Size(53, 17);
             label3.TabIndex = 26;
             label3.Text = "Targets";
             // 
             // label1
             // 
             label1.AutoSize = true;
+            label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             label1.Location = new System.Drawing.Point(12, 9);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(35, 17);
+            label1.Size = new System.Drawing.Size(36, 17);
             label1.TabIndex = 17;
             label1.Text = "Tags";
+            // 
+            // lblUserFullname
+            // 
+            lblUserFullname.AutoSize = true;
+            lblUserFullname.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            lblUserFullname.Location = new System.Drawing.Point(6, 26);
+            lblUserFullname.Name = "lblUserFullname";
+            lblUserFullname.Size = new System.Drawing.Size(66, 17);
+            lblUserFullname.TabIndex = 0;
+            lblUserFullname.Text = "Full Name";
+            // 
+            // lblUserEmail
+            // 
+            lblUserEmail.AutoSize = true;
+            lblUserEmail.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            lblUserEmail.Location = new System.Drawing.Point(6, 132);
+            lblUserEmail.Name = "lblUserEmail";
+            lblUserEmail.Size = new System.Drawing.Size(44, 17);
+            lblUserEmail.TabIndex = 0;
+            lblUserEmail.Text = "E-mail";
+            // 
+            // lblUserUsername
+            // 
+            lblUserUsername.AutoSize = true;
+            lblUserUsername.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            lblUserUsername.Location = new System.Drawing.Point(6, 79);
+            lblUserUsername.Name = "lblUserUsername";
+            lblUserUsername.Size = new System.Drawing.Size(67, 17);
+            lblUserUsername.TabIndex = 0;
+            lblUserUsername.Text = "Username";
             // 
             // pnlTop
             // 
@@ -245,6 +292,11 @@
             this.scMain.Location = new System.Drawing.Point(0, 0);
             this.scMain.Name = "scMain";
             // 
+            // scMain.Panel1
+            // 
+            this.scMain.Panel1.Controls.Add(this.gbGroups);
+            this.scMain.Panel1.Controls.Add(this.gbUserData);
+            // 
             // scMain.Panel2
             // 
             this.scMain.Panel2.Controls.Add(this.pnlMain);
@@ -252,6 +304,76 @@
             this.scMain.Size = new System.Drawing.Size(1094, 606);
             this.scMain.SplitterDistance = 203;
             this.scMain.TabIndex = 2;
+            // 
+            // gbGroups
+            // 
+            this.gbGroups.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbGroups.Controls.Add(this.groupList);
+            this.gbGroups.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.gbGroups.Location = new System.Drawing.Point(12, 224);
+            this.gbGroups.Name = "gbGroups";
+            this.gbGroups.Size = new System.Drawing.Size(188, 370);
+            this.gbGroups.TabIndex = 2;
+            this.gbGroups.TabStop = false;
+            this.gbGroups.Text = "Group Sharings";
+            // 
+            // groupList
+            // 
+            this.groupList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupList.AutoScroll = true;
+            this.groupList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.groupList.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.groupList.Location = new System.Drawing.Point(6, 24);
+            this.groupList.Name = "groupList";
+            this.groupList.Padding = new System.Windows.Forms.Padding(2);
+            this.groupList.Size = new System.Drawing.Size(176, 340);
+            this.groupList.TabIndex = 0;
+            this.groupList.SelectionChanged += new System.EventHandler(this.GroupList_SelectionChanged);
+            // 
+            // gbUserData
+            // 
+            this.gbUserData.Controls.Add(this.txtUserEmail);
+            this.gbUserData.Controls.Add(this.txtUserUsername);
+            this.gbUserData.Controls.Add(this.txtUserFullname);
+            this.gbUserData.Controls.Add(lblUserFullname);
+            this.gbUserData.Controls.Add(lblUserEmail);
+            this.gbUserData.Controls.Add(lblUserUsername);
+            this.gbUserData.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.gbUserData.Location = new System.Drawing.Point(12, 12);
+            this.gbUserData.Name = "gbUserData";
+            this.gbUserData.Size = new System.Drawing.Size(188, 194);
+            this.gbUserData.TabIndex = 1;
+            this.gbUserData.TabStop = false;
+            this.gbUserData.Text = "User Data";
+            // 
+            // txtUserEmail
+            // 
+            this.txtUserEmail.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtUserEmail.Location = new System.Drawing.Point(6, 152);
+            this.txtUserEmail.Name = "txtUserEmail";
+            this.txtUserEmail.ReadOnly = true;
+            this.txtUserEmail.Size = new System.Drawing.Size(176, 25);
+            this.txtUserEmail.TabIndex = 4;
+            // 
+            // txtUserUsername
+            // 
+            this.txtUserUsername.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtUserUsername.Location = new System.Drawing.Point(6, 99);
+            this.txtUserUsername.Name = "txtUserUsername";
+            this.txtUserUsername.ReadOnly = true;
+            this.txtUserUsername.Size = new System.Drawing.Size(176, 25);
+            this.txtUserUsername.TabIndex = 3;
+            // 
+            // txtUserFullname
+            // 
+            this.txtUserFullname.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtUserFullname.Location = new System.Drawing.Point(6, 46);
+            this.txtUserFullname.Name = "txtUserFullname";
+            this.txtUserFullname.ReadOnly = true;
+            this.txtUserFullname.Size = new System.Drawing.Size(176, 25);
+            this.txtUserFullname.TabIndex = 2;
             // 
             // FrmMain
             // 
@@ -269,9 +391,13 @@
             this.pnlTop.PerformLayout();
             this.pnlMain.ResumeLayout(false);
             this.pnlMain.PerformLayout();
+            this.scMain.Panel1.ResumeLayout(false);
             this.scMain.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).EndInit();
             this.scMain.ResumeLayout(false);
+            this.gbGroups.ResumeLayout(false);
+            this.gbUserData.ResumeLayout(false);
+            this.gbUserData.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -294,5 +420,14 @@
         private OpenFileDialog fileBrowse;
         private FolderBrowserDialog folderBrowse;
         private SplitContainer scMain;
+        private Label lblUserFullname;
+        private Label lblUserEmail;
+        private Label lblUserUsername;
+        private GroupBox gbUserData;
+        private TextBox txtUserFullname;
+        private TextBox txtUserEmail;
+        private TextBox txtUserUsername;
+        private GroupBox gbGroups;
+        private Controls.GroupList groupList;
     }
 }

@@ -28,8 +28,7 @@ namespace WinAppTaggedWorld.Data
 
         public static async Task<IEnumerable<TargetDto>?> GetTargetsAsync()
         {
-            var json = await WebApi.GetList<TargetDto>(WebApi.ReqEnum.Targets);
-            return json;
+            return await WebApi.GetList<TargetDto>(WebApi.ReqEnum.Targets);
         }
 
         private static string TargetToDtoJson(Target t)
@@ -54,6 +53,11 @@ namespace WinAppTaggedWorld.Data
         {
             await WebApi.ReqForJson(WebApi.HttpVerb.Put, WebApi.ReqEnum.Targets_Id
                 , TargetToDtoJson(target), target.TargetId.ToString());
+        }
+
+        public static async Task<IEnumerable<SharedTarget>?> GetSharedTargetsAsync()
+        {
+            return await WebApi.GetList<SharedTarget>(WebApi.ReqEnum.Targets);
         }
 
         //public static async Task GetCenusAsync()
