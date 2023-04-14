@@ -2,7 +2,10 @@
 {
     public class SharingDto
     {
-        public int GroupId { get; set; }
         public int TargetId { get; set; }
+
+        public int? ReceiveGroupId { get; set; }
+
+        public int? ReceiveUserId { get; set; }
     }
 }

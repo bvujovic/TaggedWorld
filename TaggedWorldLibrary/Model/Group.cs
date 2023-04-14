@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace TaggedWorldLibrary.Model
 {
@@ -23,9 +22,9 @@ namespace TaggedWorldLibrary.Model
 
         public DateTime Created { get; set; }
 
-        public List<Member> Members { get; set; }
+        public List<Member>? Members { get; set; }
 
-        public List<Sharing> Sharings { get; set; }
+        //B public List<Target> Sharings { get; set; }
 
         public override string ToString()
             => Name;

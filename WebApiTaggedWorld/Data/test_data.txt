@@ -6,6 +6,7 @@ Users:
 bojan	string
 mali	zec		Bane V		enab
 prof	nemanja
+mama	mama
 
 Targets:
 

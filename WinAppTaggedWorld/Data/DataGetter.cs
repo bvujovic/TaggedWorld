@@ -57,7 +57,7 @@ namespace WinAppTaggedWorld.Data
 
         public static async Task<IEnumerable<SharedTarget>?> GetSharedTargetsAsync()
         {
-            return await WebApi.GetList<SharedTarget>(WebApi.ReqEnum.Targets);
+            return await WebApi.GetList<SharedTarget>(WebApi.ReqEnum.TargetsShared);
         }
 
         //public static async Task GetCenusAsync()

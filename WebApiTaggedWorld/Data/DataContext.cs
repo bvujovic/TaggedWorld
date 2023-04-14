@@ -20,7 +20,7 @@ namespace WebApiTaggedWorld.Data
         public DbSet<Group> Group { get; set; } = default!;
         
         /// <summary>Deljenje: korisnik deli target sa grupom.</summary>
-        public DbSet<Sharing> Sharing { get; set; } = default!;
+        //B public DbSet<Sharing> Sharing { get; set; } = default!;
         
         /// <summary>Target/Resource/Item - objekat (fajl/folder/link) koji se taguje.</summary>
         public DbSet<Target> Targets { get; set; } = default!;
@@ -51,7 +51,7 @@ namespace WebApiTaggedWorld.Data
 
             builder.Entity<Member>().HasKey(it => new { it.UserId, it.GroupId });
 
-            builder.Entity<Sharing>().HasKey(s => new { s.TargetId, s.GroupId });
+            //B builder.Entity<Sharing>().HasKey(s => new { s.TargetId, s.GroupId });
         }
     }
 }

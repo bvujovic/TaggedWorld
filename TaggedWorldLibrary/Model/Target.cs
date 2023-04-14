@@ -15,9 +15,6 @@ namespace TaggedWorldLibrary.Model
         ///// <summary>Naslov dokumenta ili naslov/kratak opis linka/fajla/foldera.</summary>
         //public string Title { get; set; }
 
-        ///// <summary>Tip targeta, tacnije contenta: link/fajl/folder/doc</summary>
-        //public string Type { get; set; }
-
         /// <summary>Adresa linka/fajla/foldera ili tekst dokumenta.</summary>
         public string Content { get; set; }
 
@@ -48,7 +45,24 @@ namespace TaggedWorldLibrary.Model
         [ForeignKey(nameof(UserAccessed))]
         public int UserAccessedId { get; set; }
 
-        public List<Sharing> Sharings { get; set; }
+        #region Deljenje targeta
+
+        //B public List<Sharing> Sharings { get; set; }
+
+        /// <summary>Kada je podeljen target.</summary>
+        public DateTime? SharedDate { get; set; }
+
+        /// <summary>Korisnik koji je poslao tj. podelio target.</summary>
+        public User? UserSender { get; set; }
+        [ForeignKey(nameof(UserSender))]
+        public int? UserSenderId { get; set; }
+
+        /// <summary>Grupa korisnika na kojoj je target podeljen.</summary>
+        public Group? SharedOnGroup { get; set; }
+        [ForeignKey(nameof(SharedOnGroup))]
+        public int? SharedOnGroupId { get; set; }
+
+        #endregion Deljenje targeta
 
         public override string ToString()
             => $"{Content}";

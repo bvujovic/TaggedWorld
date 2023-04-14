@@ -28,7 +28,7 @@ namespace WebApiTaggedWorld.Controllers
             try
             {
                 var userId = this.GetUserId();
-                var targets = await db.Targets.Where(it => it.UserOwnerId == userId)
+                var targets = await db.Targets.Where(it => it.UserOwnerId == userId && !it.SharedDate.HasValue)
                     .Select(it => new TargetDto
                     {
                         TargetId = it.TargetId,
@@ -68,9 +68,9 @@ namespace WebApiTaggedWorld.Controllers
                 if (t == null)
                     return NotFound($"Target id:'{targetId}' not found.");
 
-                // brisanje datog targeta iz sharing-a
-                var sharings = await db.Sharing.Where(it => it.TargetId == targetId).ToListAsync();
-                db.Sharing.RemoveRange(sharings);
+                //* brisanje datog targeta iz sharing-a
+                //var sharings = await db.Sharing.Where(it => it.TargetId == targetId).ToListAsync();
+                //db.Sharing.RemoveRange(sharings);
 
                 db.Targets.Remove(t);
                 await db.SaveChangesAsync();

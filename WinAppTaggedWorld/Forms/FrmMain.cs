@@ -44,6 +44,7 @@ namespace WinAppTaggedWorld.Forms
                 data.Groups = await WebApi.GetList<GroupDto>(WebApi.ReqEnum.Groups);
                 groupList.Display(data.Groups);
                 gbGroups.Text = groupList.ToString();
+
                 SetTxtTagAutoComplete();
                 targetSelector = new Data.Selectors.TargetSelector(data);
                 targetSelector.TagsChanged += TargetSelector_TagsChanged;
@@ -344,8 +345,14 @@ namespace WinAppTaggedWorld.Forms
         private async void GroupList_SelectionChanged(object sender, EventArgs e)
         {
             //...
-
-            await DataGetter.GetTargetsAsync();
+            try
+            {
+                var x = await DataGetter.GetSharedTargetsAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

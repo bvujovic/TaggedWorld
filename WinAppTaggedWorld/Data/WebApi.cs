@@ -137,6 +137,7 @@ namespace WinAppTaggedWorld.Data
                 ReqEnum.Targets => urlBase + "Targets",
                 ReqEnum.Targets_Id => urlBase + "Targets?targetId=" + param,
                 ReqEnum.Groups => urlBase + "Groups",
+                ReqEnum.TargetsShared => urlBase + "Sharings",
 
                 _ => throw new Exception("Nepostojeci reqEnum: " + reqEnum),
             };

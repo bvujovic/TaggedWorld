@@ -5,6 +5,8 @@ using WebApiTaggedWorld.Classes;
 using WebApiTaggedWorld.Data;
 using Microsoft.EntityFrameworkCore;
 using TaggedWorldLibrary.DTOs;
+using System.Runtime.Serialization;
+using TaggedWorldLibrary.Model;
 
 namespace WebApiTaggedWorld.Controllers
 {
@@ -23,32 +25,23 @@ namespace WebApiTaggedWorld.Controllers
             ControllerExtension.Db = this.db = db;
         }
 
-        /// <summary>Dohvatanje deljenih targeta u grupi.</summary>
+        /// <summary>Dohvatanje deljenih targeta za korisnika.</summary>
         [HttpGet, Authorize]
-        public async Task<ActionResult<List<TargetDto>>> GetGroupSharedTargets(int groupId)
+        public async Task<ActionResult<List<SharedTargetDto>>> GetSharedTargets()
         {
-            // provera: da li grupa postoji i TODO: da li je ulogovani korisnik clan grupe
-            var g = await db.Group.FindAsync(groupId);
-            if (g == null)
-                return NotFound($"Group id:{groupId} not found.");
             var userId = this.GetUserId();
-            var targetIDs = await db.Sharing.Where(it => it.GroupId == groupId && it.UserId != userId)
-                .Select(it => it.TargetId).ToListAsync();
-            var targets = await db.Targets.Where(it => targetIDs.Contains(it.TargetId))
-                .Select(it => new TargetDto
+            var targets = await db.Targets.Where(it => it.UserOwnerId == userId && it.SharedDate.HasValue)
+                .Select(it => new SharedTargetDto
                 {
                     TargetId = it.TargetId,
                     Content = it.Content,
                     StrTags = it.StrTags,
+                    OwnerId = userId,
                     CreatedDate = it.CreatedDate,
-                    OwnerId = it.UserOwnerId,
+                    SharedDate = it.SharedDate,
+                    UserSenderId = it.UserSenderId,
+                    SharedOnGroupId = it.SharedOnGroupId,
                 }).ToListAsync();
-
-            //B
-            //var res = await db.Targets.Include(t => t.Sharings.Where(s => s.GroupId== groupId)).ToListAsync();
-            //var r2 = await db.Sharing.Where(sh => sh.GroupId == groupId)
-            //    .Join(db.Targets, sh => sh.TargetId, t => t.TargetId, (sh, t) => t.Content).ToListAsync();
-
             return Ok(targets);
         }
 
@@ -58,53 +51,60 @@ namespace WebApiTaggedWorld.Controllers
         {
             try
             {
-                // provera: da li deljenje vec postoji
-                var sh = await db.Sharing.FindAsync(sharing.GroupId, sharing.TargetId);
-                if (sh != null)
-                    return BadRequest($"Sharing group id:'{sharing.GroupId}' - target id:{sharing.TargetId} already exists.");
-                var userId = this.GetUserId();
-                var cnt = await db.Member.CountAsync(it => it.GroupId == sharing.GroupId && it.UserId == userId);
-                if (cnt == 0)
-                    return BadRequest($"User cannot share in group id:{sharing.GroupId}.");
+                var senderId = this.GetUserId();
+                var t = await db.Targets.FindAsync(sharing.TargetId);
+                if (t == null)
+                    return NotFound($"Target with id: {sharing.TargetId} is not found.");
 
-                // kreiranje deljenja
-                sh = new TaggedWorldLibrary.Model.Sharing
+                if (sharing.ReceiveUserId.HasValue) // slanje targeta pojedincu
                 {
-                    GroupId = sharing.GroupId,
-                    TargetId = sharing.TargetId,
-                    UserId = userId,
-                    SharedDate = DateTime.Now,
-                };
-                db.Sharing.Add(sh);
+                    var receiver = await db.Users.FindAsync(sharing.ReceiveUserId);
+                    if (receiver == null)
+                        return NotFound($"User with id: {sharing.ReceiveUserId} is not found.");
+                    var newTarget = Target.CreateTarget(t.Content, t.StrTags, DateTime.Now, receiver);
+                    newTarget.UserSenderId = senderId;
+                    newTarget.SharedDate = DateTime.Now;
+                    db.Targets.Add(newTarget);
+                }
+                else // slanje targeta grupi
+                {
+                    // da li je korisnik clan grupe
+                    var isMember = await db.Member.AnyAsync(it => it.GroupId == sharing.ReceiveGroupId && it.UserId == senderId);
+                    if (!isMember)
+                        return BadRequest($"User cannot share in group id: {sharing.ReceiveGroupId}.");
+
+                    var receiverIDs = await db.Member
+                        .Where(it => it.GroupId == sharing.ReceiveGroupId && it.UserId != senderId)
+                        .Select(it => it.UserId).ToListAsync();
+                    var newTargets = new List<Target>();
+                    foreach (var receiverId in receiverIDs)
+                        newTargets.Add(new Target
+                        {
+                            Content = t.Content,
+                            StrTags = t.StrTags,
+                            UserOwnerId = receiverId,
+                            UserAccessedId = receiverId,
+                            UserModifiedId = receiverId,
+                            UserSenderId = senderId,
+                            CreatedDate = DateTime.Now,
+                            AccessedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now,
+                            SharedDate = DateTime.Now,
+                        });
+                    if (newTargets.Any())
+                        db.Targets.AddRange(newTargets);
+                }
                 await db.SaveChangesAsync();
                 return Ok();
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("UNIQUE constraint"))
-                    return BadRequest("Target is already shared in the group.");
-                if (ex.Message.Contains("'Sharing.TargetId' is unknown"))
-                    return NotFound($"Target id:{sharing.TargetId} is not found.");
+                //if (ex.Message.Contains("UNIQUE constraint"))
+                //    return BadRequest("Target is already shared in the group.");
+                //if (ex.Message.Contains("'Sharing.TargetId' is unknown"))
+                //    return NotFound($"Target id:{sharing.TargetId} is not found.");
                 return this.Bad(ex);
             }
-        }
-
-        /// <summary>Brisanje deljenja.</summary>
-        [HttpDelete, Authorize]
-        public async Task<IActionResult> Delete([FromBody] SharingDto sharing)
-        {
-            try
-            {
-                var sh = await db.Sharing.FirstOrDefaultAsync
-                    (it => it.GroupId == sharing.GroupId && it.TargetId == sharing.TargetId && it.UserId == this.GetUserId());
-                if (sh == null)
-                    return BadRequest("User cannot delete this sharing.");
-
-                db.Sharing.Remove(sh);
-                await db.SaveChangesAsync();
-                return Ok();
-            }
-            catch (Exception ex) { return this.Bad(ex); }
         }
     }
 }
