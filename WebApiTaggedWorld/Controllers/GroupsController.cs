@@ -22,11 +22,30 @@ namespace WebApiTaggedWorld.Controllers
             ControllerExtension.Db = this.db = db;
         }
 
-        /// <summary>Dohvatanje grupa kojima pripada ulogovani korisnik.</summary>
+        //B
+        ///// <summary>Dohvatanje svih grupa.</summary>
+        //[HttpGet, Authorize]
+        //public async Task<ActionResult<List<GroupDto>>> GetAllGroups()
+        //{
+        //    var groups = await db.Group.ToListAsync();
+        //    var res = groups.Select(it => new GroupDto { GroupId = it.GroupId, Name = it.Name, StrTags = it.StrTags, Description = it.Description });
+        //    return Ok(res);
+        //}
+
+        /// <summary>Dohvatanje svih grupa.</summary>
         [HttpGet, Authorize]
+        public async Task<ActionResult<List<Group>>> GetAllGroups()
+        {
+            var groups = await db.Group.ToListAsync();
+            return Ok(groups);
+        }
+
+        /// <summary>Dohvatanje grupa kojima pripada ulogovani korisnik.</summary>
+        [HttpGet("myGroups"), Authorize]
         public async Task<ActionResult<List<GroupDto>>> GetMyGroups()
         {
-            var groups = await db.Group.Where(it => it.Members.Select(it => it.UserId).Contains(this.GetUserId()))
+            var groups = await db.Group.Where(it => it.Members != null
+                && it.Members.Select(it => it.UserId).Contains(this.GetUserId()))
                 .ToListAsync();
             var res = groups.Select(it => new GroupDto { GroupId = it.GroupId, Name = it.Name, StrTags = it.StrTags, Description = it.Description });
             return Ok(res);

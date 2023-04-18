@@ -16,7 +16,7 @@ namespace WinAppTaggedWorld.Data
         public IEnumerable<string> Tags => tags;
 
         /// <summary>Grupe kojima korisnik pripada.</summary>
-        public IEnumerable<GroupDto>? Groups { get; set; } = null;
+        public IEnumerable<GroupDto>? MyGroups { get; set; } = null;
 
         /// <summary>Osnovni podaci o ulogovanom korisniku.</summary>
         public UserDto? User { get; set; } = null;

@@ -41,8 +41,8 @@ namespace WinAppTaggedWorld.Forms
                     txtUserUsername.Text = data.User.Username;
                     txtUserEmail.Text = data.User.Email;
                 }
-                data.Groups = await WebApi.GetList<GroupDto>(WebApi.ReqEnum.Groups);
-                groupList.Display(data.Groups);
+                data.MyGroups = await WebApi.GetList<GroupDto>(WebApi.ReqEnum.Groups_My);
+                groupList.Display(data.MyGroups);
                 gbGroups.Text = groupList.ToString();
 
                 SetTxtTagAutoComplete();
@@ -344,7 +344,6 @@ namespace WinAppTaggedWorld.Forms
 
         private async void GroupList_SelectionChanged(object sender, EventArgs e)
         {
-            //...
             try
             {
                 var x = await DataGetter.GetSharedTargetsAsync();
@@ -353,6 +352,11 @@ namespace WinAppTaggedWorld.Forms
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void BtnGroups_Click(object sender, EventArgs e)
+        {
+            new FrmGroups().ShowDialog();
         }
     }
 }

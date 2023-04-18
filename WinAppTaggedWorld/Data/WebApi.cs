@@ -15,9 +15,9 @@ namespace WinAppTaggedWorld.Data
         public static bool IsUserLoggedIn => Token != null;
 
         /// <summary>Dohvata listu trazenih objekata od WebAPI-a.</summary>
-        public async static Task<List<T>?> GetList<T>(ReqEnum reqEnum)
+        public async static Task<List<T>?> GetList<T>(ReqEnum reqEnum, string? param = null)
         {
-            var json = await GetJson(reqEnum);
+            var json = await GetJson(reqEnum, param);
             return DeserializeList<T>(json);
         }
 
@@ -118,7 +118,11 @@ namespace WinAppTaggedWorld.Data
             Targets_Id,
             TargetsShared,
 
-            Groups,
+            Groups_All,
+            Groups_My,
+
+            Members,
+            //B SendTarget,
         }
 
         public static string UrlForReq(ReqEnum reqEnum, string? param = null)
@@ -136,8 +140,13 @@ namespace WinAppTaggedWorld.Data
 
                 ReqEnum.Targets => urlBase + "Targets",
                 ReqEnum.Targets_Id => urlBase + "Targets?targetId=" + param,
-                ReqEnum.Groups => urlBase + "Groups",
                 ReqEnum.TargetsShared => urlBase + "Sharings",
+
+                ReqEnum.Groups_All => urlBase + "Groups",
+                ReqEnum.Groups_My => urlBase + "Groups/myGroups",
+
+                ReqEnum.Members => urlBase + "Members?groupId=" + param,
+                //B ReqEnum.SendTarget => urlBase + "Sharings?groupId=" + param,
 
                 _ => throw new Exception("Nepostojeci reqEnum: " + reqEnum),
             };

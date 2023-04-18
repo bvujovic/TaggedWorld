@@ -28,378 +28,381 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Label label2;
-            System.Windows.Forms.Label label3;
-            System.Windows.Forms.Label label1;
-            System.Windows.Forms.Label lblUserFullname;
-            System.Windows.Forms.Label lblUserEmail;
-            System.Windows.Forms.Label lblUserUsername;
-            this.pnlTop = new System.Windows.Forms.Panel();
-            this.tagListSuggest = new WinAppTaggedWorld.Controls.TagLabelList();
-            this.btnTagListCopy = new System.Windows.Forms.Button();
-            this.txtTargetAddress = new System.Windows.Forms.TextBox();
-            this.btnTargetBrowse = new System.Windows.Forms.Button();
-            this.txtTag = new System.Windows.Forms.TextBox();
-            this.btnSaveTarget = new System.Windows.Forms.Button();
-            this.btnTagListClear = new System.Windows.Forms.Button();
-            this.tagListMain = new WinAppTaggedWorld.Controls.TagLabelList();
-            this.btnSearchAddTag = new System.Windows.Forms.Button();
-            this.pnlMain = new System.Windows.Forms.Panel();
-            this.targetList = new WinAppTaggedWorld.Controls.TargetCtrlList();
-            this.lblTargetResults = new System.Windows.Forms.Label();
-            this.fileBrowse = new System.Windows.Forms.OpenFileDialog();
-            this.folderBrowse = new System.Windows.Forms.FolderBrowserDialog();
-            this.scMain = new System.Windows.Forms.SplitContainer();
-            this.gbGroups = new System.Windows.Forms.GroupBox();
-            this.groupList = new WinAppTaggedWorld.Controls.GroupList();
-            this.gbUserData = new System.Windows.Forms.GroupBox();
-            this.txtUserEmail = new System.Windows.Forms.TextBox();
-            this.txtUserUsername = new System.Windows.Forms.TextBox();
-            this.txtUserFullname = new System.Windows.Forms.TextBox();
-            label2 = new System.Windows.Forms.Label();
-            label3 = new System.Windows.Forms.Label();
-            label1 = new System.Windows.Forms.Label();
-            lblUserFullname = new System.Windows.Forms.Label();
-            lblUserEmail = new System.Windows.Forms.Label();
-            lblUserUsername = new System.Windows.Forms.Label();
-            this.pnlTop.SuspendLayout();
-            this.pnlMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
-            this.scMain.Panel1.SuspendLayout();
-            this.scMain.Panel2.SuspendLayout();
-            this.scMain.SuspendLayout();
-            this.gbGroups.SuspendLayout();
-            this.gbUserData.SuspendLayout();
-            this.SuspendLayout();
+            Label label2;
+            Label label3;
+            Label label1;
+            Label lblUserFullname;
+            Label lblUserEmail;
+            Label lblUserUsername;
+            pnlTop = new Panel();
+            tagListSuggest = new Controls.TagLabelList();
+            btnTagListCopy = new Button();
+            txtTargetAddress = new TextBox();
+            btnTargetBrowse = new Button();
+            txtTag = new TextBox();
+            btnSaveTarget = new Button();
+            btnTagListClear = new Button();
+            tagListMain = new Controls.TagLabelList();
+            btnSearchAddTag = new Button();
+            pnlMain = new Panel();
+            targetList = new Controls.TargetCtrlList();
+            lblTargetResults = new Label();
+            fileBrowse = new OpenFileDialog();
+            folderBrowse = new FolderBrowserDialog();
+            scMain = new SplitContainer();
+            gbGroups = new GroupBox();
+            groupList = new Controls.GroupList();
+            gbUserData = new GroupBox();
+            txtUserEmail = new TextBox();
+            txtUserUsername = new TextBox();
+            txtUserFullname = new TextBox();
+            btnGroups = new Button();
+            label2 = new Label();
+            label3 = new Label();
+            label1 = new Label();
+            lblUserFullname = new Label();
+            lblUserEmail = new Label();
+            lblUserUsername = new Label();
+            pnlTop.SuspendLayout();
+            pnlMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)scMain).BeginInit();
+            scMain.Panel1.SuspendLayout();
+            scMain.Panel2.SuspendLayout();
+            scMain.SuspendLayout();
+            gbGroups.SuspendLayout();
+            gbUserData.SuspendLayout();
+            SuspendLayout();
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(12, 115);
+            label2.Location = new Point(12, 115);
             label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(101, 17);
+            label2.Size = new Size(101, 17);
             label2.TabIndex = 28;
             label2.Text = "Suggested Tags";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            label3.Location = new System.Drawing.Point(12, 189);
+            label3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.Location = new Point(12, 189);
             label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(53, 17);
+            label3.Size = new Size(53, 17);
             label3.TabIndex = 26;
             label3.Text = "Targets";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            label1.Location = new System.Drawing.Point(12, 9);
+            label1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(12, 9);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(36, 17);
+            label1.Size = new Size(36, 17);
             label1.TabIndex = 17;
             label1.Text = "Tags";
             // 
             // lblUserFullname
             // 
             lblUserFullname.AutoSize = true;
-            lblUserFullname.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            lblUserFullname.Location = new System.Drawing.Point(6, 26);
+            lblUserFullname.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblUserFullname.Location = new Point(6, 26);
             lblUserFullname.Name = "lblUserFullname";
-            lblUserFullname.Size = new System.Drawing.Size(66, 17);
+            lblUserFullname.Size = new Size(66, 17);
             lblUserFullname.TabIndex = 0;
             lblUserFullname.Text = "Full Name";
             // 
             // lblUserEmail
             // 
             lblUserEmail.AutoSize = true;
-            lblUserEmail.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            lblUserEmail.Location = new System.Drawing.Point(6, 132);
+            lblUserEmail.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblUserEmail.Location = new Point(6, 132);
             lblUserEmail.Name = "lblUserEmail";
-            lblUserEmail.Size = new System.Drawing.Size(44, 17);
+            lblUserEmail.Size = new Size(44, 17);
             lblUserEmail.TabIndex = 0;
             lblUserEmail.Text = "E-mail";
             // 
             // lblUserUsername
             // 
             lblUserUsername.AutoSize = true;
-            lblUserUsername.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            lblUserUsername.Location = new System.Drawing.Point(6, 79);
+            lblUserUsername.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblUserUsername.Location = new Point(6, 79);
             lblUserUsername.Name = "lblUserUsername";
-            lblUserUsername.Size = new System.Drawing.Size(67, 17);
+            lblUserUsername.Size = new Size(67, 17);
             lblUserUsername.TabIndex = 0;
             lblUserUsername.Text = "Username";
             // 
             // pnlTop
             // 
-            this.pnlTop.Controls.Add(label2);
-            this.pnlTop.Controls.Add(this.tagListSuggest);
-            this.pnlTop.Controls.Add(this.btnTagListCopy);
-            this.pnlTop.Controls.Add(label3);
-            this.pnlTop.Controls.Add(this.txtTargetAddress);
-            this.pnlTop.Controls.Add(label1);
-            this.pnlTop.Controls.Add(this.btnTargetBrowse);
-            this.pnlTop.Controls.Add(this.txtTag);
-            this.pnlTop.Controls.Add(this.btnSaveTarget);
-            this.pnlTop.Controls.Add(this.btnTagListClear);
-            this.pnlTop.Controls.Add(this.tagListMain);
-            this.pnlTop.Controls.Add(this.btnSearchAddTag);
-            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTop.Location = new System.Drawing.Point(0, 0);
-            this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(887, 279);
-            this.pnlTop.TabIndex = 0;
+            pnlTop.Controls.Add(label2);
+            pnlTop.Controls.Add(tagListSuggest);
+            pnlTop.Controls.Add(btnTagListCopy);
+            pnlTop.Controls.Add(label3);
+            pnlTop.Controls.Add(txtTargetAddress);
+            pnlTop.Controls.Add(label1);
+            pnlTop.Controls.Add(btnTargetBrowse);
+            pnlTop.Controls.Add(txtTag);
+            pnlTop.Controls.Add(btnSaveTarget);
+            pnlTop.Controls.Add(btnTagListClear);
+            pnlTop.Controls.Add(tagListMain);
+            pnlTop.Controls.Add(btnSearchAddTag);
+            pnlTop.Dock = DockStyle.Top;
+            pnlTop.Location = new Point(0, 0);
+            pnlTop.Name = "pnlTop";
+            pnlTop.Size = new Size(887, 279);
+            pnlTop.TabIndex = 0;
             // 
             // tagListSuggest
             // 
-            this.tagListSuggest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tagListSuggest.AutoScroll = true;
-            this.tagListSuggest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tagListSuggest.Location = new System.Drawing.Point(12, 135);
-            this.tagListSuggest.Name = "tagListSuggest";
-            this.tagListSuggest.Size = new System.Drawing.Size(799, 51);
-            this.tagListSuggest.TabIndex = 19;
+            tagListSuggest.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            tagListSuggest.AutoScroll = true;
+            tagListSuggest.BorderStyle = BorderStyle.FixedSingle;
+            tagListSuggest.Location = new Point(12, 135);
+            tagListSuggest.Name = "tagListSuggest";
+            tagListSuggest.Size = new Size(799, 51);
+            tagListSuggest.TabIndex = 19;
             // 
             // btnTagListCopy
             // 
-            this.btnTagListCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTagListCopy.Location = new System.Drawing.Point(811, 28);
-            this.btnTagListCopy.Name = "btnTagListCopy";
-            this.btnTagListCopy.Size = new System.Drawing.Size(47, 27);
-            this.btnTagListCopy.TabIndex = 25;
-            this.btnTagListCopy.Text = "Copy";
-            this.btnTagListCopy.UseVisualStyleBackColor = true;
-            this.btnTagListCopy.Click += new System.EventHandler(this.BtnTagListCopy_Click);
+            btnTagListCopy.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnTagListCopy.Location = new Point(811, 28);
+            btnTagListCopy.Name = "btnTagListCopy";
+            btnTagListCopy.Size = new Size(47, 27);
+            btnTagListCopy.TabIndex = 25;
+            btnTagListCopy.Text = "Copy";
+            btnTagListCopy.UseVisualStyleBackColor = true;
+            btnTagListCopy.Click += BtnTagListCopy_Click;
             // 
             // txtTargetAddress
             // 
-            this.txtTargetAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTargetAddress.Location = new System.Drawing.Point(13, 209);
-            this.txtTargetAddress.Name = "txtTargetAddress";
-            this.txtTargetAddress.Size = new System.Drawing.Size(798, 25);
-            this.txtTargetAddress.TabIndex = 21;
-            this.txtTargetAddress.TextChanged += new System.EventHandler(this.TxtTargetAddress_TextChanged);
+            txtTargetAddress.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtTargetAddress.Location = new Point(13, 209);
+            txtTargetAddress.Name = "txtTargetAddress";
+            txtTargetAddress.Size = new Size(798, 25);
+            txtTargetAddress.TabIndex = 21;
+            txtTargetAddress.TextChanged += TxtTargetAddress_TextChanged;
             // 
             // btnTargetBrowse
             // 
-            this.btnTargetBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTargetBrowse.Location = new System.Drawing.Point(811, 208);
-            this.btnTargetBrowse.Name = "btnTargetBrowse";
-            this.btnTargetBrowse.Size = new System.Drawing.Size(47, 27);
-            this.btnTargetBrowse.TabIndex = 23;
-            this.btnTargetBrowse.Text = "...";
-            this.btnTargetBrowse.UseVisualStyleBackColor = true;
-            this.btnTargetBrowse.Click += new System.EventHandler(this.BtnTargetBrowse_Click);
+            btnTargetBrowse.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnTargetBrowse.Location = new Point(811, 208);
+            btnTargetBrowse.Name = "btnTargetBrowse";
+            btnTargetBrowse.Size = new Size(47, 27);
+            btnTargetBrowse.TabIndex = 23;
+            btnTargetBrowse.Text = "...";
+            btnTargetBrowse.UseVisualStyleBackColor = true;
+            btnTargetBrowse.Click += BtnTargetBrowse_Click;
             // 
             // txtTag
             // 
-            this.txtTag.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTag.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.txtTag.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.txtTag.Location = new System.Drawing.Point(12, 81);
-            this.txtTag.Name = "txtTag";
-            this.txtTag.Size = new System.Drawing.Size(799, 25);
-            this.txtTag.TabIndex = 16;
-            this.txtTag.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtTag_KeyDown);
+            txtTag.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtTag.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            txtTag.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            txtTag.Location = new Point(12, 81);
+            txtTag.Name = "txtTag";
+            txtTag.Size = new Size(799, 25);
+            txtTag.TabIndex = 16;
+            txtTag.KeyDown += TxtTag_KeyDown;
             // 
             // btnSaveTarget
             // 
-            this.btnSaveTarget.Location = new System.Drawing.Point(12, 234);
-            this.btnSaveTarget.Name = "btnSaveTarget";
-            this.btnSaveTarget.Size = new System.Drawing.Size(85, 27);
-            this.btnSaveTarget.TabIndex = 22;
-            this.btnSaveTarget.Text = "Save Target";
-            this.btnSaveTarget.UseVisualStyleBackColor = true;
-            this.btnSaveTarget.Click += new System.EventHandler(this.BtnSaveTarget_Click);
+            btnSaveTarget.Location = new Point(12, 234);
+            btnSaveTarget.Name = "btnSaveTarget";
+            btnSaveTarget.Size = new Size(85, 27);
+            btnSaveTarget.TabIndex = 22;
+            btnSaveTarget.Text = "Save Target";
+            btnSaveTarget.UseVisualStyleBackColor = true;
+            btnSaveTarget.Click += BtnSaveTarget_Click;
             // 
             // btnTagListClear
             // 
-            this.btnTagListClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTagListClear.Location = new System.Drawing.Point(811, 54);
-            this.btnTagListClear.Name = "btnTagListClear";
-            this.btnTagListClear.Size = new System.Drawing.Size(47, 27);
-            this.btnTagListClear.TabIndex = 24;
-            this.btnTagListClear.Text = "Clear";
-            this.btnTagListClear.UseVisualStyleBackColor = true;
-            this.btnTagListClear.Click += new System.EventHandler(this.BtnTagListClear_Click);
+            btnTagListClear.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnTagListClear.Location = new Point(811, 54);
+            btnTagListClear.Name = "btnTagListClear";
+            btnTagListClear.Size = new Size(47, 27);
+            btnTagListClear.TabIndex = 24;
+            btnTagListClear.Text = "Clear";
+            btnTagListClear.UseVisualStyleBackColor = true;
+            btnTagListClear.Click += BtnTagListClear_Click;
             // 
             // tagListMain
             // 
-            this.tagListMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tagListMain.AutoScroll = true;
-            this.tagListMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tagListMain.Location = new System.Drawing.Point(12, 29);
-            this.tagListMain.Name = "tagListMain";
-            this.tagListMain.Size = new System.Drawing.Size(799, 51);
-            this.tagListMain.TabIndex = 18;
+            tagListMain.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            tagListMain.AutoScroll = true;
+            tagListMain.BorderStyle = BorderStyle.FixedSingle;
+            tagListMain.Location = new Point(12, 29);
+            tagListMain.Name = "tagListMain";
+            tagListMain.Size = new Size(799, 51);
+            tagListMain.TabIndex = 18;
             // 
             // btnSearchAddTag
             // 
-            this.btnSearchAddTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearchAddTag.Location = new System.Drawing.Point(811, 80);
-            this.btnSearchAddTag.Name = "btnSearchAddTag";
-            this.btnSearchAddTag.Size = new System.Drawing.Size(47, 27);
-            this.btnSearchAddTag.TabIndex = 20;
-            this.btnSearchAddTag.Text = "OK";
-            this.btnSearchAddTag.UseVisualStyleBackColor = true;
-            this.btnSearchAddTag.Click += new System.EventHandler(this.BtnSearchAddTag_Click);
+            btnSearchAddTag.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSearchAddTag.Location = new Point(811, 80);
+            btnSearchAddTag.Name = "btnSearchAddTag";
+            btnSearchAddTag.Size = new Size(47, 27);
+            btnSearchAddTag.TabIndex = 20;
+            btnSearchAddTag.Text = "OK";
+            btnSearchAddTag.UseVisualStyleBackColor = true;
+            btnSearchAddTag.Click += BtnSearchAddTag_Click;
             // 
             // pnlMain
             // 
-            this.pnlMain.Controls.Add(this.targetList);
-            this.pnlMain.Controls.Add(this.lblTargetResults);
-            this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMain.Location = new System.Drawing.Point(0, 279);
-            this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(887, 327);
-            this.pnlMain.TabIndex = 1;
+            pnlMain.Controls.Add(targetList);
+            pnlMain.Controls.Add(lblTargetResults);
+            pnlMain.Dock = DockStyle.Fill;
+            pnlMain.Location = new Point(0, 279);
+            pnlMain.Name = "pnlMain";
+            pnlMain.Size = new Size(887, 327);
+            pnlMain.TabIndex = 1;
             // 
             // targetList
             // 
-            this.targetList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.targetList.AutoScroll = true;
-            this.targetList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.targetList.Location = new System.Drawing.Point(12, 23);
-            this.targetList.Name = "targetList";
-            this.targetList.SelectedTarget = null;
-            this.targetList.Size = new System.Drawing.Size(863, 292);
-            this.targetList.TabIndex = 3;
+            targetList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            targetList.AutoScroll = true;
+            targetList.BorderStyle = BorderStyle.FixedSingle;
+            targetList.Location = new Point(12, 23);
+            targetList.Name = "targetList";
+            targetList.SelectedTarget = null;
+            targetList.Size = new Size(863, 292);
+            targetList.TabIndex = 3;
             // 
             // lblTargetResults
             // 
-            this.lblTargetResults.AutoSize = true;
-            this.lblTargetResults.Location = new System.Drawing.Point(13, 3);
-            this.lblTargetResults.Name = "lblTargetResults";
-            this.lblTargetResults.Size = new System.Drawing.Size(49, 17);
-            this.lblTargetResults.TabIndex = 2;
-            this.lblTargetResults.Text = "Results";
+            lblTargetResults.AutoSize = true;
+            lblTargetResults.Location = new Point(13, 3);
+            lblTargetResults.Name = "lblTargetResults";
+            lblTargetResults.Size = new Size(49, 17);
+            lblTargetResults.TabIndex = 2;
+            lblTargetResults.Text = "Results";
             // 
             // folderBrowse
             // 
-            this.folderBrowse.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            folderBrowse.RootFolder = Environment.SpecialFolder.MyComputer;
             // 
             // scMain
             // 
-            this.scMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.scMain.Location = new System.Drawing.Point(0, 0);
-            this.scMain.Name = "scMain";
+            scMain.Dock = DockStyle.Fill;
+            scMain.FixedPanel = FixedPanel.Panel1;
+            scMain.Location = new Point(0, 0);
+            scMain.Name = "scMain";
             // 
             // scMain.Panel1
             // 
-            this.scMain.Panel1.Controls.Add(this.gbGroups);
-            this.scMain.Panel1.Controls.Add(this.gbUserData);
+            scMain.Panel1.Controls.Add(btnGroups);
+            scMain.Panel1.Controls.Add(gbGroups);
+            scMain.Panel1.Controls.Add(gbUserData);
             // 
             // scMain.Panel2
             // 
-            this.scMain.Panel2.Controls.Add(this.pnlMain);
-            this.scMain.Panel2.Controls.Add(this.pnlTop);
-            this.scMain.Size = new System.Drawing.Size(1094, 606);
-            this.scMain.SplitterDistance = 203;
-            this.scMain.TabIndex = 2;
+            scMain.Panel2.Controls.Add(pnlMain);
+            scMain.Panel2.Controls.Add(pnlTop);
+            scMain.Size = new Size(1094, 606);
+            scMain.SplitterDistance = 203;
+            scMain.TabIndex = 2;
             // 
             // gbGroups
             // 
-            this.gbGroups.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.gbGroups.Controls.Add(this.groupList);
-            this.gbGroups.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.gbGroups.Location = new System.Drawing.Point(12, 224);
-            this.gbGroups.Name = "gbGroups";
-            this.gbGroups.Size = new System.Drawing.Size(188, 370);
-            this.gbGroups.TabIndex = 2;
-            this.gbGroups.TabStop = false;
-            this.gbGroups.Text = "Group Sharings";
+            gbGroups.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            gbGroups.Controls.Add(groupList);
+            gbGroups.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            gbGroups.Location = new Point(12, 302);
+            gbGroups.Name = "gbGroups";
+            gbGroups.Size = new Size(188, 292);
+            gbGroups.TabIndex = 2;
+            gbGroups.TabStop = false;
+            gbGroups.Text = "Group Sharings";
             // 
             // groupList
             // 
-            this.groupList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupList.AutoScroll = true;
-            this.groupList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.groupList.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupList.Location = new System.Drawing.Point(6, 24);
-            this.groupList.Name = "groupList";
-            this.groupList.Padding = new System.Windows.Forms.Padding(2);
-            this.groupList.Size = new System.Drawing.Size(176, 340);
-            this.groupList.TabIndex = 0;
-            this.groupList.SelectionChanged += new System.EventHandler(this.GroupList_SelectionChanged);
+            groupList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            groupList.AutoScroll = true;
+            groupList.BorderStyle = BorderStyle.FixedSingle;
+            groupList.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            groupList.Location = new Point(6, 24);
+            groupList.Name = "groupList";
+            groupList.Padding = new Padding(2);
+            groupList.Size = new Size(176, 262);
+            groupList.TabIndex = 0;
+            groupList.SelectionChanged += GroupList_SelectionChanged;
             // 
             // gbUserData
             // 
-            this.gbUserData.Controls.Add(this.txtUserEmail);
-            this.gbUserData.Controls.Add(this.txtUserUsername);
-            this.gbUserData.Controls.Add(this.txtUserFullname);
-            this.gbUserData.Controls.Add(lblUserFullname);
-            this.gbUserData.Controls.Add(lblUserEmail);
-            this.gbUserData.Controls.Add(lblUserUsername);
-            this.gbUserData.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.gbUserData.Location = new System.Drawing.Point(12, 12);
-            this.gbUserData.Name = "gbUserData";
-            this.gbUserData.Size = new System.Drawing.Size(188, 194);
-            this.gbUserData.TabIndex = 1;
-            this.gbUserData.TabStop = false;
-            this.gbUserData.Text = "User Data";
+            gbUserData.Controls.Add(txtUserEmail);
+            gbUserData.Controls.Add(txtUserUsername);
+            gbUserData.Controls.Add(txtUserFullname);
+            gbUserData.Controls.Add(lblUserFullname);
+            gbUserData.Controls.Add(lblUserEmail);
+            gbUserData.Controls.Add(lblUserUsername);
+            gbUserData.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            gbUserData.Location = new Point(12, 12);
+            gbUserData.Name = "gbUserData";
+            gbUserData.Size = new Size(188, 194);
+            gbUserData.TabIndex = 1;
+            gbUserData.TabStop = false;
+            gbUserData.Text = "User Data";
             // 
             // txtUserEmail
             // 
-            this.txtUserEmail.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtUserEmail.Location = new System.Drawing.Point(6, 152);
-            this.txtUserEmail.Name = "txtUserEmail";
-            this.txtUserEmail.ReadOnly = true;
-            this.txtUserEmail.Size = new System.Drawing.Size(176, 25);
-            this.txtUserEmail.TabIndex = 4;
+            txtUserEmail.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            txtUserEmail.Location = new Point(6, 152);
+            txtUserEmail.Name = "txtUserEmail";
+            txtUserEmail.ReadOnly = true;
+            txtUserEmail.Size = new Size(176, 25);
+            txtUserEmail.TabIndex = 4;
             // 
             // txtUserUsername
             // 
-            this.txtUserUsername.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtUserUsername.Location = new System.Drawing.Point(6, 99);
-            this.txtUserUsername.Name = "txtUserUsername";
-            this.txtUserUsername.ReadOnly = true;
-            this.txtUserUsername.Size = new System.Drawing.Size(176, 25);
-            this.txtUserUsername.TabIndex = 3;
+            txtUserUsername.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            txtUserUsername.Location = new Point(6, 99);
+            txtUserUsername.Name = "txtUserUsername";
+            txtUserUsername.ReadOnly = true;
+            txtUserUsername.Size = new Size(176, 25);
+            txtUserUsername.TabIndex = 3;
             // 
             // txtUserFullname
             // 
-            this.txtUserFullname.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtUserFullname.Location = new System.Drawing.Point(6, 46);
-            this.txtUserFullname.Name = "txtUserFullname";
-            this.txtUserFullname.ReadOnly = true;
-            this.txtUserFullname.Size = new System.Drawing.Size(176, 25);
-            this.txtUserFullname.TabIndex = 2;
+            txtUserFullname.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            txtUserFullname.Location = new Point(6, 46);
+            txtUserFullname.Name = "txtUserFullname";
+            txtUserFullname.ReadOnly = true;
+            txtUserFullname.Size = new Size(176, 25);
+            txtUserFullname.TabIndex = 2;
+            // 
+            // btnGroups
+            // 
+            btnGroups.Location = new Point(18, 234);
+            btnGroups.Name = "btnGroups";
+            btnGroups.Size = new Size(85, 27);
+            btnGroups.TabIndex = 23;
+            btnGroups.Text = "Groups";
+            btnGroups.UseVisualStyleBackColor = true;
+            btnGroups.Click += BtnGroups_Click;
             // 
             // FrmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1094, 606);
-            this.Controls.Add(this.scMain);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Name = "FrmMain";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Tagged World";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
-            this.Load += new System.EventHandler(this.FrmMain_Load);
-            this.pnlTop.ResumeLayout(false);
-            this.pnlTop.PerformLayout();
-            this.pnlMain.ResumeLayout(false);
-            this.pnlMain.PerformLayout();
-            this.scMain.Panel1.ResumeLayout(false);
-            this.scMain.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.scMain)).EndInit();
-            this.scMain.ResumeLayout(false);
-            this.gbGroups.ResumeLayout(false);
-            this.gbUserData.ResumeLayout(false);
-            this.gbUserData.PerformLayout();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1094, 606);
+            Controls.Add(scMain);
+            Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            Name = "FrmMain";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Tagged World";
+            FormClosing += FrmMain_FormClosing;
+            Load += FrmMain_Load;
+            pnlTop.ResumeLayout(false);
+            pnlTop.PerformLayout();
+            pnlMain.ResumeLayout(false);
+            pnlMain.PerformLayout();
+            scMain.Panel1.ResumeLayout(false);
+            scMain.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)scMain).EndInit();
+            scMain.ResumeLayout(false);
+            gbGroups.ResumeLayout(false);
+            gbUserData.ResumeLayout(false);
+            gbUserData.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -429,5 +432,6 @@
         private TextBox txtUserUsername;
         private GroupBox gbGroups;
         private Controls.GroupList groupList;
+        private Button btnGroups;
     }
 }
