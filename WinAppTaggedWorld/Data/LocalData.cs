@@ -19,7 +19,7 @@ namespace WinAppTaggedWorld.Data
         public IEnumerable<GroupDto>? MyGroups { get; set; } = null;
 
         /// <summary>Osnovni podaci o ulogovanom korisniku.</summary>
-        public UserDto? User { get; set; } = null;
+        public UserDto User { get; set; }
 
         private static readonly LocalData localData = new();
 

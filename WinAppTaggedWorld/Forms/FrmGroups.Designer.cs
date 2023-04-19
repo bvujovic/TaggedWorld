@@ -29,11 +29,13 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             dgvGroups = new DataGridView();
             bsGroups = new BindingSource(components);
-            nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            createdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            strTagsDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            dgvcAmIaMember = new DataGridViewCheckBoxColumn();
+            dgvcName = new DataGridViewTextBoxColumn();
+            dgvcStrTags = new DataGridViewTextBoxColumn();
+            dgvcCreated = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvGroups).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bsGroups).BeginInit();
             SuspendLayout();
@@ -45,7 +47,7 @@
             dgvGroups.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvGroups.AutoGenerateColumns = false;
             dgvGroups.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvGroups.Columns.AddRange(new DataGridViewColumn[] { nameDataGridViewTextBoxColumn, createdDataGridViewTextBoxColumn, strTagsDataGridViewTextBoxColumn });
+            dgvGroups.Columns.AddRange(new DataGridViewColumn[] { dgvcAmIaMember, dgvcName, dgvcStrTags, dgvcCreated });
             dgvGroups.DataSource = bsGroups;
             dgvGroups.Location = new Point(12, 89);
             dgvGroups.Name = "dgvGroups";
@@ -53,32 +55,47 @@
             dgvGroups.RowTemplate.Height = 25;
             dgvGroups.Size = new Size(776, 150);
             dgvGroups.TabIndex = 0;
+            dgvGroups.CellClick += DgvGroups_CellClick;
             // 
             // bsGroups
             // 
-            bsGroups.DataSource = typeof(TaggedWorldLibrary.Model.Group);
+            bsGroups.DataSource = typeof(Data.VM.GroupVM);
+            bsGroups.Sort = "";
             // 
-            // nameDataGridViewTextBoxColumn
+            // dgvcAmIaMember
             // 
-            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            nameDataGridViewTextBoxColumn.ReadOnly = true;
+            dgvcAmIaMember.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+            dgvcAmIaMember.DataPropertyName = "AmIaMember";
+            dgvcAmIaMember.HeaderText = "Member";
+            dgvcAmIaMember.Name = "dgvcAmIaMember";
+            dgvcAmIaMember.ReadOnly = true;
+            dgvcAmIaMember.Width = 58;
             // 
-            // createdDataGridViewTextBoxColumn
+            // dgvcName
             // 
-            createdDataGridViewTextBoxColumn.DataPropertyName = "Created";
-            createdDataGridViewTextBoxColumn.HeaderText = "Created";
-            createdDataGridViewTextBoxColumn.Name = "createdDataGridViewTextBoxColumn";
-            createdDataGridViewTextBoxColumn.ReadOnly = true;
+            dgvcName.DataPropertyName = "Name";
+            dgvcName.HeaderText = "Name";
+            dgvcName.Name = "dgvcName";
+            dgvcName.ReadOnly = true;
+            dgvcName.Width = 150;
             // 
-            // strTagsDataGridViewTextBoxColumn
+            // dgvcStrTags
             // 
-            strTagsDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            strTagsDataGridViewTextBoxColumn.DataPropertyName = "StrTags";
-            strTagsDataGridViewTextBoxColumn.HeaderText = "StrTags";
-            strTagsDataGridViewTextBoxColumn.Name = "strTagsDataGridViewTextBoxColumn";
-            strTagsDataGridViewTextBoxColumn.ReadOnly = true;
+            dgvcStrTags.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvcStrTags.DataPropertyName = "StrTags";
+            dgvcStrTags.HeaderText = "Tags";
+            dgvcStrTags.Name = "dgvcStrTags";
+            dgvcStrTags.ReadOnly = true;
+            // 
+            // dgvcCreated
+            // 
+            dgvcCreated.DataPropertyName = "Created";
+            dataGridViewCellStyle1.Format = "d";
+            dataGridViewCellStyle1.NullValue = null;
+            dgvcCreated.DefaultCellStyle = dataGridViewCellStyle1;
+            dgvcCreated.HeaderText = "Created";
+            dgvcCreated.Name = "dgvcCreated";
+            dgvcCreated.ReadOnly = true;
             // 
             // FrmGroups
             // 
@@ -100,8 +117,10 @@
 
         private DataGridView dgvGroups;
         private BindingSource bsGroups;
-        private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn createdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn strTagsDataGridViewTextBoxColumn;
+        private DataGridViewCheckBoxColumn memberDataGridViewCheckBoxColumn;
+        private DataGridViewCheckBoxColumn dgvcAmIaMember;
+        private DataGridViewTextBoxColumn dgvcName;
+        private DataGridViewTextBoxColumn dgvcStrTags;
+        private DataGridViewTextBoxColumn dgvcCreated;
     }
 }

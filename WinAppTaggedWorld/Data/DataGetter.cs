@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TaggedWorldLibrary.DTOs;
 using TaggedWorldLibrary.Model;
+using static WinAppTaggedWorld.Data.WebApi;
 
 namespace WinAppTaggedWorld.Data
 {
@@ -61,9 +62,10 @@ namespace WinAppTaggedWorld.Data
             return await WebApi.GetList<SharedTarget>(WebApi.ReqEnum.TargetsShared);
         }
 
-        public static async Task<IEnumerable<Group>?> GetGroupsAsync()
+        public static async Task<IEnumerable<VM.GroupVM>?> GetGroupsAsync()
         {
-            return await WebApi.GetList<Group>(WebApi.ReqEnum.Groups_All);
+            //B return await WebApi.GetList<Group>(WebApi.ReqEnum.Groups_All);
+            return await WebApi.GetList<VM.GroupVM>(WebApi.ReqEnum.Groups_All);
         }
 
         public static async Task<IEnumerable<UserDto>?> GetMembersAsync(int groupId)
@@ -75,6 +77,19 @@ namespace WinAppTaggedWorld.Data
         {
             var json = JsonConvert.SerializeObject(sharingDto);
             await WebApi.PostForJson(WebApi.ReqEnum.TargetsShared, json);
+        }
+
+        public static async Task MemberJoin(int groupId, int userId)
+        {
+            var x = new { groupId, userId };
+            var json = JsonConvert.SerializeObject(x);
+            await PostForJson(ReqEnum.MemberJoin, json);
+        }
+
+        public static async Task MemberLeave(int groupId, int userId)
+        {
+            //await WebApi.Delete(ReqEnum.TargetsShared);
+            await ReqForJson(HttpVerb.Delete, ReqEnum.TargetsShared, "", $"groupId={groupId}&userId={userId}");
         }
 
         //public static async Task GetCenusAsync()

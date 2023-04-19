@@ -28,7 +28,8 @@ namespace WebApiTaggedWorld.Controllers
             try
             {
                 var userId = this.GetUserId();
-                var targets = await db.Targets.Where(it => it.UserOwnerId == userId && !it.SharedDate.HasValue)
+                //B var targets = await db.Targets.Where(it => it.UserOwnerId == userId && !it.SharedDate.HasValue)
+                var targets = await db.Targets.Where(it => it.UserOwnerId == userId)
                     .Select(it => new TargetDto
                     {
                         TargetId = it.TargetId,

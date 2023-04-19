@@ -81,7 +81,7 @@ namespace WebApiTaggedWorld.Controllers
             var user = await this.GetUser();
             var dto = new UserDto
             {
-                UserId = 0,
+                UserId = user.UserId,
                 Username = user.Username,
                 Email = user.Email,
                 FullName = user.FullName,

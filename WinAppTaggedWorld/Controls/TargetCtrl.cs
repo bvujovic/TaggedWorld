@@ -128,6 +128,10 @@ namespace WinAppTaggedWorld.Controls
                 tsmi.Click += TsmiSendToUser_Click; ;
                 tsmiGroup.DropDownItems.Add(tsmi);
             }
+            //HACK Kada drugih korisnika u grupi ima samo 1, Item bi se bez ovog separatora
+            // prikazivao u gornjem, levom uglu ekrana
+            if (tsmiGroup.DropDownItems.Count == 1)
+                tsmiGroup.DropDownItems.Add(new ToolStripSeparator());
         }
 
         private async void TsmiSendToUser_Click(object? sender, EventArgs e)

@@ -122,6 +122,8 @@ namespace WinAppTaggedWorld.Data
             Groups_My,
 
             Members,
+            MemberJoin,
+            MemberLeave,
             //B SendTarget,
         }
 
@@ -146,6 +148,8 @@ namespace WinAppTaggedWorld.Data
                 ReqEnum.Groups_My => urlBase + "Groups/myGroups",
 
                 ReqEnum.Members => urlBase + "Members?groupId=" + param,
+                ReqEnum.MemberJoin => urlBase + "Members?" + param,
+                ReqEnum.MemberLeave => urlBase + "Members?" + param,
                 //B ReqEnum.SendTarget => urlBase + "Sharings?groupId=" + param,
 
                 _ => throw new Exception("Nepostojeci reqEnum: " + reqEnum),
