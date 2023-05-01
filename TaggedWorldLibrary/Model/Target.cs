@@ -30,24 +30,19 @@ namespace TaggedWorldLibrary.Model
         public DateTime ModifiedDate { get; set; }
         public DateTime AccessedDate { get; set; }
 
-        //[NotMapped]
         public User UserOwner { get; set; }
         [ForeignKey(nameof(UserOwner))]
         public int UserOwnerId { get; set; }
 
-        //[NotMapped]
         public User UserModified { get; set; }
         [ForeignKey(nameof(UserModified))]
         public int UserModifiedId { get; set; }
 
-        //[NotMapped]
         public User UserAccessed { get; set; }
         [ForeignKey(nameof(UserAccessed))]
         public int UserAccessedId { get; set; }
 
         #region Deljenje targeta
-
-        //B public List<Sharing> Sharings { get; set; }
 
         /// <summary>Kada je podeljen target.</summary>
         public DateTime? SharedDate { get; set; }
@@ -61,6 +56,12 @@ namespace TaggedWorldLibrary.Model
         public Group? SharedOnGroup { get; set; }
         [ForeignKey(nameof(SharedOnGroup))]
         public int? SharedOnGroupId { get; set; }
+
+        /// <summary>
+        /// Da li je deljeni/poslat target prihvacen od strane primaoca.
+        /// Dok nije prihvacen - vidi se kao notifikacija, a posle - kao sopstveni target.
+        /// </summary>
+        public bool IsAccepted { get; set; } = true;
 
         #endregion Deljenje targeta
 

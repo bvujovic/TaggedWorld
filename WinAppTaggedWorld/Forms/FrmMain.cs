@@ -34,7 +34,8 @@ namespace WinAppTaggedWorld.Forms
             try
             {
                 await data.GetTargets();
-                data.User = await WebApi.GetObject<UserDto>(WebApi.ReqEnum.Users_userDto);
+                data.User = await WebApi.GetObject<UserDto>(WebApi.ReqEnum.Users_userDto)
+                    ?? throw new Exception("User data is missing.");
                 if (data.User != null)
                 {
                     txtUserFullname.Text = data.User.FullName;
@@ -152,7 +153,9 @@ namespace WinAppTaggedWorld.Forms
         }
 
         private void BtnSearchAddTag_Click(object sender, EventArgs e)
-            => AddTagFromTxt();
+        {
+            AddTagFromTxt();
+        }
 
         private void BtnTagListClear_Click(object sender, EventArgs e)
         {

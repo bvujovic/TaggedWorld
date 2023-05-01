@@ -29,7 +29,7 @@ namespace WebApiTaggedWorld.Controllers
             {
                 var userId = this.GetUserId();
                 //B var targets = await db.Targets.Where(it => it.UserOwnerId == userId && !it.SharedDate.HasValue)
-                var targets = await db.Targets.Where(it => it.UserOwnerId == userId)
+                var targets = await db.Targets.Where(it => it.UserOwnerId == userId && it.IsAccepted)
                     .Select(it => new TargetDto
                     {
                         TargetId = it.TargetId,
@@ -37,6 +37,33 @@ namespace WebApiTaggedWorld.Controllers
                         StrTags = it.StrTags,
                         OwnerId = userId,
                         CreatedDate = it.CreatedDate,
+                    }).ToListAsync();
+                return Ok(targets);
+            }
+            catch (Exception ex) { return this.Bad(ex); }
+        }
+
+        /// <summary>Dohvatanje targeta ulogovanog korisnika koje jos nije prihvatio.</summary>
+        [HttpGet("notifications"), Authorize]
+        public async Task<ActionResult<IEnumerable<SharedTargetDto>>> GetMyNotifications()
+        {
+            //TODO mozda dodati kao opcioni parametar DateTime poslednje provere -> uzimanje samo svezih notif.
+            try
+            {
+                var userId = this.GetUserId();
+                var targets = await db.Targets.Include(it => it.UserSender).Include(it => it.SharedOnGroup).Where(it => it.UserOwnerId == userId && !it.IsAccepted)
+                    .Select(it => new SharedTargetDto
+                    {
+                        TargetId = it.TargetId,
+                        Content = it.Content,
+                        StrTags = it.StrTags,
+                        OwnerId = userId,
+                        CreatedDate = it.CreatedDate,
+                        SharedDate = it.SharedDate,
+                        UserSenderId = it.UserSenderId,
+                        SharedOnGroupId = it.SharedOnGroupId,
+                        UserSender = it.UserSender!.FullName,
+                        SharedOnGroup = it.SharedOnGroup != null ? it.SharedOnGroup.Name : null,
                     }).ToListAsync();
                 return Ok(targets);
             }

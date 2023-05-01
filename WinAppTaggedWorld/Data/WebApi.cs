@@ -117,6 +117,7 @@ namespace WinAppTaggedWorld.Data
             Targets,
             Targets_Id,
             TargetsShared,
+            TargetsNotif,
 
             Groups_All,
             Groups_My,
@@ -143,6 +144,7 @@ namespace WinAppTaggedWorld.Data
                 ReqEnum.Targets => urlBase + "Targets",
                 ReqEnum.Targets_Id => urlBase + "Targets?targetId=" + param,
                 ReqEnum.TargetsShared => urlBase + "Sharings",
+                ReqEnum.TargetsNotif => urlBase + "Targets/notifications",
 
                 ReqEnum.Groups_All => urlBase + "Groups",
                 ReqEnum.Groups_My => urlBase + "Groups/myGroups",

@@ -100,5 +100,30 @@ namespace WinAppTaggedWorld.Classes
         /// <summary>Da li je prosledjeni string - veb link.</summary>
         public static bool IsItLink(string str)
             => str.StartsWith("http") || str.StartsWith("www.");
+
+        /// <summary>Da li se needle sadrzi u haystack (case insensitive)</summary>
+        public static bool StrContains(string haystack, string needle)
+        {
+            return haystack.Contains(needle, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        /// <summary>Da li se bilo koji string iz kolekcije needles sadrzi u haystack-u (case insensitive)</summary>
+        public static bool StrContains(string haystack, IEnumerable<string> needles)
+        {
+            foreach (var needle in needles)
+                if (StrContains(haystack, needle))
+                    return true;
+            return false;
+        }
+
+        /// <summary>Da li je bilo koji string iz prve kolekcije jednak sa bilo kojim stringom iz druge kolekcije (case insensitive)</summary>
+        public static bool StrFind(IEnumerable<string> strings1, IEnumerable<string> strings2)
+        {
+            foreach (var s1 in strings1)
+                foreach (var s2 in strings2)
+                    if (string.Equals(s1, s2, StringComparison.InvariantCultureIgnoreCase))
+                        return true;
+            return false;
+        }
     }
 }

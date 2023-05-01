@@ -14,5 +14,10 @@
         /// <summary>Tagovi za pretragu ovog target-a spakovani u string.</summary>
         /// <example>raf, tagged-world, projekat, c#, web-api</example>
         public string StrTags { get; set; }
+
+        public override string ToString()
+        {
+            return Content;
+        }
     }
 }

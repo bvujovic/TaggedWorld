@@ -59,37 +59,39 @@ namespace WinAppTaggedWorld.Data
         //TODO videti da li je ovaj metod zaista neophodan
         public static async Task<IEnumerable<SharedTarget>?> GetSharedTargetsAsync()
         {
-            return await WebApi.GetList<SharedTarget>(WebApi.ReqEnum.TargetsShared);
+            return await GetList<SharedTarget>(ReqEnum.TargetsShared);
         }
 
         public static async Task<IEnumerable<VM.GroupVM>?> GetGroupsAsync()
         {
-            //B return await WebApi.GetList<Group>(WebApi.ReqEnum.Groups_All);
-            return await WebApi.GetList<VM.GroupVM>(WebApi.ReqEnum.Groups_All);
+            return await GetList<VM.GroupVM>(ReqEnum.Groups_All);
         }
 
         public static async Task<IEnumerable<UserDto>?> GetMembersAsync(int groupId)
         {
-            return await WebApi.GetList<UserDto>(WebApi.ReqEnum.Members, groupId.ToString());
+            return await GetList<UserDto>(ReqEnum.Members, groupId.ToString());
         }
 
         public static async Task SendTarget(SharingDto sharingDto)
         {
             var json = JsonConvert.SerializeObject(sharingDto);
-            await WebApi.PostForJson(WebApi.ReqEnum.TargetsShared, json);
+            await PostForJson(ReqEnum.TargetsShared, json);
         }
 
-        public static async Task MemberJoin(int groupId, int userId)
+        public static async Task MemberJoin(MemberDto member)
         {
-            var x = new { groupId, userId };
-            var json = JsonConvert.SerializeObject(x);
+            var json = JsonConvert.SerializeObject(member);
             await PostForJson(ReqEnum.MemberJoin, json);
         }
 
         public static async Task MemberLeave(int groupId, int userId)
         {
-            //await WebApi.Delete(ReqEnum.TargetsShared);
-            await ReqForJson(HttpVerb.Delete, ReqEnum.TargetsShared, "", $"groupId={groupId}&userId={userId}");
+            await ReqForJson(HttpVerb.Delete, ReqEnum.MemberLeave, "", $"groupId={groupId}&userId={userId}");
+        }
+
+        public static async Task<IEnumerable<SharedTargetDto>?> GetNotifications()
+        {
+            return await GetList<SharedTargetDto>(ReqEnum.TargetsNotif);
         }
 
         //public static async Task GetCenusAsync()

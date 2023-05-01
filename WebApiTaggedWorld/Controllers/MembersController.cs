@@ -6,6 +6,7 @@ using WebApiTaggedWorld.Classes;
 using TaggedWorldLibrary.DTOs;
 using WebApiTaggedWorld.Data;
 using Microsoft.EntityFrameworkCore;
+using TaggedWorldLibrary.Model;
 
 namespace WebApiTaggedWorld.Controllers
 {
@@ -44,17 +45,19 @@ namespace WebApiTaggedWorld.Controllers
 
         /// <summary>Dodavanje clana u grupu korisnika.</summary>
         [HttpPost, Authorize]
-        public async Task<IActionResult> AddMember(int groupId, int userId)
+        public async Task<IActionResult> AddMember([FromBody] MemberDto member)
         {
             try
             {
-                var member = new TaggedWorldLibrary.Model.Member
+                var m = await db.Member.FirstOrDefaultAsync(it => it.GroupId == member.GroupId && it.UserId == member.UserId);
+                if (m != null)
+                    return NotFound("User is already member of specified group.");
+                db.Member.Add(new Member
                 {
-                    GroupId = groupId,
-                    UserId = userId,
+                    GroupId = member.GroupId,
+                    UserId = member.UserId,
                     IsAdministrator = false,
-                };
-                db.Member.Add(member);
+                });
                 await db.SaveChangesAsync();
                 return Ok();
             }

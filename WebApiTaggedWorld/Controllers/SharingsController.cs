@@ -86,6 +86,7 @@ namespace WebApiTaggedWorld.Controllers
                             UserAccessedId = receiverId,
                             UserModifiedId = receiverId,
                             UserSenderId = senderId,
+                            SharedOnGroupId = sharing.ReceiveGroupId,
                             CreatedDate = DateTime.Now,
                             AccessedDate = DateTime.Now,
                             ModifiedDate = DateTime.Now,
