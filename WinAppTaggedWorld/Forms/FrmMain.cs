@@ -1,4 +1,4 @@
-using System.Windows.Forms;
+﻿using System.Text;
 using TaggedWorldLibrary.DTOs;
 using TaggedWorldLibrary.Model;
 using TaggedWorldLibrary.Utils;
@@ -30,7 +30,7 @@ namespace WinAppTaggedWorld.Forms
                 Close();
                 return;
             }
-            // ovaj k�d se izvrsava samo ako se korisnik uloguje
+            // ovaj kôd se izvrsava samo ako se korisnik uloguje
             try
             {
                 await data.GetTargets();
@@ -43,8 +43,6 @@ namespace WinAppTaggedWorld.Forms
                     txtUserEmail.Text = data.User.Email;
                 }
                 data.MyGroups = await WebApi.GetList<GroupDto>(WebApi.ReqEnum.Groups_My);
-                groupList.Display(data.MyGroups);
-                gbGroups.Text = groupList.ToString();
 
                 SetTxtTagAutoComplete();
                 targetSelector = new Data.Selectors.TargetSelector(data);
@@ -59,6 +57,7 @@ namespace WinAppTaggedWorld.Forms
                 tagListSuggest.TagLabelClicked += TagListSuggest_TagLabelClicked;
                 RefreshTargets();
                 SuggestTags();
+                tim.Start();
             }
             catch (Exception ex) { Utils.Mbox(ex); }
         }
@@ -222,6 +221,49 @@ namespace WinAppTaggedWorld.Forms
             }
         }
 
+        /// <summary>Neophodno da bi se izvrsio DragDrop dogadjaj.</summary>
+        private void TxtTargetAddress_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Link;
+        }
+
+        /// <summary>Korisnik moze da doda fajl/folder/link prevlacenjem tog objekta na txtTargetAddress.</summary>
+        private void TxtTargetAddress_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                if (e.Data == null)
+                    return;
+                if (e.Data.GetDataPresent(DataFormats.FileDrop)) // fajlovi, folderi
+                {
+                    var fileNames = (string[])e.Data.GetData(DataFormats.FileDrop);
+                    if (fileNames.Length > 1)
+                        throw new Exception("Drag & drop je omogućen samo za pojedinačne fajlove/foldere.");
+                    if (File.Exists(fileNames[0]))
+                        AddToTags(Tags.TypeFile);
+                    if (Directory.Exists(fileNames[0]))
+                        AddToTags(Tags.TypeFolder);
+                    txtTargetAddress.Text = fileNames[0];
+                }
+
+                var dataType = "text/x-moz-url"; // linkovi prevuceni iz browser-a
+                if (e.Data.GetDataPresent(dataType))
+                {
+                    var ms = (MemoryStream)e.Data.GetData(dataType);
+                    string dataStr = Encoding.Unicode.GetString(ms.ToArray());
+                    string[] parts = dataStr.Split('\n', StringSplitOptions.TrimEntries);
+                    if (parts != null && parts.Length >= 2)
+                    {
+                        txtTargetAddress.Text = parts[0].Trim();
+                        if (tagListMain.GetTypeTag() != Tags.TypeLink)
+                            AddToTags(Tags.TypeLink);
+                        txtTag.Text = parts[1].Trim();
+                    }
+                }
+            }
+            catch (Exception ex) { Utils.Mbox(ex); }
+        }
+
         private void BtnTargetBrowse_Click(object sender, EventArgs e)
         {
             var typeTag = tagListMain.GetTypeTag();
@@ -360,6 +402,19 @@ namespace WinAppTaggedWorld.Forms
         private void BtnGroups_Click(object sender, EventArgs e)
         {
             new FrmGroups().ShowDialog();
+        }
+
+        private async void Tim_Tick(object sender, EventArgs e)
+        {
+            tim.Stop();
+            try
+            {
+                var nots = await DataGetter.GetNotifications();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

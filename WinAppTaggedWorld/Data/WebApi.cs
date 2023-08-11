@@ -131,7 +131,7 @@ namespace WinAppTaggedWorld.Data
         public static string UrlForReq(ReqEnum reqEnum, string? param = null)
         {
             var urlBase = "https://localhost:7299/api/";
-            //var urlBase = "https://webapidbtest.azurewebsites.net/api/";
+            //var urlBase = "https://webapitaggedworld.azurewebsites.net/api/";
             return reqEnum switch
             {
                 ReqEnum.Users_login => urlBase + "Users/login",

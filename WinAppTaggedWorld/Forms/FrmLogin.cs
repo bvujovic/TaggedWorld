@@ -1,14 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System;
 using WinAppTaggedWorld.Classes;
 
 namespace WinAppTaggedWorld.Forms
@@ -27,7 +17,7 @@ namespace WinAppTaggedWorld.Forms
             txtUsername.Text = "bojan";
             txtPassword.Text = "string";
 #endif
-            //T btnLogin.PerformClick();
+            btnLogin.PerformClick();
         }
 
         private async void BtnLogin_Click(object sender, EventArgs e)
@@ -49,7 +39,6 @@ namespace WinAppTaggedWorld.Forms
             }
             catch (Exception ex) { Utils.Mbox(ex.Message); }
             btnLogin.Enabled = true;
-            //await Data.DataGetter.LogoutAsync();
         }
 
         private void LnkRegistration_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

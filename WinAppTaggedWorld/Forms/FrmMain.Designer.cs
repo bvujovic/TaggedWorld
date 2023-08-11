@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             Label label2;
             Label label3;
             Label label1;
@@ -50,13 +51,12 @@
             fileBrowse = new OpenFileDialog();
             folderBrowse = new FolderBrowserDialog();
             scMain = new SplitContainer();
-            gbGroups = new GroupBox();
-            groupList = new Controls.GroupList();
+            btnGroups = new Button();
             gbUserData = new GroupBox();
             txtUserEmail = new TextBox();
             txtUserUsername = new TextBox();
             txtUserFullname = new TextBox();
-            btnGroups = new Button();
+            tim = new System.Windows.Forms.Timer(components);
             label2 = new Label();
             label3 = new Label();
             label1 = new Label();
@@ -69,7 +69,6 @@
             scMain.Panel1.SuspendLayout();
             scMain.Panel2.SuspendLayout();
             scMain.SuspendLayout();
-            gbGroups.SuspendLayout();
             gbUserData.SuspendLayout();
             SuspendLayout();
             // 
@@ -175,12 +174,15 @@
             // 
             // txtTargetAddress
             // 
+            txtTargetAddress.AllowDrop = true;
             txtTargetAddress.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtTargetAddress.Location = new Point(13, 209);
             txtTargetAddress.Name = "txtTargetAddress";
             txtTargetAddress.Size = new Size(798, 25);
             txtTargetAddress.TabIndex = 21;
             txtTargetAddress.TextChanged += TxtTargetAddress_TextChanged;
+            txtTargetAddress.DragDrop += TxtTargetAddress_DragDrop;
+            txtTargetAddress.DragEnter += TxtTargetAddress_DragEnter;
             // 
             // btnTargetBrowse
             // 
@@ -290,7 +292,6 @@
             // scMain.Panel1
             // 
             scMain.Panel1.Controls.Add(btnGroups);
-            scMain.Panel1.Controls.Add(gbGroups);
             scMain.Panel1.Controls.Add(gbUserData);
             // 
             // scMain.Panel2
@@ -301,30 +302,15 @@
             scMain.SplitterDistance = 203;
             scMain.TabIndex = 2;
             // 
-            // gbGroups
+            // btnGroups
             // 
-            gbGroups.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            gbGroups.Controls.Add(groupList);
-            gbGroups.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            gbGroups.Location = new Point(12, 302);
-            gbGroups.Name = "gbGroups";
-            gbGroups.Size = new Size(188, 292);
-            gbGroups.TabIndex = 2;
-            gbGroups.TabStop = false;
-            gbGroups.Text = "Group Sharings";
-            // 
-            // groupList
-            // 
-            groupList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            groupList.AutoScroll = true;
-            groupList.BorderStyle = BorderStyle.FixedSingle;
-            groupList.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            groupList.Location = new Point(6, 24);
-            groupList.Name = "groupList";
-            groupList.Padding = new Padding(2);
-            groupList.Size = new Size(176, 262);
-            groupList.TabIndex = 0;
-            groupList.SelectionChanged += GroupList_SelectionChanged;
+            btnGroups.Location = new Point(18, 234);
+            btnGroups.Name = "btnGroups";
+            btnGroups.Size = new Size(85, 27);
+            btnGroups.TabIndex = 23;
+            btnGroups.Text = "Groups";
+            btnGroups.UseVisualStyleBackColor = true;
+            btnGroups.Click += BtnGroups_Click;
             // 
             // gbUserData
             // 
@@ -369,15 +355,10 @@
             txtUserFullname.Size = new Size(176, 25);
             txtUserFullname.TabIndex = 2;
             // 
-            // btnGroups
+            // tim
             // 
-            btnGroups.Location = new Point(18, 234);
-            btnGroups.Name = "btnGroups";
-            btnGroups.Size = new Size(85, 27);
-            btnGroups.TabIndex = 23;
-            btnGroups.Text = "Groups";
-            btnGroups.UseVisualStyleBackColor = true;
-            btnGroups.Click += BtnGroups_Click;
+            tim.Interval = 5000;
+            tim.Tick += Tim_Tick;
             // 
             // FrmMain
             // 
@@ -399,7 +380,6 @@
             scMain.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)scMain).EndInit();
             scMain.ResumeLayout(false);
-            gbGroups.ResumeLayout(false);
             gbUserData.ResumeLayout(false);
             gbUserData.PerformLayout();
             ResumeLayout(false);
@@ -430,8 +410,7 @@
         private TextBox txtUserFullname;
         private TextBox txtUserEmail;
         private TextBox txtUserUsername;
-        private GroupBox gbGroups;
-        private Controls.GroupList groupList;
         private Button btnGroups;
+        private System.Windows.Forms.Timer tim;
     }
 }
