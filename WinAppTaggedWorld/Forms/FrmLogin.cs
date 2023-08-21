@@ -17,7 +17,7 @@ namespace WinAppTaggedWorld.Forms
             txtUsername.Text = "bojan";
             txtPassword.Text = "string";
 #endif
-            btnLogin.PerformClick();
+            //btnLogin.PerformClick();
         }
 
         private async void BtnLogin_Click(object sender, EventArgs e)
@@ -38,6 +38,8 @@ namespace WinAppTaggedWorld.Forms
                 DialogResult = DialogResult.OK;
             }
             catch (Exception ex) { Utils.Mbox(ex.Message); }
+            //TODO ako budem hteo da ponavljam Login kada se server ne javlja, greska glasi:
+            // "No connection could be made because the target machine actively refused it. (localhost:7299)"
             btnLogin.Enabled = true;
         }
 

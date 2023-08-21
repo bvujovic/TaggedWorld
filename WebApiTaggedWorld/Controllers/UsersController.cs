@@ -143,7 +143,7 @@ namespace WebApiTaggedWorld.Controllers
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var jwt = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(10),
+                expires: DateTime.Now.AddMinutes(1),
                 issuer: "JwtIssuer",
                 audience: "JwtAudience",
                 signingCredentials: creds);

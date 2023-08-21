@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaggedWorldLibrary", "Tagge
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8C37154D-EF91-4FC3-8405-00836D4C613B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{8C4C1EE2-2999-4560-8E39-1C2B0A09E5F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestingLibrary", "UnitTesting\UnitTestingLibrary.csproj", "{8C4C1EE2-2999-4560-8E39-1C2B0A09E5F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTaggedWorld", "WebApiTaggedWorld\WebApiTaggedWorld.csproj", "{386AA200-B183-48C7-8937-CD75C36C9077}"
 EndProject

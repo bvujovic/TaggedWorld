@@ -51,6 +51,7 @@
             fileBrowse = new OpenFileDialog();
             folderBrowse = new FolderBrowserDialog();
             scMain = new SplitContainer();
+            btnSharedTargets = new Button();
             btnGroups = new Button();
             gbUserData = new GroupBox();
             txtUserEmail = new TextBox();
@@ -291,6 +292,7 @@
             // 
             // scMain.Panel1
             // 
+            scMain.Panel1.Controls.Add(btnSharedTargets);
             scMain.Panel1.Controls.Add(btnGroups);
             scMain.Panel1.Controls.Add(gbUserData);
             // 
@@ -302,11 +304,22 @@
             scMain.SplitterDistance = 203;
             scMain.TabIndex = 2;
             // 
+            // btnSharedTargets
+            // 
+            btnSharedTargets.Enabled = false;
+            btnSharedTargets.Location = new Point(18, 267);
+            btnSharedTargets.Name = "btnSharedTargets";
+            btnSharedTargets.Size = new Size(176, 27);
+            btnSharedTargets.TabIndex = 24;
+            btnSharedTargets.Text = "New Shared Targets";
+            btnSharedTargets.UseVisualStyleBackColor = true;
+            btnSharedTargets.Click += BtnSharedTargets_Click;
+            // 
             // btnGroups
             // 
             btnGroups.Location = new Point(18, 234);
             btnGroups.Name = "btnGroups";
-            btnGroups.Size = new Size(85, 27);
+            btnGroups.Size = new Size(176, 27);
             btnGroups.TabIndex = 23;
             btnGroups.Text = "Groups";
             btnGroups.UseVisualStyleBackColor = true;
@@ -357,7 +370,7 @@
             // 
             // tim
             // 
-            tim.Interval = 5000;
+            tim.Interval = 1;
             tim.Tick += Tim_Tick;
             // 
             // FrmMain
@@ -412,5 +425,6 @@
         private TextBox txtUserUsername;
         private Button btnGroups;
         private System.Windows.Forms.Timer tim;
+        private Button btnSharedTargets;
     }
 }

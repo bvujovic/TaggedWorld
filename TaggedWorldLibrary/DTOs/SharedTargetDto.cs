@@ -1,4 +1,5 @@
 ﻿using System;
+using TaggedWorldLibrary.Utils;
 
 namespace TaggedWorldLibrary.DTOs
 {
@@ -16,5 +17,24 @@ namespace TaggedWorldLibrary.DTOs
         public int? SharedOnGroupId { get; set; }
 
         public string? SharedOnGroup { get; set; }
+
+        public override SharedTarget ToTarget()
+        {
+            var t = new SharedTarget();
+            CopyToTarget(t);
+            t.SharedDate = SharedDate;
+            t.UserSenderId = UserSenderId;
+            t.ShareUserName = UserSender;
+            t.SharedOnGroupId = SharedOnGroupId;
+            t.ShareGroupName = SharedOnGroup;
+            return t;
+            //B
+            //return new SharedTarget
+            //{
+            //    TargetId = TargetId,
+            //    Tags = Tags.ParseTags(StrTags).ToList(),
+            //    Content = Content,
+            //};
+        }
     }
 }

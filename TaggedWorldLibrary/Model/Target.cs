@@ -150,7 +150,7 @@ namespace TaggedWorldLibrary.Model
         }
 
         /// <summary>Vraca tip tag ili null ako ga nema u prosledjenoj listi tags.</summary>
-        public static string? GetTypeTag(List<string> tags)
+        public static string? GetTypeTag(IEnumerable<string> tags)
         {
             foreach (var tag in tags)
                 if (Utils.Tags.IsTypeTag(tag))

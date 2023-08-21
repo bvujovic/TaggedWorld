@@ -125,5 +125,18 @@ namespace WinAppTaggedWorld.Classes
                         return true;
             return false;
         }
+
+        public static Color NewTargetsToColor(int n)
+        {
+            if (n <= 0)
+                return SystemColors.Control;
+            if (n <= 6)
+                return Color.FromArgb((n - 1) * 50, 250, 0);
+            if (n <= 10)
+                return Color.FromArgb(250, 250 - (n - 6) * 50, 0);
+            return Color.Red;
+        }
+
+        //TODO dodati unit test projekat koji testira neke od metoda iz ove klase (uopste: test WinForm projekta)
     }
 }

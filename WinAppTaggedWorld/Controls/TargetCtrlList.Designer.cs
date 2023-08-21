@@ -28,17 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
+            SuspendLayout();
             // 
             // TargetCtrlList
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
-            this.Name = "TargetCtrlList";
-            this.Size = new System.Drawing.Size(651, 345);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
+            Name = "TargetCtrlList";
+            Size = new Size(651, 345);
+            Click += TargetCtrlList_Click;
+            ResumeLayout(false);
         }
 
         #endregion

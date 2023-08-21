@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using TaggedWorldLibrary.DTOs;
 using TaggedWorldLibrary.Model;
@@ -15,23 +12,32 @@ namespace WinAppTaggedWorld.Controls
         public TargetCtrl(Target target)
         {
             InitializeComponent();
-            Dock = DockStyle.Top;
-            var typeTag = target.GetTypeTag();
-            if (typeTag != null)
-            {
-                switch (typeTag)
-                {
-                    case Tags.TypeFolder: picIco.Image = Properties.Resources.ico_folder; break;
-                    case Tags.TypeFile: picIco.Image = Properties.Resources.ico_file; break;
-                    case Tags.TypeLink: picIco.Image = Properties.Resources.ico_link; break;
-                }
-            }
             Target = target;
-            RefreshDisplay();
-            pnlMain.Click += Control_Click;
-            lblAddress.Click += Control_Click;
-            lblTags.Click += Control_Click;
-            //T lblShareInfo.Text = "Porodica\r\nbvujovic";
+            try
+            {
+                Dock = DockStyle.Top;
+                var typeTag = target.GetTypeTag();
+                if (typeTag != null)
+                {
+                    switch (typeTag)
+                    {
+                        case Tags.TypeFolder: picIco.Image = Properties.Resources.ico_folder; break;
+                        case Tags.TypeFile: picIco.Image = Properties.Resources.ico_file; break;
+                        case Tags.TypeLink: picIco.Image = Properties.Resources.ico_link; break;
+                    }
+                }
+                if (target is SharedTarget)
+                    pnlMain.ContextMenuStrip = ctxSharedTarget;
+                RefreshDisplay();
+                pnlMain.Click += Control_Click;
+                lblAddress.Click += Control_Click;
+                lblTags.Click += Control_Click;
+                tlpShareInfo.Click += Control_Click;
+                lblSentBy.Click += Control_Click;
+                lblGroup.Click += Control_Click;
+                lblDateTime.Click += Control_Click;
+            }
+            catch (Exception ex) { Utils.Mbox(ex); }
         }
 
         private void Control_Click(object? sender, EventArgs e)
@@ -51,7 +57,6 @@ namespace WinAppTaggedWorld.Controls
 
         private void Lbl_Click(object sender, EventArgs e)
         {
-            IsSelected = true;
             Clipboard.SetText(((Label)sender).Text);
         }
 
@@ -64,6 +69,28 @@ namespace WinAppTaggedWorld.Controls
             => EditTarget?.Invoke(this, e);
 
         public event EventHandler EditTarget = default!;
+
+        private async void TsmiSharedAccept_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await Data.DataGetter.TargetAccept(Target.TargetId);
+                RemoveTarget?.Invoke(this, e);
+                var data = Data.LocalData.GetInstance();
+                data.AddTarget(((SharedTarget)Target).ToTarget());
+            }
+            catch (Exception ex) { Utils.Mbox(ex); }
+        }
+
+        private async void TsmiSharedReject_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await Data.DataGetter.DeleteTarget(Target.TargetId);
+                RemoveTarget?.Invoke(this, e);
+            }
+            catch (Exception ex) { Utils.Mbox(ex); }
+        }
 
         private bool isSelected;
         /// <summary>Da li je ova kontrola selektovana u listi.</summary>
@@ -84,6 +111,11 @@ namespace WinAppTaggedWorld.Controls
         }
 
         public event EventHandler Selected = default!;
+
+        private void CtxSharedTarget_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            IsSelected = true;
+        }
 
         private void CtxStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -142,7 +174,7 @@ namespace WinAppTaggedWorld.Controls
                     return;
                 if (tsmi.Tag is not UserDto u)
                     return;
-                ctxStrip.Close();
+                ctxTarget.Close();
                 await Data.DataGetter.SendTarget(new SharingDto
                 {
                     TargetId = Target.TargetId,
@@ -161,7 +193,7 @@ namespace WinAppTaggedWorld.Controls
                     return;
                 if (tsmi.Tag is not GroupDto g)
                     return;
-                ctxStrip.Close();
+                ctxTarget.Close();
                 if (Utils.MboxYesNo($"Are you sure that you want to send selected target to ALL members of the group {g.Name}?")
                     == DialogResult.Yes)
                 {
@@ -182,26 +214,22 @@ namespace WinAppTaggedWorld.Controls
             lblTags.Text = Tags.JoinTags(Target.Tags);
             if (Target is SharedTarget st)
             {
-                lblShareInfo.Text = st.ShareGroupName + Environment.NewLine + st.ShareUserName;
-                lblShareInfo.Visible = true;
+                Height = 70;
+                tlpShareInfo.Left = lblAddress.Left;
+                tlpShareInfo.Top = lblTags.Top + (lblTags.Top - lblAddress.Top);
+                lblDateTime.Text = "Sent by: " + st.ShareUserName;
+                lblGroup.Text = "Group: " + st.ShareGroupName;
+                lblSentBy.Text = "Date, time: " + st.CreatedDate.ToString(Utils.DatumVremeFormat);
+                tlpShareInfo.Visible = true;
             }
+        }
+
+        private void PnlMain_BackColorChanged(object sender, EventArgs e)
+        {
+            tlpShareInfo.BackColor = pnlMain.BackColor;
         }
 
         public override string ToString()
             => lblAddress.Text;
-
-        //B
-        //public void SetShareInfo()
-        //{
-        //    // grupa, ko je shareovao
-        //}
-
-        //{
-        //  "targetId": 9,
-        //  "createdDate": "2023-01-20T01:48:08.4792945",
-        //  "ownerId": 1,
-        //  "content": "C:\\Users\\bvnet\\OneDrive\\x\\RAF\\RAF Progres.xlsx",
-        //  "strTags": "file, faks, progres, Excel"
-        //},
     }
 }

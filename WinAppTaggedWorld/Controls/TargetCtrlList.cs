@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using TaggedWorldLibrary.Model;
 
@@ -37,7 +36,7 @@ namespace WinAppTaggedWorld.Controls
             {
                 if (isDisplaySuspended || targets == null)
                     return;
-                System.Diagnostics.Debug.WriteLine("Display " + targets.Count());
+                //T System.Diagnostics.Debug.WriteLine("Display " + targets.Count());
                 Controls.Clear();
                 foreach (var target in targets)
                 {
@@ -83,6 +82,11 @@ namespace WinAppTaggedWorld.Controls
             foreach (var ctrl in TargetControls)
                 if (!ctrl.Equals(sender))
                     ctrl.IsSelected = false;
+                else
+                {
+                    if (SelectedTarget == null)
+                        SelectedTarget = ctrl.Target;
+                }
         }
 
         public event EventHandler RemoveTarget = default!;
@@ -90,5 +94,13 @@ namespace WinAppTaggedWorld.Controls
 
         public override string ToString()
             => Controls.Count + " targets shown.";
+
+        /// <summary>Klik na praznu povrsinu liste targeta deselektuje selektovani target (ako takav postoji).</summary>
+        private void TargetCtrlList_Click(object sender, EventArgs e)
+        {
+            var ctrl = GetSelectedCtrl();
+            if (ctrl != null)
+                ctrl.IsSelected = false;
+        }
     }
 }

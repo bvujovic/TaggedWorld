@@ -45,6 +45,24 @@ namespace WebApiTaggedWorld.Controllers
             return Ok(targets);
         }
 
+        /// <summary>Korisnik prihvata deljeni target sa datim id-em.</summary>
+        // Patch objasnjenje: https://stackoverflow.com/questions/107390/whats-the-difference-between-a-post-and-a-put-http-request
+        [HttpPatch("accept"), Authorize]
+        public async Task<IActionResult> AcceptTarget(int targetId)
+        {
+            try
+            {
+                var t = await db.Targets.FindAsync(targetId);
+                if (t == null)
+                    return NotFound($"Target id:{targetId} not found.");
+                t.IsAccepted = true;
+                t.ModifiedDate = DateTime.Now;
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex) { return this.Bad(ex); }
+        }
+
         /// <summary>Kreiranje novog deljenja.</summary>
         [HttpPost, Authorize]
         public async Task<IActionResult> Create([FromBody] SharingDto sharing)
@@ -64,6 +82,7 @@ namespace WebApiTaggedWorld.Controllers
                     var newTarget = Target.CreateTarget(t.Content, t.StrTags, DateTime.Now, receiver);
                     newTarget.UserSenderId = senderId;
                     newTarget.SharedDate = DateTime.Now;
+                    newTarget.IsAccepted = false;
                     db.Targets.Add(newTarget);
                 }
                 else // slanje targeta grupi
@@ -91,6 +110,7 @@ namespace WebApiTaggedWorld.Controllers
                             AccessedDate = DateTime.Now,
                             ModifiedDate = DateTime.Now,
                             SharedDate = DateTime.Now,
+                            IsAccepted = false,
                         });
                     if (newTargets.Any())
                         db.Targets.AddRange(newTargets);

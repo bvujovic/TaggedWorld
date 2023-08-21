@@ -205,7 +205,6 @@ namespace WinAppTaggedWorld.Forms
 
         private void SuggestTags()
         {
-            //TODO dobro bi bilo da postoji mehanizam za suspendovanje sugestija (kada se dodaje vise tagova odjednom)
             if (suspendSuggestTags)
                 return;
             System.Diagnostics.Debug.WriteLine("SuggestTags");
@@ -387,34 +386,50 @@ namespace WinAppTaggedWorld.Forms
             catch (Exception) { }
         }
 
-        private async void GroupList_SelectionChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var x = await DataGetter.GetSharedTargetsAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
         private void BtnGroups_Click(object sender, EventArgs e)
         {
             new FrmGroups().ShowDialog();
         }
 
+        private void BtnSharedTargets_Click(object sender, EventArgs e)
+        {
+            if (sharedTargets != null)
+            {
+                tim.Stop();
+                new FrmSharedTargets(sharedTargets).ShowDialog();
+                RefreshTargets();
+                tim.Interval = 1;
+                tim.Start();
+            }
+        }
+
+        private IEnumerable<SharedTargetDto>? sharedTargets = null;
+
+        //TODO dogadjaj SharedTargets Updated/Changed: kada je kolekcija izmenjena?, kacenje FrmST na taj dog., test!
+        // mozda ovo i ne mora. mozda je skroz OK da se novi deljeni targeti ne ucitavaju dok se tekuci gledaju
+
+        /// <summary>Ucitavanje novih/neprihvacenih target-a koji su poslati korisniku.</summary>
         private async void Tim_Tick(object sender, EventArgs e)
         {
-            tim.Stop();
+            if (tim.Interval == 1)
+                tim.Stop();
+#if DEBUG
+            tim.Interval = 1000 * 5; // 5sec
+#else
+            tim.Interval = 1000 * 60; // 1min
+#endif
             try
             {
-                var nots = await DataGetter.GetNotifications();
+                sharedTargets = await DataGetter.GetNotifications();
+                if (sharedTargets != null)
+                {
+                    btnSharedTargets.BackColor = Utils.NewTargetsToColor(sharedTargets.Count());
+                    btnSharedTargets.Text = $"New Shared Targets ({sharedTargets.Count()})";
+                }
+                btnSharedTargets.Enabled = sharedTargets != null;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            catch (Exception ex) { Utils.Mbox(ex, "Getting new shared targets"); }
+            tim.Start();
         }
     }
 }
