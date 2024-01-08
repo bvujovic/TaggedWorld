@@ -340,10 +340,6 @@ namespace WinAppTaggedWorld.Forms
                 // dodavanje novog targeta
                 if (target == null)
                 {
-                    if (data.ContainsTargetWSameContent(txtTargetAddress.Text) &&
-                        Utils.MboxYesNo("Target with the same address already exists. Are you sure that you want to add another one?"
-                        , "Save Target") == DialogResult.No)
-                        return;
                     var t = new Target
                     {
                         Content = txtTargetAddress.Text,

@@ -58,6 +58,8 @@ namespace WinAppTaggedWorld.Data
 
         public void AddTarget(Target t)
         {
+            if (ContainsTargetWSameContent(t.Content))
+                throw new Exception("Target with the same address already exists.");
             targets.Add(t);
             foreach (var tag in t.Tags)
                 tags.Add(tag);

@@ -19,13 +19,12 @@ namespace WinAppTaggedWorld.Forms
             try
             {
                 targetList.Display(sharedTargets.Select(it => it.ToTarget()));
-                //B lblTargetResults.Text = $"Results ({sharedTargets.Count()})";
                 RefreshLblTargetResults();
             }
             catch (Exception ex) { Utils.Mbox(ex); }
         }
 
-        private void RefreshLblTargetResults() => lblTargetResults.Text = $"Results ({sharedTargets.Count()})";
+        private void RefreshLblTargetResults() => lblTargetResults.Text = $"Results ({targetList.ControlsCount})";
 
         private void TargetList_RemoveTarget(object sender, EventArgs e)
         {
@@ -35,6 +34,8 @@ namespace WinAppTaggedWorld.Forms
                 {
                     targetList.RemoveTargetCtrl(ctrl);
                     RefreshLblTargetResults();
+                    if (targetList.ControlsCount == 0)
+                        Close();
                 }
             }
             catch (Exception ex) { Utils.Mbox(ex); }

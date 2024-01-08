@@ -4,7 +4,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
-const string appTitle = "EF Sqlite testing";
+const string appTitle = "Tagged World WebAPI";
 const string appVersion = "v1";
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +28,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = appTitle,
         Version = appVersion,
-        Description = "Testing EF w/ Sqlite",
+        Description = $"Testing {appTitle}",
         Contact = new OpenApiContact { Name = "BV", Email = "bv.net@outlook.com", Url = new Uri("https://github.com/bvujovic/") }
     });
 

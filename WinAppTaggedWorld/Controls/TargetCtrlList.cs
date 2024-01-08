@@ -92,6 +92,8 @@ namespace WinAppTaggedWorld.Controls
         public event EventHandler RemoveTarget = default!;
         public event EventHandler EditTarget = default!;
 
+        public int ControlsCount => Controls.Count;
+
         public override string ToString()
             => Controls.Count + " targets shown.";
 
