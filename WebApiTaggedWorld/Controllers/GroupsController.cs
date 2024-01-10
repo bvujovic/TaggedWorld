@@ -32,6 +32,13 @@ namespace WebApiTaggedWorld.Controllers
         //    return Ok(res);
         //}
 
+        /// <summary>TEST METOD: Dohvatanje jedne test grupe.</summary>
+        [HttpGet("testGroup")]
+        public ActionResult<Group> GetTestGroup()
+        {
+            return Ok(new Group { GroupId = 321, Name = "Test Grupa", StrTags = "test, testiranje, grupa" });
+        }
+
         /// <summary>Dohvatanje svih grupa.</summary>
         [HttpGet, Authorize]
         public async Task<ActionResult<List<Group>>> GetAllGroups()
