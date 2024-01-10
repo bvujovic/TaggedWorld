@@ -54,7 +54,6 @@
             // lblGroup
             // 
             lblGroup.AutoSize = true;
-            lblGroup.ContextMenuStrip = ctxTarget;
             lblGroup.Location = new Point(71, 0);
             lblGroup.Margin = new Padding(0);
             lblGroup.Name = "lblGroup";
@@ -102,7 +101,6 @@
             // lblSentBy
             // 
             lblSentBy.AutoSize = true;
-            lblSentBy.ContextMenuStrip = ctxTarget;
             lblSentBy.Location = new Point(0, 0);
             lblSentBy.Margin = new Padding(0);
             lblSentBy.Name = "lblSentBy";
@@ -160,7 +158,6 @@
             // lblAddress
             // 
             lblAddress.AutoSize = true;
-            lblAddress.ContextMenuStrip = ctxTarget;
             lblAddress.Font = new Font("Segoe UI", 9.75F, FontStyle.Italic, GraphicsUnit.Point);
             lblAddress.Location = new Point(50, 4);
             lblAddress.Name = "lblAddress";
@@ -172,7 +169,6 @@
             // lblTags
             // 
             lblTags.AutoSize = true;
-            lblTags.ContextMenuStrip = ctxTarget;
             lblTags.Location = new Point(50, 24);
             lblTags.Name = "lblTags";
             lblTags.Size = new Size(80, 17);
@@ -185,20 +181,20 @@
             ctxSharedTarget.Items.AddRange(new ToolStripItem[] { tsmiSharedAccept, tsmiSharedReject });
             ctxSharedTarget.Name = "ctxStrip";
             ctxSharedTarget.RenderMode = ToolStripRenderMode.Professional;
-            ctxSharedTarget.Size = new Size(181, 70);
+            ctxSharedTarget.Size = new Size(112, 48);
             ctxSharedTarget.Opening += CtxSharedTarget_Opening;
             // 
             // tsmiSharedAccept
             // 
             tsmiSharedAccept.Name = "tsmiSharedAccept";
-            tsmiSharedAccept.Size = new Size(180, 22);
+            tsmiSharedAccept.Size = new Size(111, 22);
             tsmiSharedAccept.Text = "&Accept";
             tsmiSharedAccept.Click += TsmiSharedAccept_Click;
             // 
             // tsmiSharedReject
             // 
             tsmiSharedReject.Name = "tsmiSharedReject";
-            tsmiSharedReject.Size = new Size(180, 22);
+            tsmiSharedReject.Size = new Size(111, 22);
             tsmiSharedReject.Text = "&Reject";
             tsmiSharedReject.Click += TsmiSharedReject_Click;
             // 
