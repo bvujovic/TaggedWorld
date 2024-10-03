@@ -109,6 +109,7 @@ namespace TaggedWorldLibrary.Model
         {
             Content = content;
             Tags = tags;
+            TagsCheck(Tags);
         }
 
         public Target(string content, params string[] tags)
@@ -162,7 +163,7 @@ namespace TaggedWorldLibrary.Model
         public string? GetTypeTag()
             => GetTypeTag(Tags);
 
-        /// <summary>Vraca broj poena tj. poklapanja sa prosledjenim tagovima.</summary>
+        /// <summary>Vraca broj poena tj. poklapanja Targetovih tagova sa prosledjenim tagovima.</summary>
         public float GetTagPoints(IEnumerable<string> tags)
         {
             var count = 0;
