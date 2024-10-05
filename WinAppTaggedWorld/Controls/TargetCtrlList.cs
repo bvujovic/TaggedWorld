@@ -83,10 +83,7 @@ namespace WinAppTaggedWorld.Controls
                 if (!ctrl.Equals(sender))
                     ctrl.IsSelected = false;
                 else
-                {
-                    if (SelectedTarget == null)
-                        SelectedTarget = ctrl.Target;
-                }
+                    SelectedTarget ??= ctrl.Target;
         }
 
         public event EventHandler RemoveTarget = default!;

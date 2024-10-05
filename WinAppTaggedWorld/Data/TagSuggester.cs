@@ -54,8 +54,7 @@ namespace WinAppTaggedWorld.Data
             return suggested;
         }
 
-        public static Tuple<int, IEnumerable<string>> SuggestForTarget
-            (Target target, IEnumerable<string> enteredTags)
+        public static Tuple<int, IEnumerable<string>> SuggestForTarget(Target target, IEnumerable<string> enteredTags)
         {
             var suggested = target.Tags.Where(it => !enteredTags.Contains(it));
             var cntHits = target.Tags.Where(it => enteredTags.Contains(it)).Count();
