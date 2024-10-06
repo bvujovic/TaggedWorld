@@ -1,6 +1,5 @@
 ﻿using System;
 using TaggedWorldLibrary.Model;
-using WinAppTaggedWorld.Classes;
 
 namespace WinAppUnitTests.Data
 {
@@ -13,7 +12,7 @@ namespace WinAppUnitTests.Data
         [InlineData(1, "folder,dva,tri", "jedan")]
         [InlineData(4, "dva,tri", "jedan", "folder")]
         [InlineData(4, "folder,dva", "jedan", "tri")]
-        /// <summary></summary>
+        /// <summary>SuggestForTarget treba da vrati expHits i strSuggested za date tagove (tags).</summary>
         public void SuggestForTarget(int expHits, string strSuggested, params string[] tags)
         {
             var expSuggested = strSuggested.Split(',');

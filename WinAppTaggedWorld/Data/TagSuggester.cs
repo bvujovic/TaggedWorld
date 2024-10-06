@@ -54,6 +54,12 @@ namespace WinAppTaggedWorld.Data
             return suggested;
         }
 
+        /// <summary>
+        /// Metod vraca kvadrirani broj tagova koji su pronadjeni u datom targetu uz
+        /// preostale tagove - one koji nisu pogodjeni/pronadjeni (oni su predlozeni tagovi).
+        /// </summary>
+        /// <param name="target">Target u okviru kojeg se tagovi pretrazuju.</param>
+        /// <param name="enteredTags">Tagovi koji su dati tj. traze u tagovima targeta.</param>
         public static Tuple<int, IEnumerable<string>> SuggestForTarget(Target target, IEnumerable<string> enteredTags)
         {
             var suggested = target.Tags.Where(it => !enteredTags.Contains(it));
