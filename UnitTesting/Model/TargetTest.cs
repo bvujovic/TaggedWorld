@@ -95,5 +95,35 @@ namespace UnitTestingLibrary.Model
             var points = t.GetTagPoints(tags);
             Assert.Equal(expected, points);
         }
+
+        [Fact]
+        public void FromStringTest_1()
+        {
+            string s = "https://revspin.net/rubber/, link, ping pong, stoni tenis, gume";
+            var t = Target.FromString(s);
+            Assert.Equal("https://revspin.net/rubber/", t.Content);
+            Assert.Contains("link", t.Tags);
+            Assert.Contains("ping pong", t.Tags);
+            Assert.Contains("gume", t.Tags);
+            Assert.Equal("link, ping pong, stoni tenis, gume", string.Join(", ", t.Tags));
+        }
+
+        [Fact]
+        public void FromStringTest_Empty()
+        {
+            string s = "";
+            Assert.ThrowsAny<ArgumentException>(() => Target.FromString(s));
+        }
+
+        [Theory]
+        [InlineData("abc")]
+        [InlineData("abc; x; y")]
+        [InlineData("abc,x,y")]
+        public void FromStringTest_NoTags(string s)
+        {
+            var exc = Record.Exception(() => Target.FromString(s));
+            Assert.Equal(typeof(ArgumentException), exc.GetType());
+            Assert.Contains("tags", exc.Message, StringComparison.InvariantCultureIgnoreCase);
+        }
     }
 }

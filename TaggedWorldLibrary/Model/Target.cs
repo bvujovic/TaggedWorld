@@ -181,5 +181,15 @@ namespace TaggedWorldLibrary.Model
         /// <summary>Izracunava broj poena tj. poklapanja sa datim tagovima i pamti u TagPoints.</summary>
         public void CalcTagPoints(IEnumerable<string> tags)
             => TagPoints = GetTagPoints(tags);
+
+        public static Target FromString(string? s)
+        {
+            if (string.IsNullOrEmpty(s))
+                throw new ArgumentNullException(nameof(s));
+            var parts = s.Split(", ", StringSplitOptions.RemoveEmptyEntries).ToList();
+            var content = parts[0];
+            parts.RemoveAt(0);
+            return new Target(content, parts);
+        }
     }
 }
