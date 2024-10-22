@@ -51,6 +51,7 @@
             fileBrowse = new OpenFileDialog();
             folderBrowse = new FolderBrowserDialog();
             scMain = new SplitContainer();
+            btnTestPerformance = new Button();
             btnSharedTargets = new Button();
             btnGroups = new Button();
             gbUserData = new GroupBox();
@@ -292,6 +293,7 @@
             // 
             // scMain.Panel1
             // 
+            scMain.Panel1.Controls.Add(btnTestPerformance);
             scMain.Panel1.Controls.Add(btnSharedTargets);
             scMain.Panel1.Controls.Add(btnGroups);
             scMain.Panel1.Controls.Add(gbUserData);
@@ -304,6 +306,17 @@
             scMain.SplitterDistance = 203;
             scMain.TabIndex = 2;
             // 
+            // btnTestPerformance
+            // 
+            btnTestPerformance.Enabled = false;
+            btnTestPerformance.Location = new Point(18, 300);
+            btnTestPerformance.Name = "btnTestPerformance";
+            btnTestPerformance.Size = new Size(176, 27);
+            btnTestPerformance.TabIndex = 25;
+            btnTestPerformance.Text = "Test Performance...";
+            btnTestPerformance.UseVisualStyleBackColor = true;
+            btnTestPerformance.Click += BtnTestPerformance_Click;
+            // 
             // btnSharedTargets
             // 
             btnSharedTargets.Enabled = false;
@@ -311,7 +324,7 @@
             btnSharedTargets.Name = "btnSharedTargets";
             btnSharedTargets.Size = new Size(176, 27);
             btnSharedTargets.TabIndex = 24;
-            btnSharedTargets.Text = "New Shared Targets";
+            btnSharedTargets.Text = "New Shared Targets...";
             btnSharedTargets.UseVisualStyleBackColor = true;
             btnSharedTargets.Click += BtnSharedTargets_Click;
             // 
@@ -321,7 +334,7 @@
             btnGroups.Name = "btnGroups";
             btnGroups.Size = new Size(176, 27);
             btnGroups.TabIndex = 23;
-            btnGroups.Text = "Groups";
+            btnGroups.Text = "Groups...";
             btnGroups.UseVisualStyleBackColor = true;
             btnGroups.Click += BtnGroups_Click;
             // 
@@ -426,5 +439,6 @@
         private Button btnGroups;
         private System.Windows.Forms.Timer tim;
         private Button btnSharedTargets;
+        private Button btnTestPerformance;
     }
 }

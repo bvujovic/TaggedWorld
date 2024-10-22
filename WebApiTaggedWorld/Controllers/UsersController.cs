@@ -191,5 +191,27 @@ namespace WebApiTaggedWorld.Controllers
             }
             catch (Exception ex) { return this.Bad(ex); }
         }
+
+        /// <summary>Brisanje korisnika.</summary>
+        [HttpDelete, Authorize]
+        public async Task<IActionResult> Delete(int userId)
+        {
+            try
+            {
+                // provera: da li korisnik sa datim id-em postoji
+                var user = await db.Users.FindAsync(userId);
+                if (user == null)
+                    return NotFound($"User id:'{userId}' not found.");
+
+                //* brisanje datog targeta iz sharing-a
+                //var sharings = await db.Sharing.Where(it => it.TargetId == targetId).ToListAsync();
+                //db.Sharing.RemoveRange(sharings);
+
+                db.Users.Remove(user);
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex) { return this.Bad(ex); }
+        }
     }
 }

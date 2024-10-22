@@ -3,7 +3,7 @@ using TaggedWorldLibrary.Model;
 using TaggedWorldLibrary.Utils;
 using WinAppTaggedWorld.Data;
 
-[assembly: CollectionBehavior(DisableTestParallelization = true)]
+//[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
 namespace WinAppUnitTests.Data
 {
@@ -51,26 +51,6 @@ namespace WinAppUnitTests.Data
                 new object[] { new string[] { "jedan", "folder" }, 4, new string[] { "dva","tri" } },
             };
 
-        //public class CalculatorTestData : TheoryData<int, int, int>
-        //{
-        //    public CalculatorTestData()
-        //    {
-        //        Add(1, 2, 3);
-        //        Add(-4, -6, -10);
-        //        Add(-2, 2, 0);
-        //        Add(int.MinValue, -1, int.MaxValue);
-        //    }
-        //}
-
-        //[Theory]
-        //[ClassData(typeof(CalculatorTestData))]
-        //public void CanAdd(int value1, int value2, int expected)
-        //{
-        //    var calculator = new Calculator();
-        //    var result = calculator.Add(value1, value2);
-        //    Assert.Equal(expected, result);
-        //}
-
         [Fact]
         /// <summary>Suggest metoda treba da vrati samo tip-tagove (link/file/folder) za novi (nepostojeci) tag.</summary>
         public void Suggest_NoTargets()
@@ -80,6 +60,7 @@ namespace WinAppUnitTests.Data
             var suggested = tagSuggester.Suggest(new string[] { "x" });
             Assert.Single(suggested);
             Assert.Equal(Tags.TypeTags, suggested.First().Value);
+            data.Clear();
         }
 
         [Fact]
@@ -100,6 +81,42 @@ namespace WinAppUnitTests.Data
             var suggested = tagSuggester.Suggest(Array.Empty<string>());
             Assert.Single(suggested);
             Assert.Equal(Tags.TypeTags, suggested.First().Value);
+            data.Clear();
+        }
+
+        public class SuggestTestData : TheoryData<string[], int, string[]>
+        {
+            public SuggestTestData()
+            {
+                // 1 tag, nema pogodaka
+                Add(new string[] { "x" }, 1, Tags.TypeTags);
+                // 1 target sadrzi ovaj tag
+                Add(new string[] { "projekat" }, 1, new string[] { "link", "tagged world", "visual studio" });
+                // 2 targeta sadrze ovaj tag
+                Add(new string[] { "link" }, 1, new string[] { "tagged world", "projekat", "visual studio", "sajt", "ordinacija", "Medica Tim" });
+                // 2 taga, 0 pogodaka
+                Add(new string[] { "x", "y" }, 1, Tags.TypeTags );
+                // 2 taga, 1 target ima 2 pogotka, drugi ima 1 pogodak
+                Add(new string[] { "link", "ordinacija" }, 4, new string[] { "sajt", "Medica Tim" });
+                // 2 taga, 1 target ima 2 pogotka, drugi nema pogodaka
+                Add(new string[] { "tagged world", "visual studio" }, 4, new string[] { "link", "projekat" });
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof(SuggestTestData))]
+        public void Suggest_Tests(string[] enteredTags, int expHitsPoints, string[] expSuggested)
+        {
+            var data = LocalData.GetInstance();
+            data.AddTarget(Target.FromString("https://github.com/bvujovic/TaggedWorld/, link, tagged world, projekat, visual studio"));
+            data.AddTarget(Target.FromString("https://www.medicatim.rs/, link, sajt, ordinacija, Medica Tim"));
+            var tagSuggester = new TagSuggester(data);
+            var suggested = tagSuggester.Suggest(enteredTags);
+            Assert.True(suggested.Any());
+            var firstLevelTags = suggested.FirstOrDefault();
+            Assert.Equal(expHitsPoints, firstLevelTags.Key);
+            Assert.Equal(expSuggested, firstLevelTags.Value);
+            data.Clear();
         }
     }
 }

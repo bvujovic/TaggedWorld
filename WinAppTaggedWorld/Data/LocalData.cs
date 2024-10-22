@@ -30,6 +30,12 @@ namespace WinAppTaggedWorld.Data
             return localData;
         }
 
+        /// <summary>Ovo bi trebalo koristiti samo za potrebe testiranja.</summary>
+        public static LocalData CreateTestInstance()
+        {
+            return new LocalData();
+        }
+
         /// <summary>Dohvatanje svih korisnikovih targeta.</summary>
         public async Task GetTargets()
         {
@@ -59,7 +65,7 @@ namespace WinAppTaggedWorld.Data
         public void AddTarget(Target t)
         {
             if (ContainsTargetWSameContent(t.Content))
-                throw new Exception("Target with the same address already exists.");
+                throw new Exception("Target with the same content already exists.");
             targets.Add(t);
             foreach (var tag in t.Tags)
                 tags.Add(tag);
@@ -69,6 +75,19 @@ namespace WinAppTaggedWorld.Data
         {
             targets.Remove(t);
             RefreshTags();
+        }
+
+        public void RemoveTargets(IEnumerable<int> ids)
+        {
+            foreach (var id in ids)
+                targets.RemoveAll(it => it.TargetId == id);
+            RefreshTags();
+        }
+
+        public void Clear()
+        {
+            targets.Clear();
+            tags.Clear();
         }
 
         /// <summary>Osvezavanje liste tags na osnovu tagova iz svih targeta.</summary>

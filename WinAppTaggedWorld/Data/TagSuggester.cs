@@ -25,7 +25,6 @@ namespace WinAppTaggedWorld.Data
                 suggested.Add(1, TaggedWorldLibrary.Utils.Tags.TypeTags);
             else
             {
-                //var enteredTag = new Tag(enteredTags.First());
                 // recnik svih tagova sa parovima: tag->broj pogodaka u razlicitim targetima
                 var allTags = new Dictionary<string, int>();
                 foreach (var target in data.Targets)

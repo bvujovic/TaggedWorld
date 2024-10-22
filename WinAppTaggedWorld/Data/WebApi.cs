@@ -164,8 +164,8 @@ namespace WinAppTaggedWorld.Data
             MemberLeave,
         }
 
-        //private static string UrlBase => "https://localhost:7299/api/";
-        private static string UrlBase => "https://webapitaggedworld.azurewebsites.net/api/";
+        private static string UrlBase => "https://localhost:7299/api/";
+        //private static string UrlBase => "https://webapitaggedworld.azurewebsites.net/api/";
 
         public static string UrlForReq(ReqEnum reqEnum, string? param = null)
         {

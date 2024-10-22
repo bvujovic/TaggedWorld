@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿#define TEST_PERFORMANCE
+
+using System.Text;
 using TaggedWorldLibrary.DTOs;
 using TaggedWorldLibrary.Model;
 using TaggedWorldLibrary.Utils;
@@ -13,6 +15,9 @@ namespace WinAppTaggedWorld.Forms
         {
             InitializeComponent();
             data = LocalData.GetInstance();
+#if TEST_PERFORMANCE
+            btnTestPerformance.Enabled = true;
+#endif
         }
 
         private readonly LocalData data;
@@ -334,9 +339,7 @@ namespace WinAppTaggedWorld.Forms
             try
             {
                 var tags = tagListMain.Tags.ToList();
-                var typeTag = Tags.GetTypeTag(tags);
-                if (typeTag == null)
-                    throw new Exception("Tags must contain one type tag: " + Tags.TypeTagsStr);
+                var typeTag = Tags.GetTypeTag(tags) ?? throw new Exception("Tags must contain one type tag: " + Tags.TypeTagsStr);
                 // dodavanje novog targeta
                 if (target == null)
                 {
@@ -385,6 +388,11 @@ namespace WinAppTaggedWorld.Forms
         private void BtnGroups_Click(object sender, EventArgs e)
         {
             new FrmGroups().ShowDialog();
+        }
+
+        private void BtnTestPerformance_Click(object sender, EventArgs e)
+        {
+            new FrmTestPerformance().ShowDialog();
         }
 
         private void BtnSharedTargets_Click(object sender, EventArgs e)

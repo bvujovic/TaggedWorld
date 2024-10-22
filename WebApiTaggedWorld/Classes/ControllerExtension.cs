@@ -28,9 +28,7 @@ namespace WebApiTaggedWorld.Classes
             if (Db == null)
                 throw new Exception("Db/DataContext is not set for this controller.");
             var user = await Db.Users.FindAsync(GetUserId(ctrl));
-            if (user == null)
-                throw new Exception("User not found.");
-            return user;
+            return user ?? throw new Exception("User not found.");
         }
 
         /// <summary>Dohvata ID korisnika koji je ulogovan - onog koji je poslao http zahtev.</summary>
