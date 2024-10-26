@@ -9,7 +9,16 @@ namespace WinAppTaggedWorld.Data
     /// </summary>
     public static class WebApi
     {
-        public static string? Token { get; set; }
+        public static string? Token
+        {
+            get => token;
+            set
+            {
+                token = value;
+                if (client != null)
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+            }
+        }
 
         public static bool IsUserLoggedIn => Token != null;
 
@@ -34,20 +43,19 @@ namespace WinAppTaggedWorld.Data
         /// <see cref="https://stackoverflow.com/questions/14627399/setting-authorization-header-of-httpclient"/>
         public static async Task<string> GetJson(string url)
         {
-            using var client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
             try
             {
-                return await client.GetStringAsync(url);
+                return await GetHttpClient().GetStringAsync(url);
             }
             catch (HttpRequestException ex)
             {
                 if (ex.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     Token = await GetJWT();
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+                    //client = null;
+                    //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
                 }
-                return await client.GetStringAsync(url);
+                return await GetHttpClient().GetStringAsync(url);
             }
         }
 
@@ -85,20 +93,32 @@ namespace WinAppTaggedWorld.Data
         /// <summary>String uz pomoc kojeg se obnavlja JWT.</summary>
         private static string? RefreshToken = null;
 
+        private static HttpClient? client = null;
+        private static string? token;
+
+        private static HttpClient GetHttpClient()
+        {
+            if (client != null)
+                return client;
+            client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+            return client;
+        }
+
         /// <summary>Salje zahtev (POST/PUT/DELETE) WebAPI-u.</summary>
         public static async Task<string> ReqForJson(HttpVerb verb, ReqEnum reqEnum, string body, string? param = null)
         {
-            using var client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+            //using var client = new HttpClient();
+            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
             var url = UrlForReq(reqEnum, param);
             var content = new StringContent(body, System.Text.Encoding.UTF8, "application/json");
             var res = verb switch
             {
-                HttpVerb.Post => await client.PostAsync(url, content),
-                HttpVerb.Patch => await client.PatchAsync(url, content),
-                HttpVerb.Put => await client.PutAsync(url, content),
-                HttpVerb.Delete => await client.DeleteAsync(url),
+                HttpVerb.Post => await GetHttpClient().PostAsync(url, content),
+                HttpVerb.Patch => await GetHttpClient().PatchAsync(url, content),
+                HttpVerb.Put => await GetHttpClient().PutAsync(url, content),
+                HttpVerb.Delete => await GetHttpClient().DeleteAsync(url),
                 _ => throw new Exception("Unkown verb: " + verb),
             };
             var str = await res.Content.ReadAsStringAsync();
@@ -118,20 +138,6 @@ namespace WinAppTaggedWorld.Data
             else
                 throw new Exception(str);
         }
-
-        ///// <summary>Dohvata (POST) trazeni objekat od WebAPI-a.</summary>
-        //public async static Task<T?> PostForObject<T>(ReqEnum reqEnum, string body, string? param = null)
-        //{
-        //    var json = await PostForJson(reqEnum, body, param);
-        //    return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
-        //}
-
-        ///// <summary>Dohvata (POST) listu trazenih objekata od WebAPI-a.</summary>
-        //public async static Task<List<T>?> PostForList<T>(ReqEnum reqEnum, string body, string? param = null)
-        //{
-        //    var json = await PostForJson(reqEnum, body, param);
-        //    return DeserializeList<T>(json);
-        //}
 
         public enum HttpVerb
         {

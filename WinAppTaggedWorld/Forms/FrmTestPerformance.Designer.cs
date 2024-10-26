@@ -31,6 +31,7 @@
             btnTargetsCreate = new Button();
             numTargetsCount = new NumericUpDown();
             txtStatus = new TextBox();
+            btnRemoveTestTargets = new Button();
             ((System.ComponentModel.ISupportInitialize)numTargetsCount).BeginInit();
             SuspendLayout();
             // 
@@ -64,11 +65,22 @@
             txtStatus.Size = new Size(318, 426);
             txtStatus.TabIndex = 2;
             // 
+            // btnRemoveTestTargets
+            // 
+            btnRemoveTestTargets.Location = new Point(69, 134);
+            btnRemoveTestTargets.Name = "btnRemoveTestTargets";
+            btnRemoveTestTargets.Size = new Size(134, 23);
+            btnRemoveTestTargets.TabIndex = 3;
+            btnRemoveTestTargets.Text = "Remove Test Targets";
+            btnRemoveTestTargets.UseVisualStyleBackColor = true;
+            btnRemoveTestTargets.Click += BtnRemoveTestTargets_Click;
+            // 
             // FrmTestPerformance
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnRemoveTestTargets);
             Controls.Add(txtStatus);
             Controls.Add(numTargetsCount);
             Controls.Add(btnTargetsCreate);
@@ -85,5 +97,6 @@
         private Button btnTargetsCreate;
         private NumericUpDown numTargetsCount;
         private TextBox txtStatus;
+        private Button btnRemoveTestTargets;
     }
 }

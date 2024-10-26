@@ -38,9 +38,9 @@ namespace WinAppTaggedWorld.Forms
             // ovaj kôd se izvrsava samo ako se korisnik uloguje
             try
             {
-                await data.GetTargets();
                 data.User = await WebApi.GetObject<UserDto>(WebApi.ReqEnum.Users_userDto)
                     ?? throw new Exception("User data is missing.");
+                await data.GetTargets();
                 if (data.User != null)
                 {
                     txtUserFullname.Text = data.User.FullName;
@@ -48,7 +48,6 @@ namespace WinAppTaggedWorld.Forms
                     txtUserEmail.Text = data.User.Email;
                 }
                 data.MyGroups = await WebApi.GetList<GroupDto>(WebApi.ReqEnum.Groups_My);
-
                 SetTxtTagAutoComplete();
                 targetSelector = new Data.Selectors.TargetSelector(data);
                 targetSelector.TagsChanged += TargetSelector_TagsChanged;
